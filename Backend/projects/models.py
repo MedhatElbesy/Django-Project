@@ -15,14 +15,14 @@ class ProjectStatus(models.TextChoices):
 class Project(models.Model):
     # Attributes definition
     id = models.AutoField(primary_key=True)
-    # user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    # user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(
         max_length=2, choices=ProjectStatus.choices, default=ProjectStatus.IN_PROGRESS)
-    # category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
-    tags = models.ManyToManyField(Tag, related_name='projects')
+    # category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    # tags = models.ManyToManyField(Tag, related_name='projects')
     pictures = models.ImageField(
         upload_to='projects/pictures/')
     video = models.FileField(upload_to='projects/videos/', null=True)
@@ -33,11 +33,16 @@ class Project(models.Model):
     is_featured = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
 
+    # custom functions
+
     def __str__(self):
         return self.title
 
     def get_remainig_days(self):
         return (self.deadline - datetime.date.today()).days
+
+    def get_status_display(self):
+        return self.status
 
     def get_remainig_hours(self):
         return (self.deadline - datetime.date.today()).seconds // 3600
