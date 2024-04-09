@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.PaymentsConfig'
+    'accounts.apps.AccountsConfig',
+    'projects.apps.ProjectsConfig',
 ]
 
 MIDDLEWARE = [
@@ -78,10 +80,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'crowdsource',
-        'USER':'iticorwdsource',
-        'PASSWORD':'123456',
-        'PORT':3306,
-        'HOST':'localhost'
+        'USER': 'iticorwdsource',
+        'PASSWORD': '123456',
+        'HOST': 'localhost',
+        'PORT': 3306
     }
 }
 
