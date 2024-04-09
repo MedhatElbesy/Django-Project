@@ -23,6 +23,8 @@
     - Pip install ipython
     - pip install pillow
     - pip install django_cleanup
+    - pip install djangorestframework
+    - pip install pygments  # We'll be using this for the code highlighting
 
 
 
