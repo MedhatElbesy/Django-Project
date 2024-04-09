@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
+from django.shortcuts import reverse
 
 
 # Create your models here.
@@ -18,3 +19,26 @@ class User(AbstractUser):
     deleted_at = models.DateTimeField(null=True, blank=True)
 
     REQUIRED_FIELDS = ['email', 'first_name', 'last_name', 'password']
+
+    @property
+    def show_url(self):
+        pass
+        url = reverse('accounts.show', args=[self.id])
+        return url
+
+    @property
+    def delete_url(self):
+        url = reverse('accounts.delete', args=[self.id])
+        return url
+
+    @property
+    def edit_url(self):
+        url = reverse('accounts.edit', args=[self.id])
+        return url
+
+    @property
+    def image_url(self):
+        if self.profile_image:
+            return f"/media/{self.profile_image}"
+        else:
+            return '/media/accounts/profile_images/user.png'
