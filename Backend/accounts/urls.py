@@ -1,5 +1,5 @@
 from django.urls import path
-from accounts.views import (index, show, create, edit, delete)
+from accounts.views import (index, show, create, edit, delete, login)
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
@@ -11,6 +11,6 @@ urlpatterns = [
     path('<int:id>/delete', login_required(delete), name='accounts.delete'),
 
     # Apis
-
+    path('login/', login.as_view(), name='api.login'),
 ]
 

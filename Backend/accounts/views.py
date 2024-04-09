@@ -53,6 +53,7 @@ def delete(request, id):
 
     return redirect(url)
 
+# Apis
 class login(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
