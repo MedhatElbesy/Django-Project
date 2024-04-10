@@ -22,4 +22,4 @@ urlpatterns = [
     path('payment/', include('payments.urls')),
     path('projects/', include('projects.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('users/', include('accounts.urls')),]
+    path('', include('accounts.urls')),]
