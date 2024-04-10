@@ -18,7 +18,6 @@ class Project(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(
         max_length=2, choices=ProjectStatus.choices, default=ProjectStatus.IN_PROGRESS)
     # category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -30,10 +29,17 @@ class Project(models.Model):
         default=0, max_digits=10, decimal_places=2)
     total_collected = models.DecimalField(
         default=0, max_digits=10, decimal_places=2)
+    total_target = models.DecimalField(
+        default=0, max_digits=10, decimal_places=2)
+    total_collected = models.DecimalField(
+        default=0, max_digits=10, decimal_places=2)
     deadline = models.DateField()
     is_active = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
 
     # custom functions
 

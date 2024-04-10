@@ -18,14 +18,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Payment',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('amount', models.IntegerField()),
                 ('currency', models.CharField(max_length=10)),
                 ('status', models.CharField(max_length=10)),
                 ('created_at', models.DateTimeField(auto_now_add=True, null=True)),
                 ('updated_at', models.DateTimeField(auto_now=True, null=True)),
-                ('project', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='projectrelated', to='projects.project')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='accountrelated', to=settings.AUTH_USER_MODEL)),
+                ('project', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE,
+                 related_name='projectrelated', to='projects.project')),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE,
+                 related_name='accountrelated', to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

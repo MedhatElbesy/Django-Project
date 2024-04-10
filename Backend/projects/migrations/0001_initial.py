@@ -21,16 +21,20 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=200)),
                 ('description', models.TextField()),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('status', models.CharField(choices=[('IP', 'In Progress'), ('D', 'Done')], default='IP', max_length=2)),
+                ('status', models.CharField(choices=[
+                 ('IP', 'In Progress'), ('D', 'Done')], default='IP', max_length=2)),
                 ('pictures', models.ImageField(upload_to='projects/pictures/')),
                 ('video', models.FileField(null=True, upload_to='projects/videos/')),
-                ('total_target', models.DecimalField(decimal_places=2, default=0, max_digits=10)),
-                ('total_collected', models.DecimalField(decimal_places=2, default=0, max_digits=10)),
+                ('total_target', models.DecimalField(
+                    decimal_places=2, default=0, max_digits=10)),
+                ('total_collected', models.DecimalField(
+                    decimal_places=2, default=0, max_digits=10)),
                 ('deadline', models.DateField()),
                 ('is_active', models.BooleanField(default=True)),
                 ('is_featured', models.BooleanField(default=False)),
                 ('is_deleted', models.BooleanField(default=False)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'ordering': ['-created_at'],

@@ -5,7 +5,7 @@ from accounts.models import User
 from django.core.validators import MinLengthValidator
 
 class RegisterForm(UserCreationForm):
-    email = forms.EmailField(required=True, max_length=254,
+    email = forms.EmailField(required=True, max_length=254, help_text='Required',
         widget=forms.EmailInput(attrs={"autocomplete": "email"}),
     )
     first_name = forms.CharField(required=True, max_length=150, validators=[MinLengthValidator(2)])
