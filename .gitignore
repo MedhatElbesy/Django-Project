@@ -23,3 +23,7 @@ Backend/Backend/__pycache__/
 Backend/*/__pycache__
 
 Backend/Backend/migrations/
+Backend/accounts/__pycache__/
+Backend/projects/__pycache__/
+Backend/payments/__pycache__/
+
