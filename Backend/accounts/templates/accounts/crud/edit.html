@@ -19,14 +19,14 @@
                                 <span class="text-danger">*</span>
 
                                 {% if field.errors %}
-                                    <input type="{{ field.field.widget.input_type }}" class="form-control is-invalid" id="{{ field.id_for_label }}" name="{{ field.name }}">
+                                    <input type="{{ field.field.widget.input_type }}" class="form-control is-invalid" id="{{ field.id_for_label }}" name="{{ field.name }}"  value="{{ field.value }}">
                                     <div class="invalid-feedback">
                                         {% for error in field.errors %}
                                             {{ error }}
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" name="{{ field.name }}">
+                                    <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" name="{{ field.name }}" value="{{ field.value }}">
                                 {% endif %}
                             </div>
                         {% endfor %}
