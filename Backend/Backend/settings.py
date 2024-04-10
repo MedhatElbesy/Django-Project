@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'projects.apps.ProjectsConfig',
     'payments.apps.PaymentsConfig',
     'rest_framework',
+    'reports.apps.ReportsConfig',
+    'comments.apps.CommentsConfig'
 ]
 
 MIDDLEWARE = [

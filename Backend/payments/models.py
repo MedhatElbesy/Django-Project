@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models # type: ignore
 from accounts.models import User
 from projects.views import Project
 
@@ -13,15 +13,10 @@ class PaymentStatus(models.TextChoices):
 
 
 class Payment(models.Model):
-<<<<<<< HEAD
-    project = models.OneToOneField(Project, on_delete=models.CASCADE,null=True, related_name="projectrelated")
-    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True, related_name="accountrelated")
-=======
     project = models.OneToOneField(
         Project, on_delete=models.CASCADE, related_name="projectrelated")
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name="accountrelated")
->>>>>>> 2713c008ba3da13ad875842a36e022a9e7014e31
     amount = models.DecimalField(default=0, max_digits=10, decimal_places=2)
     currency = models.CharField(max_length=10)
     status = models.CharField(
