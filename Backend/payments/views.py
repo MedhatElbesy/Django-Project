@@ -22,14 +22,16 @@ class PaymentViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def show(self, request):
+    def show(self, request, payment_id):
         try:
-            payment_id = request.payment_id
-            project = Payment.objects.filter(payments_id=payment_id)
+            project = Payment.objects.get(payment_id=payment_id)
             serializer = PaymentSerializer(project)
             return Response(serializer.data)
         except Payment.DoesNotExist:
             return Response({'error': 'Payment not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+
 
     def list(self, request):
         try:
