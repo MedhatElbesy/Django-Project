@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
 from django.shortcuts import reverse
-
+from uuid import uuid4
 
 # Create your models here.
 class User(AbstractUser):
@@ -42,3 +42,12 @@ class User(AbstractUser):
             return f"/media/{self.profile_image}"
         else:
             return '/media/accounts/profile_images/user.png'
+
+class ActivationKey(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    key = models.CharField(max_length=32, default=uuid4().hex)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expiration_date = models.DateTimeField()
+
+    def __str__(self):
+        return f'Activation key for {self.user.username}'

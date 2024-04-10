@@ -1,5 +1,5 @@
 from django.urls import path
-from accounts.views import (index, show, create, edit, delete, login)
+from accounts.views import (index, show, create, edit, delete, login, register, activate)
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
@@ -12,5 +12,7 @@ urlpatterns = [
 
     # Apis
     path('login/', login.as_view(), name='api.login'),
+    path('register/', register, name='api.register'),
+    path('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/', activate, name='activate'),
 ]
 
