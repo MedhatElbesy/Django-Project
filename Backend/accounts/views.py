@@ -13,7 +13,7 @@ from django.contrib import messages
 def index(request):
     users = User.objects.all()
     return render(request, "accounts/crud/index.html",
-                  context={"users": users}, status=200)
+                    context={"users": users}, status=200)
 
 def create(request):
     form = RegisterForm()
