@@ -18,3 +18,7 @@
 ./.env.*
 ./.vscode
 ./.git
+Backend/Backend/__pycache__/
+Backend/*/__pycache__
+
+Backend/Backend/migrations/
