@@ -1,29 +1,60 @@
-from django.shortcuts import render,get_object_or_404,reverse,redirect
-from django.http import HttpResponse
-from payments.models import Payment
-from payments.forms import PaymentModelForm
-import json
 
+from rest_framework import viewsets, status
+from rest_framework.response import Response
+from rest_framework.decorators import action
+from .serializer import PaymentSerializer
+from .models import Payment
 
 # Create your views here.
-def all_payments(request):
-    payment = Payment.objects.all()
-    return render(request,template_name="payment/index.html",
-                context={"allPayments":payment})
 
+class PaymentViewSet(viewsets.ModelViewSet):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
 
-def payment_show(request,id):
-    payment = get_object_or_404(Payment,pk=id)
-    return render(request,template_name="payment/show.html",
-                context={"onePayment":payment})
+    def createa(self, request):
+        try:
+            serializer = PaymentSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    def show(self, request):
+        try:
+            payment_id = request.payment_id
+            project = Payment.objects.filter(payments_id=payment_id)
+            serializer = PaymentSerializer(project)
+            return Response(serializer.data)
+        except Payment.DoesNotExist:
+            return Response({'error': 'Payment not found'}, status=status.HTTP_404_NOT_FOUND)
 
-def create_payment(request):
-    form = PaymentModelForm()
-    if request.method == "POST":
-        form = PaymentModelForm(request.POST)
-        if form.is_valid():
-            payment = form.save()
-            return redirect(payment.show_url)
-    return render(request , template_name="payment/forms/paymentForm.html"
-                    ,context={"form":form})
+    def list(self, request):
+        try:
+            payment = Payment.objects.all()
+            serializer = PaymentSerializer(payment, many=True)
+            return Response(serializer.data)
+        except Payment.DoesNotExist:
+            return Response({'error': 'No Payment found'}, status=status.HTTP_404_NOT_FOUND)
+        
+
+    def list_by_project(self, request):
+        try:
+            project_id = request.project.id
+            payments = Payment.objects.filter(project_id=project_id)
+            serializer = PaymentSerializer(payments, many=True)
+            return Response(serializer.data)
+        except Payment.DoesNotExist:
+            return Response({'error': 'No Payment found'}, status=status.HTTP_404_NOT_FOUND)
+        
+    
+    def list_by_user(self, request):
+        try:
+            user_id = request.user.id 
+            payments = Payment.objects.filter(user_id=user_id)
+            serializer = PaymentSerializer(payments, many=True)
+            return Response(serializer.data)
+        except Payment.DoesNotExist:
+            return Response({'error': 'No Payment found'}, status=status.HTTP_404_NOT_FOUND)
