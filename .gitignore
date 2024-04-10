@@ -5,6 +5,9 @@
 ./Backend/migrations/
 # ignore pycache
 ./__pycache__/
+# any folder named __pycache__
+./*/__pycache__/
+./*/*/__pycache__/
 # ignore pytest cache
 ./.pytest_cache/
 # ignore django media and static files
