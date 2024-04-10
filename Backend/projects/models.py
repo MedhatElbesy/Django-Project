@@ -1,7 +1,7 @@
 import datetime
 from django.db import models
 # TODO uncomment the following lines when the models are ready
-# from users.models import User
+from accounts.models import User
 # from categories.models import Category
 # from tags.models import Tag
 # from donations.models import Donation
@@ -15,7 +15,7 @@ class ProjectStatus(models.TextChoices):
 class Project(models.Model):
     # Attributes definition
     id = models.AutoField(primary_key=True)
-    # user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField()
     status = models.CharField(
@@ -25,8 +25,14 @@ class Project(models.Model):
     pictures = models.ImageField(
         upload_to='projects/pictures/')
     video = models.FileField(upload_to='projects/videos/', null=True)
-    total_target = models.DecimalField(default=0, max_digits=10, decimal_places=2)
-    total_collected = models.DecimalField(default=0, max_digits=10, decimal_places=2)
+    total_target = models.DecimalField(
+        default=0, max_digits=10, decimal_places=2)
+    total_collected = models.DecimalField(
+        default=0, max_digits=10, decimal_places=2)
+    total_target = models.DecimalField(
+        default=0, max_digits=10, decimal_places=2)
+    total_collected = models.DecimalField(
+        default=0, max_digits=10, decimal_places=2)
     deadline = models.DateField()
     is_active = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=False)

@@ -1,4 +1,5 @@
 # from django.shortcuts import render
+import datetime
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -14,6 +15,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
         try:
             serializer = ProjectSerializer(data=request.data)
             if serializer.is_valid():
+                # check if date is at least more than week ahead
+                if serializer.validated_data['end_date'] < datetime.now().date() + timedelta(days=7):
+                    return Response({'error': 'End date must be at least a week ahead'}, status=status.HTTP_400_BAD_REQUEST)
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
@@ -59,19 +63,22 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return Response({'error': 'No projects found'}, status=status.HTTP_404_NOT_FOUND)
 
     # Additional custom methods can be added here
+    @action(detail=False, methods=['get'])
     def featured(self, request, *args, **kwargs):
         try:
-            projects = Project.objects.filter(featured=True)
+            projects = Project.objects.filter(is_featured=True)
             serializer = ProjectSerializer(projects, many=True)
             return Response(serializer.data)
         except Project.DoesNotExist:
             return Response({'error': 'No featured projects found'}, status=status.HTTP_404_NOT_FOUND)
 
+    @action(detail=False, methods=['get'])
     def latest(self, request, *args, **kwargs):
         projects = Project.objects.order_by('-created_at')[:10]
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
 
+    @action(detail=True, methods=['post'])
     def change_status(self, request, *args, **kwargs):
         try:
             project = Project.objects.get(id=kwargs['pk'])

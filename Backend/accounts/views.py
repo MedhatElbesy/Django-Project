@@ -60,6 +60,9 @@ def delete(request, id):
 
     return redirect(url)
 
+def profile(request):
+    return render(request, "accounts/crud/show.html", status=200)
+
 # Apis
 class login(APIView):
     def post(self, request):
