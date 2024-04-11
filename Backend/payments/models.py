@@ -13,7 +13,6 @@ class PaymentStatus(models.TextChoices):
 
 
 class Payment(models.Model):
-
     project = models.OneToOneField(Project, on_delete=models.CASCADE,null=True, related_name="projectrelated")
     user = models.OneToOneField(User, on_delete=models.CASCADE,null=True, related_name="accountrelated")
     amount = models.DecimalField(default=0, max_digits=10, decimal_places=2)

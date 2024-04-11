@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'projects.apps.ProjectsConfig',
     'payments.apps.PaymentsConfig',
+    'categories.apps.CategoriesConfig',
+    'tags.apps.TagsConfig',
     'rest_framework',
     'reports.apps.ReportsConfig',
     'comments.apps.CommentsConfig'
