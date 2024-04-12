@@ -1,5 +1,5 @@
 <template>
-    <div id="productImage" class="carousel slide container " data-bs-ride="carousel">
+    <div id="productImage" class="carousel slide " data-bs-ride="carousel">
         <!-- buttons indicators -->
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#productImage" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -51,25 +51,20 @@ export default {
     name: 'SliderComponent',
     data() {
         return {
-            currentSlide: 0
+            topProjects: []
         }
     },
-    computed: {
-        // slides() {
-        //     return this.slider.slides;
-        // },
-        // currentSlideImage() {
-        //     return this.slides[this.currentSlide].image;
-        // }
+    created(){
+        // fr=etch Data from api to show top five rated project
+
     }
 }
 </script>
 
-<style>
+<style scoped>
     #productImage{
         height: 400px;
         width: 100%;
-
     }
     #productImage img{
         height: 400px;
