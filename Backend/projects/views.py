@@ -16,7 +16,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
             serializer = ProjectSerializer(data=request.data)
             if serializer.is_valid():
                 # check if date is at least more than week ahead
-                if serializer.validated_data['end_date'] < datetime.now().date() + timedelta(days=7):
+                if serializer.validated_data['end_date'] < datetime.now().date() + datetime.timedelta(days=7):
                     return Response({'error': 'End date must be at least a week ahead'}, status=status.HTTP_400_BAD_REQUEST)
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)

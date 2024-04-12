@@ -13,8 +13,9 @@ class PaymentStatus(models.TextChoices):
 
 
 class Payment(models.Model):
-    project = models.OneToOneField(Project, on_delete=models.CASCADE, related_name="projectrelated")
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="accountrelated")
+
+    project = models.OneToOneField(Project, on_delete=models.CASCADE,null=True, related_name="projectrelated")
+    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True, related_name="accountrelated")
     amount = models.DecimalField(default=0, max_digits=10, decimal_places=2)
     currency = models.CharField(max_length=10)
     status = models.CharField(max_length=20, choices=PaymentStatus.choices, default=PaymentStatus.PENDING)
