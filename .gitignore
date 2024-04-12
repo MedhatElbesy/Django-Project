@@ -1,3 +1,36 @@
-.venv
-/.venv
-./Backend/.venv
+# ignore virtual environment
+.venv/
+
+# ignore IDE files
+.idea/
+
+# ignore migrations
+Backend/Backend/migrations/
+Backend/*/migrations/
+
+# ignore pycache
+Backend/Backend/__pycache__/
+Backend/*/__pycache__/
+
+# ignore pytest cache
+.pytest_cache/
+
+# ignore django media and static files
+static/
+media/
+
+# ignore other environment specific files
+.env
+.env.*
+.vscode
+.git
+Backend/accounts/__pycache__/
+
+Backend/accounts/migrations/__pycache__/
+
+Backend/Backend/__pycache__/
+Backend/comments/migrations/
+Backend/payments/__pycache__/
+Backend/projects/__pycache__/
+Backend/projects/migrations/+
+Backend/reports/migrations/

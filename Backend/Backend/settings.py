@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 import os       # for use .env -> python-dotenv
 from dotenv import load_dotenv
@@ -39,10 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Custom apps
     'accounts.apps.AccountsConfig',
     'projects.apps.ProjectsConfig',
     'payments.apps.PaymentsConfig',
+    'categories.apps.CategoriesConfig',
+    'tags.apps.TagsConfig',
     'rest_framework',
+    'reports.apps.ReportsConfig',
+    'comments.apps.CommentsConfig'
 ]
 
 MIDDLEWARE = [
@@ -142,16 +148,5 @@ REST_FRAMEWORK = {
 }
 
 # add media url
-import os
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-
-# --------- configure the email host server ---------
-# Load environment variables from .env file
-load_dotenv()
-
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-EMAIL_PORT = 587
