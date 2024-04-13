@@ -19,57 +19,32 @@ class RegisterForm(UserCreationForm):
     def clean_email(self):
         email = self.cleaned_data['email']
         email_found = User.objects.filter(email=email).exists()
-        if email_found:
-            raise forms.ValidationError('Email address is already used, please choose another one')
+        if email:
+            # Retrieve the current user instance from the form's instance attribute
+            instance = getattr(self, 'instance', None)
+            if instance and instance.pk:
+                # Exclude the current user from the uniqueness check
+                existing_user = User.objects.filter(email=email).exclude(pk=instance.pk).first()
+            else:
+                existing_user = User.objects.filter(email=email).first()
+
+            if existing_user:
+                raise forms.ValidationError('Email address is already used, please choose another one')
+
         return email
 
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if username:
+            # Retrieve the current user instance from the form's instance attribute
+            instance = getattr(self, 'instance', None)
+            if instance and instance.pk:
+                # Exclude the current user from the uniqueness check
+                existing_user = User.objects.filter(username=username).exclude(pk=instance.pk).first()
+            else:
+                existing_user = User.objects.filter(username=username).first()
 
+            if existing_user:
+                raise forms.ValidationError("A user with that username already exists, please choose another one")
 
-
-
-
-
-
-
-
-
-
-
-# def RegisterForm(UserCreationForm):
-#     if UserCreationForm.is_valid():
-#         user = UserCreationForm
-#         user.set_password(
-#             UserCreationForm.cleaned_data["password"]
-#         )
-#
-#
-# from django import forms
-# from django.contrib.auth.models import User
-#
-#
-# class RegisterationForm(UserCreationForm):
-#     class Meta:
-#         model = User
-#         # fields = '__all__'
-#         fields = ('username', 'password1','password2', 'first_name', 'last_name', 'email')
-#
-#         email = forms.EmailField(
-#             label=_("Email"),
-#             max_length=254,
-#             widget=forms.EmailInput(attrs={"autocomplete": "email"}),
-#         )
-#         username = UsernameField(widget=forms.TextInput(attrs={"autofocus": True}))
-#
-#         new_password2 = forms.CharField(
-#             label=_("New password confirmation"),
-#             strip=False,
-#             widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
-#         )
-#
-#         old_password = forms.CharField(
-#             label=_("Old password"),
-#             strip=False,
-#             widget=forms.PasswordInput(
-#                 attrs={"autocomplete": "current-password", "autofocus": True}
-#             ),
-#         )
+        return username
