@@ -11,19 +11,27 @@ class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
 
-    def create(self, request, *args, **kwargs):
-        try:
-            serializer = ProjectSerializer(data=request.data)
-            if serializer.is_valid():
-                # check if date is at least more than week ahead
-                if serializer.validated_data['end_date'] < datetime.now().date() + datetime.timedelta(days=7):
-                    return Response({'error': 'End date must be at least a week ahead'}, status=status.HTTP_400_BAD_REQUEST)
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    from datetime import datetime, timedelta
+from rest_framework.exceptions import ValidationError
+
+def create(self, request, *args, **kwargs):
+    try:
+        serializer = ProjectSerializer(data=request.data, exclude=['is_deleted', 'total_collected', 'deleted_at'])
+        
+        if serializer.is_valid():
+            # check if date is at least more than a week ahead
+            deadline = serializer.validated_data.get('deadline')
+            if deadline < datetime.now().date() + timedelta(days=7):
+                return Response({'error': 'End date must be at least a week ahead'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except ValidationError as e:
+        return Response({'error': e.detail}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def update(self, request, *args, **kwargs):
         try:
