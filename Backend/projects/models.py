@@ -6,6 +6,7 @@ from categories.models import Category
 from tags.models import Tags
 from payments.models import Payment
 
+
 class ProjectStatus(models.TextChoices):
     IN_PROGRESS = 'IP', 'In Progress'
     DONE = 'D', 'Done'
@@ -44,18 +45,25 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
     @property
-    def get_remainig_days(self):
+    def get_remaining_days(self):
         return (self.deadline - datetime.date.today()).days
+
     @property
     def get_status_display(self):
         return self.status
+
     @property
-    def get_remainig_hours(self):
-        return (self.deadline - datetime.date.today()).seconds // 3600
+    def get_remaining_hours(self):
+        remaining_time = self.deadline - datetime.date.today()
+        remaining_seconds = remaining_time.days * 24 * 3600
+        return max(remaining_seconds // 3600, 0)
+
     @property
     def get_progress(self):
         return (self.total_collected / self.total_target) * 100
+
     @property
     def get_remaining_amount(self):
         if self.total_target > self.total_collected:
@@ -65,9 +73,6 @@ class Project(models.Model):
 
     def get_total_payments(self):
         return self.payments.all().count()
-    
-    def get_project_tags(self):
-        return self.tags.all()
 
     class Meta:
         ordering = ['-created_at']
