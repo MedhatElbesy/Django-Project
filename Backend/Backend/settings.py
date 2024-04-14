@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'corsheaders',
     'rest_framework',
     # Custom apps
@@ -48,7 +49,6 @@ INSTALLED_APPS = [
     'payments.apps.PaymentsConfig',
     'categories.apps.CategoriesConfig',
     'tags.apps.TagsConfig',
-    'rest_framework',
     'rest_framework_simplejwt',
     'reports.apps.ReportsConfig',
     'comments.apps.CommentsConfig'
