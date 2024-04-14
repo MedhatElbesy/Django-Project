@@ -1,6 +1,5 @@
 <template>
-  <div class="container-fluid auth-page py-4 vh-100">
-    <div class="row justify-content-center align-items-center">
+    <div class="row justify-content-center align-items-center auth-page py-4 vh-100">
       <div class="col-md-10 col-lg-8 col-xl-6">
         <div class="card m-2 p-4 shadow-lg text-black h-75 w-7">
           <div class="card-body p-2">
@@ -39,7 +38,6 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 <script>
 import {useAuthenticationStore} from "../../stores/auth";

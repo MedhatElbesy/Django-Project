@@ -1,8 +1,7 @@
 <template>
-  <div class="container-fluid m-0 auth-page">
-    <div class="row justify-content-center align-items-center">
+    <div class="row justify-content-center align-items-center m-0 auth-page">
       <div class="col-lg-6 col-xl-6">
-        <div class="card m-2 border-0 text-black h-75 w-7 bg-transparent" style="max-width: 100vw;">
+        <div class="card m-2 border-0 text-black h-75 bg-transparent">
           <div class="card-body p-4">
             <h1 class="card-title text-center text-light fw-bold mb-3">
               Create an account
@@ -141,7 +140,6 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>

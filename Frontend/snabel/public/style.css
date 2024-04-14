@@ -35,9 +35,11 @@ body {
 
 .container-fluid {
   padding: 0 !important;
-  .row {
+
+}
+
+.container-fluid .row:first-child {
     --bs-gutter-x: 0;
-  }
 }
 
 li {
