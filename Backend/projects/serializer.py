@@ -11,6 +11,8 @@ class ProjectSerializer(serializers.ModelSerializer):
     remaining_days = serializers.SerializerMethodField()
     remaining_hours = serializers.SerializerMethodField()
     progress = serializers.SerializerMethodField()
+    donations = serializers.SerializerMethodField()
+    total_collected = serializers.SerializerMethodField()
 
     class Meta:
         model = Project
@@ -31,5 +33,11 @@ class ProjectSerializer(serializers.ModelSerializer):
     def get_remaining_hours(self, obj):  # Corrected method name
         return obj.get_remaining_hours  # Calling the model method
 
-    def get_progress(self, obj):  # Corrected method name
-        return obj.get_progress  # Calling the model method
+    def get_progress(self, obj):
+        return obj.get_progress
+
+    def get_donations(self, obj):
+        return obj.get_total_payments
+
+    def get_total_collected(self, obj):
+        return obj.get_total_collected

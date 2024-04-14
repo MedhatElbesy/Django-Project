@@ -31,8 +31,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -48,7 +46,6 @@ INSTALLED_APPS = [
     'payments.apps.PaymentsConfig',
     'categories.apps.CategoriesConfig',
     'tags.apps.TagsConfig',
-    'rest_framework',
     'rest_framework_simplejwt',
     'reports.apps.ReportsConfig',
     'comments.apps.CommentsConfig'
