@@ -27,7 +27,7 @@
     - pip install pygments  # We'll be using this for the code highlighting
     - pip install python-dotenv
     - pip install djangorestframework-simplejwt
-
+    - pip install django-cors-headers
 
     ## Frontend
         - npm install -g @vue/cli

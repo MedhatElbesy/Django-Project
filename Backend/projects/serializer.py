@@ -3,7 +3,21 @@ from .models import Project
 from tags.serializer import TagsSerializer
 
 
+
 class ProjectSerializer(serializers.ModelSerializer):
+
+    pictures_url = serializers.SerializerMethodField()
+    class Meta:
+        model = Project
+        exclude=['is_deleted', 'total_collected', 'deleted_at']
+        
+
+    def get_pictures_url(self, obj):
+        request = self.context.get('request')
+        if obj.pictures:
+            return request.build_absolute_uri(obj.pictures.url)
+        return None
+
     category_name = serializers.CharField(
         source='category.name', read_only=True)
     tags_info = TagsSerializer(source="tags", many=True, read_only=True)
