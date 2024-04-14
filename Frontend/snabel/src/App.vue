@@ -1,26 +1,21 @@
 <template>
-<div>
+  <div class="container-fluid">
+    <main class="row">
+      <router-view />
 
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
-
-</div>
+    </main>
+  </div>
 </template>
+
 
 <script>
 
-export default {
-  data:()=>({
-    }),
-  methods:{},
-  components:{
-  
-  }
-}
-</script>
-<style>
+  export default {
+    components:{
 
+    }
+  }
+</script>
+
+<style scoped>
 </style>

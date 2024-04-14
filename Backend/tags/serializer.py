@@ -3,6 +3,6 @@ from .models import Tags
 
 
 class TagsSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = Tags
-    fields = '__all__'
+    class Meta:
+        model = Tags
+        fields = ['id', 'name']
