@@ -35,7 +35,7 @@
                             <div class="d-flex justify-content-center mx-4 my-3 mb-lg-4">
                                 <button type="submit" class="btn btn-lg auth-button">Sign In</button>
                             </div>
-                            <p class="text-center">Don't have an account? <router-link to="/login">Sign Up</router-link></p>
+                            <p class="text-center">Don't have an account? <router-link to="/register">Sign Up</router-link></p>
                         </form>
                     </div>
                 </div>

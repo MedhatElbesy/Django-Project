@@ -136,7 +136,7 @@
                 </div>
               </form>
             </div>
-            <p class="text-center text-light">Already have an account? <router-link to="/register">Sign Up</router-link></p>
+            <p class="text-center text-light">Already have an account? <router-link to="/login">Sign In</router-link></p>
           </div>
         </div>
       </div>

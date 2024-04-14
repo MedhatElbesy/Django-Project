@@ -33,7 +33,7 @@
               <div class="d-flex justify-content-center mx-4 my-3 mb-lg-4">
                 <button class="btn btn-lg" type="button">Reset Password</button>
               </div>
-              <p class="text-center">Return To <a href="">Sign in</a></p>
+              <p class="text-center">Return To <router-link to="/login">Sign In</router-link></p>
             </form>
           </div>
         </div>
