@@ -4,6 +4,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 import lastProjectComponent from '../components/lastProjectComponent.vue'
 import RegisterComponent from "../components/Auth/RegisterComponent.vue";
 import LoginComponent from "@/components/Auth/LoginComponent.vue";
+import ForgetPasswordComponent from "@/components/Auth/ForgetPasswordComponent.vue";
 
 const routes = [
     {
@@ -30,6 +31,11 @@ const routes = [
         path: '/login',
         name: 'Login',
         component: LoginComponent
+    },
+    {
+        path: '/forget-password',
+        name: 'ForgetPassword',
+        component: ForgetPasswordComponent
     }
 ]
 

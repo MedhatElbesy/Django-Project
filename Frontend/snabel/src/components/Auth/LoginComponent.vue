@@ -30,12 +30,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <a class="" href="">Forgot your password?</a>
+                            <router-link to="/forget-password">Forgot your password?</router-link>
 
                             <div class="d-flex justify-content-center mx-4 my-3 mb-lg-4">
                                 <button type="submit" class="btn btn-lg auth-button">Sign In</button>
                             </div>
-                            <p class="text-center">Don't have an account? <a href="">Sign up</a></p>
+                            <p class="text-center">Don't have an account? <router-link to="/login">Sign Up</router-link></p>
                         </form>
                     </div>
                 </div>

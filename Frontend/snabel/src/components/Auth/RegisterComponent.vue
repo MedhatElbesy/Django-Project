@@ -136,7 +136,7 @@
                 </div>
               </form>
             </div>
-            <p class="text-center text-light">Already have an account? <a href="">Sign in</a></p>
+            <p class="text-center text-light">Already have an account? <router-link to="/register">Sign Up</router-link></p>
           </div>
         </div>
       </div>
@@ -175,7 +175,7 @@ export default {
     },
 
     registerUser() {
-      axios.post('http://127.0.0.1:8000/api/register/', this.user, {
+      axios.post('http://localhost:8000/api/register/', this.user, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
