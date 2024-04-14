@@ -1,8 +1,8 @@
 <template>
   <div class="container-fluid">
-    <nav class="row">
+    <!-- <nav class="row">
       <navbar />
-    </nav>
+    </nav>-->
     <main class="row">
       <router-view />
     </main>
@@ -11,13 +11,13 @@
 
 
 <script>
-  import navbar from "./components/navComponent.vue"
+  // import navbar from "./components/navComponent.vue"
 
   export default {
     data: ()=>({
     }),
     components: {
-      navbar,
+      // navbar,
     },
     mounted() {
       window.addEventListener("scroll", this.navOnScroll);

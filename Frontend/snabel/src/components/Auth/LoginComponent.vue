@@ -1,0 +1,83 @@
+<template>
+  <div class="container-fluid auth-page py-4 vh-100">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-10 col-lg-8 col-xl-6">
+                <div class="card mt-auto m-2 p-4 shadow-lg text-black h-75 w-7">
+                    <div class="card-body p-2">
+                        <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign In</p>
+                        <form class="mx-1 mx-md-4" @submit.prevent="authenticationStore.login(user.username, user.password)">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-floating mb-3 position-relative">
+                                        <input type="text" v-model="user.username"
+                                            class="form-control border-0 border-bottom shadow" name="username"
+                                            placeholder="enter your first name" aria-label="username"
+                                            aria-describedby="username" required>
+                                        <i class="fa-solid fa-user icon position-absolute"></i>
+                                        <label for="username">Username</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-floating mb-3 position-relative">
+                                        <input type="password" v-model="user.password"
+                                            class="form-control border-0 border-bottom shadow" name="password"
+                                            placeholder="enter your password" aria-label="password"
+                                            aria-describedby="password" required>
+                                        <i class="fas fa-eye-slash icon position-absolute" id="togglePassword"></i>
+                                        <label for="password">Password</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="" href="">Forgot your password?</a>
+
+                            <div class="d-flex justify-content-center mx-4 my-3 mb-lg-4">
+                                <button type="submit" class="btn btn-lg auth-button">Sign In</button>
+                            </div>
+                            <p class="text-center">Don't have an account? <a href="">Sign up</a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import {useAuthenticationStore} from "../../stores/auth";
+
+export default {
+  name: "LoginComponent",
+  data: () => ({
+    authenticationStore: useAuthenticationStore(),
+    user: {
+      username: '',
+      password: '',
+    },
+
+    errorMessages: {},
+    successMessages: '',
+  })
+}
+</script>
+
+<style scoped>
+.auth-page {
+  background-image: url('@/assets/bg.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.auth-button {
+  background: #a8ff78; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #78ffd6, #a8ff78); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #78ffd6, #a8ff78); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.icon {
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+</style>
