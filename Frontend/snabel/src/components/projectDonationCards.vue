@@ -3,40 +3,42 @@
     <div class="donation-info col">
       <!-- Amount raised and donors -->
       <p>
-        ${{ project.total_collected }} raised of ${{ project.total_target
-        }}<br />1,121 kind-hearted donors
+        ${{ project.total_collected }} raised of ${{ project.total_target }}
       </p>
 
       <!-- Progress bar -->
       <p class="progress-bar">
-        <label for="file">Donation progress:</label>
+        <label for="donation-progress">Donation progress:</label>
         <progress
-          id="file"
-          value="{{ project.total_collected }}"
-          max="{{ project.total_target }}"
+          id="donation-progress"
+          :value="project.total_collected"
+          :max="project.total_target"
         >
-          32%
+          {{ (project.total_collected / project.total_target) * 100 }}%
         </progress>
       </p>
-
+      <p>{{ project.donations }} kind-hearted donors</p>
       <!-- Call to action -->
       <p>
-        <button class="btn btn-warning">Donate Now</button>
+        <button class="btn btn-warning d-block w-100 mx-2">Donate Now</button>
       </p>
 
       <!-- Share icons -->
-      <p class="share-icons">
+      <div class="share-icons">
         <!-- Copy, Facebook, Twitter, Email -->
-        <span>Help us by spreading the word!</span>
-        <i class="fa fa-copy" aria-hidden="true" title="Copy"></i>
-        <i class="fa fa-facebook" aria-hidden="true" title="Facebook"></i>
-        <i class="fa fa-twitter" aria-hidden="true" title="Twitter"></i>
-        <i class="fa fa-envelope" aria-hidden="true" title="Email"></i>
-      </p>
+        <span class="d-flex">Help us by spreading the word!</span>
+        <p class="d-flex justify-content-around social-icons">
+          <i class="fa fa-copy" aria-hidden="true" title="Copy"></i>
+          <i class="fa-brands fa-facebook"></i>
+          <i class="fa-brands fa-x-twitter"></i>
+          <i class="fa fa-envelope" aria-hidden="true" title="Email"></i>
+        </p>
+      </div>
       <p class="recent-donations">
         <!-- Recent donations -->
         <i class="fa-solid fa-tower-broadcast"></i>
-        <span> 295 Recent Donations</span>
+        <span> Recent Donations </span>
+        <!-- from payments pinia store -->
       </p>
 
       <div class="donator-info row">
@@ -51,9 +53,7 @@
   </div>
 </template>
 
-<style scoped>
-/* Add your scoped styles here */
-</style>
+<style scoped></style>
 
 <script>
 import { useProjectStore } from "../store/project";
