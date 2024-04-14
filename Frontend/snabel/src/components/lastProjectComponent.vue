@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <!-- <div class="container"> -->
         <div class="row"><!--The Parent row  -->
             <div class="col-md-6">
                 <div class="card text-start custom-card">
@@ -105,7 +105,8 @@
 
             </div><!--End The Parent div  -->
         </div><!-- end The Parent row  -->
-    </div><!-- end The container  -->
+    <!-- </div> -->
+    <!-- end The container  -->
 </template>
 
 <script>
@@ -141,6 +142,7 @@ export default {
 
 .card{
     cursor: pointer;
+    overflow: hidden;
 }
 .custom-card {
     height: 560px;
@@ -158,7 +160,4 @@ export default {
     transition: all 0.5s ease;
     
 }
-
-
-
 </style>

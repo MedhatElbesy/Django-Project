@@ -57,6 +57,6 @@
     top: 0px;
     border-radius: 0px;
     padding: 8px;
-    box-shadow: 0px 2px 5px 0px #d4d4d47e;
+    box-shadow: 0px 3px 7px 0px #d4d4d4b7;
   }
 </style>
