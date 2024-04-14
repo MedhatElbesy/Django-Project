@@ -1,4 +1,5 @@
 # from django.shortcuts import render
+from rest_framework.exceptions import ValidationError
 import datetime
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -12,18 +13,19 @@ class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
 
     from datetime import datetime, timedelta
-from rest_framework.exceptions import ValidationError
+
 
 def create(self, request, *args, **kwargs):
     try:
-        serializer = ProjectSerializer(data=request.data, exclude=['is_deleted', 'total_collected', 'deleted_at'])
-        
+        serializer = ProjectSerializer(data=request.data, exclude=[
+                                       'is_deleted', 'total_collected', 'deleted_at'])
+
         if serializer.is_valid():
             # check if date is at least more than a week ahead
             deadline = serializer.validated_data.get('deadline')
             if deadline < datetime.now().date() + timedelta(days=7):
                 return Response({'error': 'End date must be at least a week ahead'}, status=status.HTTP_400_BAD_REQUEST)
-            
+
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
@@ -97,7 +99,7 @@ def create(self, request, *args, **kwargs):
             project.save()
             return Response({'status': f"Project status changed to {new_status}"}, status=status.HTTP_200_OK)
         except Project.DoesNotExist:
-            return Response({'error': 'Project not found'}, status=status.HTTP_404_NOT_FOUND)        
+            return Response({'error': 'Project not found'}, status=status.HTTP_404_NOT_FOUND)
     # TODO after donation implementation
     # def get_project_donations(self, request, *args, **kwargs):
     #     try:

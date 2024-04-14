@@ -69,11 +69,15 @@ class Project(models.Model):
         if self.total_target > self.total_collected:
             return self.total_target - self.total_collected
         else:
-            return 0
+            return
 
     @property
     def get_total_payments(self):
         return self.projectrelated.filter(status__in=[PaymentStatus.SUCCESS, PaymentStatus.PENDING]).count()
+
+    @property
+    def get_project_rating(self):
+        return self.ratings.aggregate(average_rating=models.Avg('rating'))['average_rating']
 
     @property
     def get_total_collected(self):

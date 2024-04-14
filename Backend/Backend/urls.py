@@ -27,4 +27,5 @@ urlpatterns = [
     path('', include('accounts.urls')),
     path('reports/', include('reports.urls')),
     path('comments/', include('comments.urls')),
+    path('ratings/', include('rating.urls')),
 ]

@@ -13,6 +13,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     progress = serializers.SerializerMethodField()
     donations = serializers.SerializerMethodField()
     total_collected = serializers.SerializerMethodField()
+    project_rating = serializers.SerializerMethodField()
 
     class Meta:
         model = Project
@@ -41,3 +42,6 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     def get_total_collected(self, obj):
         return obj.get_total_collected
+
+    def get_project_rating(self, obj):
+        return obj.get_project_rating
