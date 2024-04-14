@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import Project, ProjectStatus
 from .serializer import ProjectSerializer
+from datetime import datetime, timedelta
+from rest_framework.exceptions import ValidationError
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
@@ -14,26 +16,23 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     from datetime import datetime, timedelta
 
+    def create(self, request, *args, **kwargs):
+        try:
+            serializer = ProjectSerializer(data=request.data)
+            if serializer.is_valid():
+                # check if date is at least more than a week ahead
+                deadline = serializer.validated_data.get('deadline')
+                if deadline < datetime.now().date() + timedelta(days=7):
+                    return Response({'error': 'End date must be at least a week ahead'}, status=status.HTTP_400_BAD_REQUEST)
 
-def create(self, request, *args, **kwargs):
-    try:
-        serializer = ProjectSerializer(data=request.data, exclude=[
-                                       'is_deleted', 'total_collected', 'deleted_at'])
-
-        if serializer.is_valid():
-            # check if date is at least more than a week ahead
-            deadline = serializer.validated_data.get('deadline')
-            if deadline < datetime.now().date() + timedelta(days=7):
-                return Response({'error': 'End date must be at least a week ahead'}, status=status.HTTP_400_BAD_REQUEST)
-
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    except ValidationError as e:
-        return Response({'error': e.detail}, status=status.HTTP_400_BAD_REQUEST)
-    except Exception as e:
-        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except ValidationError as e:
+            return Response({'error': e.detail}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def update(self, request, *args, **kwargs):
         try:
@@ -67,7 +66,8 @@ def create(self, request, *args, **kwargs):
     def list(self, request, *args, **kwargs):
         try:
             projects = Project.objects.all()
-            serializer = ProjectSerializer(projects, many=True)
+            serializer = ProjectSerializer(
+                projects, many=True, context={'request': request})
             return Response(serializer.data)
         except Project.DoesNotExist:
             return Response({'error': 'No projects found'}, status=status.HTTP_404_NOT_FOUND)
@@ -77,7 +77,8 @@ def create(self, request, *args, **kwargs):
     def featured(self, request, *args, **kwargs):
         try:
             projects = Project.objects.filter(is_featured=True)
-            serializer = ProjectSerializer(projects, many=True)
+            serializer = ProjectSerializer(
+                projects, many=True, context={'request': request})
             return Response(serializer.data)
         except Project.DoesNotExist:
             return Response({'error': 'No featured projects found'}, status=status.HTTP_404_NOT_FOUND)
@@ -85,7 +86,8 @@ def create(self, request, *args, **kwargs):
     @action(detail=False, methods=['get'])
     def latest(self, request, *args, **kwargs):
         projects = Project.objects.order_by('-created_at')[:10]
-        serializer = ProjectSerializer(projects, many=True)
+        serializer = ProjectSerializer(
+            projects, many=True, context={'request': request})
         return Response(serializer.data)
 
     @action(detail=True, methods=['post'])

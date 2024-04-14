@@ -1,10 +1,16 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/project">project</router-link>
-  </nav>
-  <router-view />
+  <div class="container-fluid">
+    <main class="row">
+      <router-view />
+    </main>
+  </div>
 </template>
 
-<style></style>
+
+<script>
+  export default {
+  }
+</script>
+
+<style scoped>
+</style>

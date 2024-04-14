@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <!-- <div class="container"> -->
         <div class="row"><!--The Parent row  -->
             <div class="col-md-6">
                 <div class="card text-start custom-card">
@@ -105,7 +105,8 @@
 
             </div><!--End The Parent div  -->
         </div><!-- end The Parent row  -->
-    </div><!-- end The container  -->
+    <!-- </div> -->
+    <!-- end The container  -->
 </template>
 
 <script>
@@ -122,14 +123,15 @@ export default {
     },
     async created() {
         try{
-            let projects  = await fetch('http://localhost:3000/projects/latest',{
+            let projects  = await fetch('http://localhost:3000/projects/2',{
                 method: "GET",
                 headers:{
                     "Content-Type": "application/json",
                 }
             });
-            let pro = await projects.json();
-            console.log(pro);
+            this.lastProjects = await projects.json();
+            // console.log(this.lastProjects[0].pictures);
+            console.log(this.lastProjects);
         }catch(err){
             console.log(err);
         }
@@ -141,6 +143,7 @@ export default {
 
 .card{
     cursor: pointer;
+    overflow: hidden;
 }
 .custom-card {
     height: 560px;
@@ -158,7 +161,4 @@ export default {
     transition: all 0.5s ease;
     
 }
-
-
-
 </style>

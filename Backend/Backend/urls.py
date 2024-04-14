@@ -16,6 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,7 +28,9 @@ urlpatterns = [
     path('projects/', include('projects.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('accounts.urls')),
-    path('reports/', include('reports.urls')),
+    path('api/reports/', include('reports.urls')),
     path('comments/', include('comments.urls')),
     path('ratings/', include('rating.urls')),
-]
+    # for DashBorad Routes
+    path('reports/', include('reports.dashboardUrls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
