@@ -3,15 +3,22 @@
     <header class="d-flex justify-content-center align-items-center">
       <headerSection />
     </header>
+    <div class="container p-3">
+      <sliderComponent />
+    </div>
   </div>
 </template>
 
 <script>
   import headerSection from "../components/headerComponent.vue"
+  import sliderComponent from "../components/sliderComponent.vue"
   export default {
-    data: ()=>({}),
+    data: ()=>({
+
+    }),
     components: {
       headerSection,
+      sliderComponent
     }
   }
 </script>
