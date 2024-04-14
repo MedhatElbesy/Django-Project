@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'projects.apps.ProjectsConfig',
     'payments.apps.PaymentsConfig',
     'categories.apps.CategoriesConfig',
+    'rating.apps.RatingConfig',
     'tags.apps.TagsConfig',
     'rest_framework_simplejwt',
     'reports.apps.ReportsConfig',
