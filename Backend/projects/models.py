@@ -2,9 +2,9 @@ import datetime
 from django.db import models
 # TODO uncomment the following lines when the models are ready
 from accounts.models import User
-# from categories.models import Category
-# from tags.models import Tag
-# from donations.models import Donation
+from categories.models import Category
+from tags.models import Tags
+from payments.models import Payment
 
 
 class ProjectStatus(models.TextChoices):
@@ -20,8 +20,8 @@ class Project(models.Model):
     description = models.TextField()
     status = models.CharField(
         max_length=2, choices=ProjectStatus.choices, default=ProjectStatus.IN_PROGRESS)
-    # category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    # tags = models.ManyToManyField(Tag, related_name='projects')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    tags = models.ManyToManyField(Tags, related_name='projects')
     pictures = models.ImageField(
         upload_to='projects/pictures/')
     video = models.FileField(upload_to='projects/videos/', null=True)
@@ -46,30 +46,33 @@ class Project(models.Model):
     def __str__(self):
         return self.title
 
-    def get_remainig_days(self):
+    @property
+    def get_remaining_days(self):
         return (self.deadline - datetime.date.today()).days
 
+    @property
     def get_status_display(self):
         return self.status
 
-    def get_remainig_hours(self):
-        return (self.deadline - datetime.date.today()).seconds // 3600
+    @property
+    def get_remaining_hours(self):
+        remaining_time = self.deadline - datetime.date.today()
+        remaining_seconds = remaining_time.days * 24 * 3600
+        return max(remaining_seconds // 3600, 0)
 
+    @property
     def get_progress(self):
         return (self.total_collected / self.total_target) * 100
 
+    @property
     def get_remaining_amount(self):
         if self.total_target > self.total_collected:
             return self.total_target - self.total_collected
         else:
             return 0
 
-    # how many donations are done to this project
-    # def get_total_donations(self):
-    #     return Donation.objects.filter(project_id=self.id).count()
-
-    def get_project_tags(self):
-        return self.tags.all()
+    def get_total_payments(self):
+        return self.payments.all().count()
 
     class Meta:
         ordering = ['-created_at']
