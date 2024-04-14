@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <h1>Yor Home For Help</h1>
+    <h1>Your Home<br> For Help</h1>
     <button><router-link to="/search">Start A Fund</router-link></button>
   </div>
 </template>
@@ -15,6 +15,8 @@
     margin-bottom: 28px;
     font-weight: bold;
     color: var(--mainColor);
+    letter-spacing: 2px;
+    word-spacing: 3px;
   }
   button {
     cursor: pointer;

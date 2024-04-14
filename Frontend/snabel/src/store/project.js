@@ -6,6 +6,7 @@ export const useProjectStore = defineStore("project", {
     projectID: null,
     loaded: false,
     error: null,
+
   }),
   actions: {
     async fetchProjectData() {
@@ -29,6 +30,13 @@ export const useProjectStore = defineStore("project", {
     setProjectID(projectID) {
       this.projectID = projectID;
     },
+
     // ...
+    //last five Project /latest
+
+    // top rated project 
+
+    // all project 
+    // search  ()
   },
 });
