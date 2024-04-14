@@ -10,7 +10,9 @@ export const useProjectStore = defineStore("project", {
   actions: {
     async fetchProjectData() {
       try {
-        const response = fetch(`localhost:8000/${this.projectID}`);
+        const response = await fetch(
+          `http://localhost:8000/projects/${this.projectID}`
+        );
         if (!response.ok) {
           throw new Error(
             "Network response was not ok, failed to fetch project data"
@@ -18,17 +20,15 @@ export const useProjectStore = defineStore("project", {
         }
         this.projectData = await response.json();
       } catch (error) {
-        console.log(error);
+        this.error = error.message;
+        console.error(error);
       } finally {
         this.loaded = true;
       }
     },
+    setProjectID(projectID) {
+      this.projectID = projectID;
+    },
     // ...
   },
-  setProjectID(projectID) {
-    this.projectID = projectID;
-  },
-  //   getters: () => ({
-
-  //   }),
 });
