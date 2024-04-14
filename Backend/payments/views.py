@@ -7,10 +7,10 @@ from .models import Payment
 
 # Create your views here.
 
+
 class PaymentViewSet(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
-
 
     def retrieve(self, request, *args, **kwargs):
         try:
@@ -19,7 +19,6 @@ class PaymentViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         except Payment.DoesNotExist:
             return Response({'error': 'Payment not found'}, status=status.HTTP_404_NOT_FOUND)
-
 
     def create(self, request):
         try:
@@ -32,15 +31,13 @@ class PaymentViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
-    def show(self, request,id):
+    def show(self, request, id):
         try:
             project = Payment.objects.get(id=id)
             serializer = PaymentSerializer(project)
             return Response(serializer.data)
         except Payment.DoesNotExist:
             return Response({'error': 'Payment not found'}, status=status.HTTP_404_NOT_FOUND)
-
 
     def list(self, request):
         try:
@@ -49,23 +46,19 @@ class PaymentViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         except Payment.DoesNotExist:
             return Response({'error': 'No Payment found'}, status=status.HTTP_404_NOT_FOUND)
-        
 
-    def list_by_project(self, request,id):
+    def list_by_project(self, request, id):
+        try:
+            payments = Payment.objects.filter(project=id)
+            serializer = PaymentSerializer(payments, many=True)
+            return Response(serializer.data)
+        except Payment.DoesNotExist:
+            return Response({'error': 'No Payment found'}, status=status.HTTP_404_NOT_FOUND)
+
+    def list_by_user(self, request, id):
         try:
             payments = Payment.objects.get(id=id)
             serializer = PaymentSerializer(payments, many=True)
             return Response(serializer.data)
         except Payment.DoesNotExist:
             return Response({'error': 'No Payment found'}, status=status.HTTP_404_NOT_FOUND)
-        
-    
-    def list_by_user(self, request,id):
-        try:     
-            payments = Payment.objects.get(id=id)
-            serializer = PaymentSerializer(payments, many=True)
-            return Response(serializer.data)
-        except Payment.DoesNotExist:
-            return Response({'error': 'No Payment found'}, status=status.HTTP_404_NOT_FOUND)
-        
-        

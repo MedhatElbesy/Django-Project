@@ -122,14 +122,15 @@ export default {
     },
     async created() {
         try{
-            let projects  = await fetch('http://localhost:3000/projects/latest',{
+            let projects  = await fetch('http://localhost:3000/projects/2',{
                 method: "GET",
                 headers:{
                     "Content-Type": "application/json",
                 }
             });
-            let pro = await projects.json();
-            console.log(pro);
+            this.lastProjects = await projects.json();
+            // console.log(this.lastProjects[0].pictures);
+            console.log(this.lastProjects);
         }catch(err){
             console.log(err);
         }
