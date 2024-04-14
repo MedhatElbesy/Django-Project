@@ -56,7 +56,7 @@
 <style scoped></style>
 
 <script>
-import { useProjectStore } from "../store/project";
+import { useProjectStore } from "../stores/project";
 import { useRoute } from "vue-router";
 
 export default {
