@@ -30,7 +30,7 @@ urlpatterns = [
     path('', include('accounts.urls')),
     path('api/reports/', include('reports.urls')),
     path('comments/', include('comments.urls')),
-    
-    #for DashBorad Routes
+    path('ratings/', include('rating.urls')),
+    # for DashBorad Routes
     path('reports/', include('reports.dashboardUrls')),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

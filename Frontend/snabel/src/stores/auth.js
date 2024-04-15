@@ -13,7 +13,7 @@ export const useAuthenticationStore = defineStore("authenticationStore", {
         formData.append('username', username);
         formData.append('password', password);
 
-        let response = await fetch(`http://127.0.0.1:8000/api/login/`, {
+        let response = await fetch(`http://localhost:8000/api/login/`, {
           method: "POST",
           body: formData
         });
