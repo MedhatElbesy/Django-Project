@@ -1,19 +1,19 @@
 <template>
   <div class="d-flex justify-content-between align-items-center">
     <ul class="d-flex left">
-      <li><router-link to="/search"><i class="fa-solid fa-magnifying-glass"></i> Search</router-link></li>
+      <li><router-link to="/"><i class="fa-solid fa-magnifying-glass"></i> Search</router-link></li>
       <li @mouseover="display=true" @mouseleave="display=false">
         <span>For Individuals <i class="fa-solid fa-angle-down"></i></span>
         <div class="links">
           <individualsLinks />
         </div>
       </li>
-      <li><router-link to="/search">For Charities</router-link></li>
+      <li><router-link to="/">For Charities</router-link></li>
     </ul>
     <figure class="logo d-flex justify-content-center align-items-center mb-0"><router-link to="/"><img src="../assets/logo.png" alt="Snabel Logo"></router-link></figure>
     <ul class="d-flex justify-content-end right">
-      <li class="fw-bold"><router-link to="/search">Start A GoFundMe</router-link></li>
-      <li class="fw-bold"><router-link to="/search">Log In</router-link></li>
+      <li class="fw-bold"><router-link to="/">Start A GoFundMe</router-link></li>
+      <li class="fw-bold"><router-link to="/">Log In</router-link></li>
     </ul>
   </div>
 </template>

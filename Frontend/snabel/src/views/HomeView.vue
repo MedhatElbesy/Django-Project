@@ -7,10 +7,10 @@
       <headerSection />
     </header>
     <section>
-      <article>
+      <article class="container">
         <sliderComponent />
       </article>
-      <article>
+      <article class="p-2 ">
         <lastProjectComponent />
       </article>
     </section>
@@ -39,7 +39,6 @@
       navOnScroll() {
         let nav = document.querySelector("nav");
         if (window.scrollY > 80) {
-          console.log("done");
           nav.classList.add("nav-on-scroll");
         } else {
           nav.classList.remove("nav-on-scroll");

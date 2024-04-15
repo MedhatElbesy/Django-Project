@@ -1,7 +1,7 @@
 <template>
   <div class="text-center">
     <h1>Your Home<br> For Help</h1>
-    <button><router-link to="/search">Start A Fund</router-link></button>
+    <button><router-link to="/">Start A Fund</router-link></button>
   </div>
 </template>
 
