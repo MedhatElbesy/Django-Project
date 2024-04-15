@@ -1,9 +1,11 @@
 from django.http import HttpResponse
+from django.shortcuts import render
 from rest_framework import  viewsets,status
 from rest_framework.pagination import PageNumberPagination
 from .models import Report
 from .serializer import ReportSerializer
 from rest_framework.response import Response
+from django.core.paginator import Paginator
 
 
 class ReportList(viewsets.ModelViewSet):
@@ -35,6 +37,8 @@ class ReportList(viewsets.ModelViewSet):
 ######################### DashBoard ##################################
 
 def home(request):
-    return HttpResponse("Hello World")
+    reports = Report.objects.all().order_by('-created_at')
+    paginator = Paginator(reports, per_page=10)
+    return render(request,'reports/index.html')
 
 
