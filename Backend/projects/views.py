@@ -1,4 +1,5 @@
 # from django.shortcuts import render
+from rest_framework.exceptions import ValidationError
 import datetime
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -13,6 +14,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
 
+    from datetime import datetime, timedelta
 
     def create(self, request, *args, **kwargs):
         try:
@@ -22,7 +24,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
                 deadline = serializer.validated_data.get('deadline')
                 if deadline < datetime.now().date() + timedelta(days=7):
                     return Response({'error': 'End date must be at least a week ahead'}, status=status.HTTP_400_BAD_REQUEST)
-                
+
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
@@ -64,7 +66,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         try:
             projects = Project.objects.all()
-            serializer = ProjectSerializer(projects, many=True,context={'request': request})
+            serializer = ProjectSerializer(
+                projects, many=True, context={'request': request})
             return Response(serializer.data)
         except Project.DoesNotExist:
             return Response({'error': 'No projects found'}, status=status.HTTP_404_NOT_FOUND)
@@ -74,7 +77,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def featured(self, request, *args, **kwargs):
         try:
             projects = Project.objects.filter(is_featured=True)
-            serializer = ProjectSerializer(projects, many=True,context={'request': request})
+            serializer = ProjectSerializer(
+                projects, many=True, context={'request': request})
             return Response(serializer.data)
         except Project.DoesNotExist:
             return Response({'error': 'No featured projects found'}, status=status.HTTP_404_NOT_FOUND)
@@ -82,7 +86,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def latest(self, request, *args, **kwargs):
         projects = Project.objects.order_by('-created_at')[:10]
-        serializer = ProjectSerializer(projects, many=True, context={'request': request})
+        serializer = ProjectSerializer(
+            projects, many=True, context={'request': request})
         return Response(serializer.data)
 
     @action(detail=True, methods=['post'])
@@ -96,7 +101,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
             project.save()
             return Response({'status': f"Project status changed to {new_status}"}, status=status.HTTP_200_OK)
         except Project.DoesNotExist:
-            return Response({'error': 'Project not found'}, status=status.HTTP_404_NOT_FOUND)        
+            return Response({'error': 'Project not found'}, status=status.HTTP_404_NOT_FOUND)
     # TODO after donation implementation
     # def get_project_donations(self, request, *args, **kwargs):
     #     try:
