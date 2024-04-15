@@ -58,11 +58,11 @@
 
 <style scoped>
   .home {
-    background: url("../assets/header.png") center center/cover fixed;
+    background: url("../assets/header.jpeg") center center/cover fixed;
   }
   section {
     padding: 20px;
-    border-radius: 24px 24px 0 0;
+    border-radius: 32px 32px 0 0;
   }
   nav {
     width: 75%;
@@ -83,7 +83,7 @@
     box-shadow: 0px 3px 7px 0px #d4d4d4b7;
   }
   header{
-    height: 70vh;
+    height: 80vh;
   }
 </style>
 

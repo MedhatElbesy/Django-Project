@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex justify-content-between align-items-center">
-    <ul class="d-flex left">
-      <li><router-link to="/"><i class="fa-solid fa-magnifying-glass"></i> Search</router-link></li>
+    <ul class="left d-flex ">
+      <li><router-link to="/search"><i class="fa-solid fa-magnifying-glass"></i> Search</router-link></li>
       <li @mouseover="display=true" @mouseleave="display=false">
         <span>For Individuals <i class="fa-solid fa-angle-down"></i></span>
         <div class="links">
@@ -11,10 +11,10 @@
       <li><router-link to="/">For Charities</router-link></li>
     </ul>
     <figure class="logo d-flex justify-content-center align-items-center mb-0"><router-link to="/"><img src="../assets/logo.png" alt="Snabel Logo"></router-link></figure>
-    <ul class="d-flex justify-content-end right">
-      <li class="fw-bold"><router-link to="/search">Start A GoFundMe</router-link></li>
-      <li class="fw-bold"><router-link to="/login">Log In</router-link></li>
-    </ul>
+    <div class="right d-flex justify-content-end">
+      <router-link to="/search" class="fw-bold color">Start SnabelSadaka</router-link>
+      <router-link to="/login" class="fw-bold text-color">Log In</router-link>
+    </div>
   </div>
 </template>
 
@@ -38,39 +38,44 @@
   figure {
     flex: 1;
   }
-  ul li {
+  li {
     padding: 4px 12px;
     margin: 0 4px;
     color: var(--mainTextColor);
-    transition: .3s ease-in-out;
+    transition: background-color .3s ease-in-out;
+    border-radius: 12px;
   }
-  ul li:hover {
+  li a {
+    color: var(--mainTextColor);
+  }
+  li:hover,
+  li a:hover {
     cursor: pointer;
     color: var(--mainColor);
     background-color: #f5f5f5;
-    border-radius: 12px;
   }
 
-  .left li:nth-child(2) {
+  li:nth-child(2) {
     position: relative;
   }
-  .left li:nth-child(2):hover {
+  li:nth-child(2):hover {
     border-radius: 12px 12px 0 0;
   }
-  .left li:nth-child(2) i {
+  li:nth-child(2) i {
     transform: rotate(360deg);
     transition: .5s ease-in-out;
   }
-  .left li:nth-child(2):hover i {
+  li:nth-child(2):hover i {
     transform: rotate(-180deg);
   }
-  .left .links {
+
+  .links {
     position: absolute;
     top: 100%;
     left: 0;
     display: none;
   }
-  .left li:nth-child(2):hover .links {
+  li:nth-child(2):hover .links {
     display: block;
     animation: show 350ms linear both;
   }
@@ -83,13 +88,19 @@
     }
   }
 
-  .right li:first-child {
-    color: var(--mainColor);
-    border-radius: 20px;
-    border: 2px solid var(--mainColor);
+  .right a {
+    padding: 4px 12px;
+    transition: .3s ease-in-out;
   }
-  .right li:first-child:hover {
+  .right a:first-child {
+    border: 2px solid var(--mainColor);
+    border-radius: 20px;
+  }
+  .right a:first-child:hover {
     color: #FFF;
     background-color: var(--mainColor);
   }
+  .right a:last-child:hover {
+    color: var(--mainColor);
+  } 
 </style>

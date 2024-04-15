@@ -3,19 +3,19 @@
     <nav class="row g-0">
       <navbar />
     </nav>
-    <section class="row g-0 justify-content-center align-items-center text-center mb-5">
+    <section class="row g-0 justify-content-center align-items-center text-center mb-3">
       <div class="content mt-5">
-        <h2>Search fundraisers on GoFundMe</h2>
-        <p>Find fundraisers by location, title, keyword, or a person’s name</p>
-      </div>
-      <div class="search-field">
-        <form class="col-6 col-lg-4 d-flex align-items-center my-3 m-auto">
-          <i class="fa-solid fa-magnifying-glass"></i> 
-          <input type="search" name="search" id="search" placeholder="Search">
-        </form>
+        <h2 class="mb-4 color">Search Fundraisers On Snabel</h2>
+        <p class="text-color">Find fundraisers by project category or tags</p>
       </div>
     </section>
-    <section class="mb-5 p-3">
+    <section class="row g-0 search-feild p-3">
+      <form class="col-6 col-lg-4 d-flex align-items-center p-2 m-auto">
+        <i class="fa-solid fa-magnifying-glass color"></i> 
+        <input type="search" name="search" id="search" placeholder="Search">
+      </form>
+    </section>
+    <section class="row g-0 mb-5 p-2">
         <lastProjectComponent />
     </section>
     <footer class="row g-0 bg-light">
@@ -44,19 +44,16 @@
 <style scoped>
   nav {
     padding: 12px;
+    position: relative;
+    z-index: 99;
   }
-  h2 {
-    margin-bottom: 16px;
-    color: var(--mainColor);
-  }
-  p {
-    color: var(--mainTextColor)
-  }
-  .search-field {
-    background-color: #FFF;
-    box-shadow: 0px 6px 3px 0px #dedede1f;
+  .search-feild {
     position: sticky;
     top: 0;
+    background-color: #FFF;
+    box-shadow: 0px 6px 3px 0px #dedede5b;
+    box-shadow: 0px 2px 3px 0px #06a8df1a;
+    z-index: 9;
   }
   form {
     text-align: left;
@@ -76,8 +73,5 @@
   form input:focus {
     caret-color: var(--mainColor);
     color: var(--mainTextColor);
-  }
-  form i {
-    color: var(--mainColor);
   }
 </style>

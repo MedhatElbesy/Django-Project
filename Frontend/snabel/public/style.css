@@ -1,7 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Reem+Kufi&display=swap');
+
 :root {
-  /* --mainColor: #005eac; */
-  --mainColor: #055316;
+  /* --mainColor: #055348; */
+  --mainColor: #055874;
+
   --mainTextColor: #707c80;
 
   ::-webkit-scrollbar {
@@ -20,7 +23,7 @@
     background-color: #ffffff;
   }
   ::selection {
-    background-color: #00c42a50;
+    background-color: #06a8df5e;
   }
 }
 
@@ -50,7 +53,6 @@ li {
 }
 
 a {
-  color: inherit !important;
   text-decoration: none !important;
 }
 
@@ -85,4 +87,11 @@ footer .social{
   a[title="Reddit"]  i{
     color: #F64C00;
   }
+}
+
+.color {
+  color: var(--mainColor);
+}
+.text-color {
+  color: var(--mainTextColor);
 }

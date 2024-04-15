@@ -47,11 +47,11 @@ export default {
   }
 
   ul {
+    margin: 0;
+    padding: 0;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    margin: 0;
-    padding: 0;
   }
   .social i:hover {
     transform: scale(1.2);
@@ -60,16 +60,16 @@ export default {
     color: var(--mainColor);
     font-weight: bold;
   }
-  ul:nth-of-type(2) li:not(:first-child) {
-    color: var(--mainTextColor);
+  ul:nth-of-type(2) li:not(:first-child) a {
     padding: 4px 12px;
     margin: 0 4px;
+    border-radius: 12px;
+    color: var(--mainTextColor);
     transition: .3s ease-in-out;
   }
-  ul:nth-of-type(2) li:not(:first-child):hover {
+  ul:nth-of-type(2) li:not(:first-child) a:hover {
     cursor: pointer;
     color: var(--mainColor);
     background-color: #e9e9e9;
-    border-radius: 12px;
   }
 </style>

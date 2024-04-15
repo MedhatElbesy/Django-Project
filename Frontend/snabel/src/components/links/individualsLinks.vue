@@ -27,9 +27,9 @@ export default {
 
 <style scoped>
   .links {
+    cursor: default;
     background-color: #f5f5f5;
     border-radius: 0 12px 12px 12px;
-    cursor: default;
   }
   ul {
     padding: 12px;
