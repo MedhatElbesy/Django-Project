@@ -13,6 +13,11 @@ const routes = [
         component: HomeView
     },
     {
+        path: '/search',
+        name: 'search',
+        component: ()=>import('../components/searchComponent.vue')
+    },
+    {
         path: '/about',
         name: 'about',
         // route level code-splitting
@@ -25,7 +30,7 @@ const routes = [
     {
         path: '/register',
         name: 'Register',
-        component: RegisterComponent
+        component: RegisterComponent,
     },
     {
         path: '/login',
@@ -36,6 +41,10 @@ const routes = [
         path: '/forget-password',
         name: 'ForgetPassword',
         component: ForgetPasswordComponent
+    },
+    {
+        path: '/:cathcAll(.*)',
+        component: ()=> import('../views/AboutView.vue'),
     }
 ]
 

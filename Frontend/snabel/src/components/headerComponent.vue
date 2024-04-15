@@ -28,7 +28,6 @@
     transition: .3s ease-in-out;
   }
   button:hover {
-    padding: 12px 24px;
     color: #FFF;
     background-color: var(--mainColor);
     font-weight: bold;

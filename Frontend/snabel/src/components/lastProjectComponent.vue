@@ -60,6 +60,7 @@
                             </div>
                         </div>
                     </div><!-- end first div in child col-->
+
                     <div class="col-md-6 p-2"> <!-- first div in child row-->
                         <div class="card text-start">
                             <img class="card-img" src="../assets/1.jpg" alt="Title" />
@@ -79,6 +80,7 @@
                             </div>
                         </div>
                     </div><!-- end first div in child col-->
+                    
                     <div class="col-md-6 p-2"> <!-- first div in child row-->
                         <div class="card text-start">
                             <img class="card-img" src="../assets/1.jpg" alt="Title" />
@@ -121,7 +123,7 @@ export default {
     },
     async created() {
         try{
-            let projects  = await fetch('http://localhost:8000/projects/latest',{
+            let projects  = await fetch('http://localhost:8080/projects/latest',{
                 method: "GET",
                 headers:{
                     "Content-Type": "application/json",

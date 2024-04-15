@@ -12,8 +12,8 @@
     </ul>
     <figure class="logo d-flex justify-content-center align-items-center mb-0"><router-link to="/"><img src="../assets/logo.png" alt="Snabel Logo"></router-link></figure>
     <ul class="d-flex justify-content-end right">
-      <li class="fw-bold"><router-link to="/">Start A GoFundMe</router-link></li>
-      <li class="fw-bold"><router-link to="/">Log In</router-link></li>
+      <li class="fw-bold"><router-link to="/search">Start A GoFundMe</router-link></li>
+      <li class="fw-bold"><router-link to="/login">Log In</router-link></li>
     </ul>
   </div>
 </template>
