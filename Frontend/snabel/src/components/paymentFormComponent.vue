@@ -9,13 +9,13 @@
                 </div>
 
                 <div>
-                    <form class="row g-3 needs-validation" novalidate>
+                    <form class="row g-3 needs-validation" novalidate @submit.prevent="submitForm">
                         <div>
                             <label for="" class="col-form-label ">Enter your donation</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">$</span>
                                 <span class="input-group-text">USD</span>
-                                <input type="text" v-model="donationAmount" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
+                                <input type="text" name="mony" v-model="donationAmount" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
                                 <span class="input-group-text">0.00</span>
                             </div>
                             
@@ -88,21 +88,23 @@
                                 <input class="form-check-input" type="checkbox" value="" >
                                 <label class="form-check-label" for="invalidCheck">Save card for future donations</label>
                             </div>
-                            <div>
-                                <label for="validationCustom05" class="form-label">Card Number</label>
-                                <input type="number" class="form-control" id="validationCustom05" required>
+                            <div class="d-flex justify-content-between flex-column ">
+                                <label for="ccn">Credit Card Number</label>
+                                <input id="ccn" type="tel" inputmode="numeric" class="form-control  my-2" pattern="[0-9\s]{13,19}" 
+                                        autocomplete="cc-number" maxlength="19" 
+                                        placeholder="xxxx xxxx xxxx xxxx" required>
                                 <div class="invalid-feedback">Please provide a valid Card Number.</div>
                             </div>
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between ">
                                 <div>
-                                    <label for="validationCustom05" >Date</label>
+                                    <label for="validationCustom05 " >Date</label>
                                     <input type="date" class="form-control" id="validationCustom05" required>
                                     <div class="invalid-feedback">Please provide a Date.</div>
                                 </div>
                                 <div>
-                                    <label for="ccn" >CVV</label>
-                                    <input type="tel" inputmode="numeric" autocomplete="cc-number" maxlength="19" class="form-control" pattern="[0-9\s]{13,19}" id="cnn" placeholder="xxxx xxxx xxxx xxxx" required >
-                                    <div class="invalid-feedback">Please provide a valid CVV.</div>
+                                    <label for="cvv" class="form-label">CVV</label>
+                                    <input type="text" id="cvv" class="form-control" placeholder="xxx" v-model="cvv" required pattern="[0-9]{3,4}" >
+                                    <div class="invalid-feedback"> Please provide a valid CVV.</div>
                                 </div>
                             </div>
 
@@ -149,7 +151,7 @@
                         </div>
 
                         <div class="col-12">
-                            <button class="btn btn-primary " type="submit">Donate Now</button>
+                            <button class="btn btn-primary "  type="submit">Donate Now</button>
                         </div>
                         <div>
                             <p class="my-3">
@@ -173,6 +175,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function () {
     'use strict'
@@ -196,10 +200,24 @@
 export default {
     data:() =>({
         selectedMethod: 'paypal' ,
-        donationAmount: 0
-    }),
-    methods:{
+        donationAmount: 0,
         
+
+    }),
+    methods: {
+        submitForm() {
+            const formData = {
+                amount: this.total,
+            };
+
+            axios.post('', formData)
+                .then(response => {
+                    console.log('Data sent successfully:', response.data);
+                })
+                .catch(error => {
+                    console.error('Error sending data:', error);
+                });
+        }
     },
     computed:{
         donationPercentage(){
@@ -213,8 +231,23 @@ export default {
             const tip = parseFloat(this.tip);
             const donationAmount = parseFloat(this.donationAmount);
                 return tip + donationAmount;
-        }
+        },
+        
 
+    },
+    async created(){
+        try{
+            let data = await fetch('',{
+                method:"GET",
+                headers:{
+                    "Content-Type":"application/json",
+                }
+            });
+            let jsonData = await data.json();
+            this.projects=jsonData;
+        }catch(e){
+            console.log(e);
+        }
     }
 }
 
