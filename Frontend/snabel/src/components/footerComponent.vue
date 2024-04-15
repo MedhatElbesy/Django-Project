@@ -3,7 +3,7 @@
     <div class="top d-flex flex-wrap align-items-center justify-content-between px-5 mx-3 w-100">
       <figure class="d-flex align-items-center w-75"><router-link to="/">
         <img src="../assets/logo.png" width="150" alt="Snabel Logo"></router-link>
-        <figcaption>A way to CHANGE the world</figcaption>
+        <figcaption>A way to <strong>CHANGE</strong> the world</figcaption>
       </figure>
       <ul class="social w-25 justify-content-between">
         <li><a href="https://facebook.com" title="Facebook"><i class="fa-brands fa-facebook"></i></a></li>
@@ -41,6 +41,9 @@ export default {
     font-weight: bold;
     font-size: 22px;
     color: var(--mainTextColor);
+  }
+  strong {
+    color: var(--mainColor);
   }
 
   ul {

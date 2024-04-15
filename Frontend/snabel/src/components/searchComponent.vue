@@ -3,7 +3,7 @@
     <nav class="row g-0">
       <navbar />
     </nav>
-    <section class="row g-0 justify-content-center align-items-center text-center">
+    <section class="row g-0 justify-content-center align-items-center text-center mb-5">
       <div class="content mt-5">
         <h2>Search fundraisers on GoFundMe</h2>
         <p>Find fundraisers by location, title, keyword, or a person’s name</p>
@@ -14,81 +14,29 @@
           <input type="search" name="search" id="search" placeholder="Search">
         </form>
       </div>
-      <pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </pre>
     </section>
+    <section class="mb-5 p-3">
+        <lastProjectComponent />
+    </section>
+    <footer class="row g-0 bg-light">
+      <footerComponent />
+    </footer>
   </div>
 </template>
 
 <script>
   import navbar from "../components/navComponent.vue"
+  import lastProjectComponent from "../components/lastProjectComponent.vue"
+  import footerComponent from "../components/footerComponent.vue"
+
   export default {
     data:()=>({
       searchPosition: null
     }),
     components: {
       navbar,
+      lastProjectComponent,
+      footerComponent,
     },
   }
 </script>
@@ -104,15 +52,12 @@
   p {
     color: var(--mainTextColor)
   }
-
   .search-field {
     background-color: #FFF;
-    transition: box-shadow .5s ease-in-out;
     box-shadow: 0px 6px 3px 0px #dedede1f;
     position: sticky;
     top: 0;
   }
-
   form {
     text-align: left;
     padding: 8px 16px;

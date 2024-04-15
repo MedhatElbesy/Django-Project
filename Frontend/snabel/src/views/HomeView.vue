@@ -7,10 +7,10 @@
       <headerSection />
     </header>
     <section class="row g-0 bg-light">
-      <article>
+      <article class="mb-5">
         <sliderComponent />
       </article>
-      <article>
+      <article class="mb-5">
         <lastProjectComponent />
       </article>
     </section>
@@ -62,9 +62,6 @@
   section {
     padding: 20px;
     border-radius: 24px 24px 0 0;
-  }
-  article {
-    margin-bottom: 48px;
   }
   nav {
     width: 75%;

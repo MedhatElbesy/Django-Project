@@ -37,13 +37,9 @@ body {
 
 .container-fluid {
   padding: 0 !important;
-<<<<<<< HEAD
-}
-=======
-
+  min-height: 100vh;
 }
 
->>>>>>> b73d5deeb54e0e2ed0b7b7408f1458ab5982efd1
 .container-fluid .row:first-child {
     --bs-gutter-x: 0;
 }

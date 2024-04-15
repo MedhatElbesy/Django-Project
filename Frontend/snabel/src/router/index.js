@@ -35,20 +35,16 @@ const routes = [
     {
         path: '/login',
         name: 'Login',
-<<<<<<< HEAD
-        component: LoginComponent,
-    },
-    {
-        path: '/:cathcAll(.*)',
-        component: ()=> import('../views/AboutView.vue'),
-=======
         component: LoginComponent
     },
     {
         path: '/forget-password',
         name: 'ForgetPassword',
         component: ForgetPasswordComponent
->>>>>>> b73d5deeb54e0e2ed0b7b7408f1458ab5982efd1
+    },
+    {
+        path: '/:cathcAll(.*)',
+        component: ()=> import('../views/AboutView.vue'),
     }
 ]
 
