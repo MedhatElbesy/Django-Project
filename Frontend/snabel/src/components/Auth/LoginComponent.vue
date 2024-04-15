@@ -1,6 +1,19 @@
 <template>
   <div class="row justify-content-center align-items-center auth-page py-4 vh-100">
+
     <div class="col-md-10 col-lg-8 col-xl-6">
+      <!-- Start Messages -->
+      <div v-if="authenticationStore.successMessages" class="alert alert-success alert-dismissible fade show"
+           role="alert">
+        <strong>{{ authenticationStore.successMessages }}</strong>
+        <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
+      </div>
+      <div v-if="authenticationStore.errorMessages" class="alert alert-danger alert-dismissible fade show"
+           role="alert">
+        <strong>{{ authenticationStore.errorMessages }}</strong>
+        <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
+      </div>
+      <!-- End Of Messages -->
       <div class="card mt-auto m-2 p-4 shadow-lg text-black h-75 w-7">
         <div class="card-body p-2">
           <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign In</p>
@@ -54,9 +67,6 @@ export default {
       username: '',
       password: '',
     },
-
-    errorMessages: {},
-    successMessages: '',
   })
 }
 </script>
