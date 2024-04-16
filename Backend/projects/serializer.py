@@ -3,14 +3,13 @@ from .models import Project
 from tags.serializer import TagsSerializer
 
 
-
 class ProjectSerializer(serializers.ModelSerializer):
 
     pictures_url = serializers.SerializerMethodField()
+
     class Meta:
         model = Project
-        exclude=['is_deleted', 'total_collected', 'deleted_at']
-        
+        exclude = ['is_deleted', 'total_collected', 'deleted_at']
 
     def get_pictures_url(self, obj):
         request = self.context.get('request')
@@ -21,7 +20,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(
         source='category.name', read_only=True)
     tags_info = TagsSerializer(source="tags", many=True, read_only=True)
-    user_name = serializers.CharField(source='user.name', read_only=True)
+    user_name = serializers.CharField(source='user.username', read_only=True)
     remaining_days = serializers.SerializerMethodField()
     remaining_hours = serializers.SerializerMethodField()
     progress = serializers.SerializerMethodField()
