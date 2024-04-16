@@ -26,6 +26,7 @@
   import lastProjectComponent from "../components/lastProjectComponent.vue"
   import sliderComponent from "../components/sliderComponent.vue"
   import footerComponent from "../components/footerComponent.vue"
+
   export default {
     data: ()=>({
 
@@ -36,6 +37,7 @@
       lastProjectComponent,
       sliderComponent,
       footerComponent,
+
     },
     mounted() {
       window.addEventListener("scroll", this.navOnScroll);

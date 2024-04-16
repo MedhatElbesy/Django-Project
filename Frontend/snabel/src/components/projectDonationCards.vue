@@ -94,14 +94,14 @@ i {
 
 <script>
 import { useProjectStore } from "../stores/project";
-import { useRoute } from "vue-router";
+// import { useRoute } from "vue-router";
 
 export default {
   async setup() {
     // getting project id
-    const route = useRoute();
+    // const route = useRoute();
     const projectStore = useProjectStore();
-    const currentProjectID = route.params.id;
+    const currentProjectID = 1;
     projectStore.setProjectID(currentProjectID);
 
     // fetching project data by id
