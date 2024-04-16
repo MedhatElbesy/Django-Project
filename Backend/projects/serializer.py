@@ -37,7 +37,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             'tags': {'write_only': True},
             'category': {'write_only': True},
             'is_active': {'write_only': True},
-            'user': {'write_only': True},
+            # 'user': {'write_only': True},
             'deleted_at': {'write_only': True},
         }
 
