@@ -27,10 +27,9 @@ export default {
 
 <style scoped>
   .links {
-    box-shadow: 2px 2px 2px 0px #aadbec96;
-    background-color: #FFF;
-    border-radius: 0 12px 12px 12px;
     cursor: default;
+    background-color: #f5f5f5;
+    border-radius: 0 12px 12px 12px;
   }
   ul {
     padding: 12px;
@@ -52,7 +51,7 @@ export default {
   ul li:not(:first-child):hover {
     cursor: pointer;
     color: var(--mainColor);
-    background-color: #f5f5f5;
+    background-color: #cccccc71;
     border-radius: 8px;
   }
 </style>

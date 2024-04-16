@@ -102,6 +102,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return Response({'status': f"Project status changed to {new_status}"}, status=status.HTTP_200_OK)
         except Project.DoesNotExist:
             return Response({'error': 'Project not found'}, status=status.HTTP_404_NOT_FOUND)
+
     # TODO after donation implementation
     # def get_project_donations(self, request, *args, **kwargs):
     #     try:

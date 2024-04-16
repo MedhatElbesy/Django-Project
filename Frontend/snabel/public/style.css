@@ -1,6 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Reem+Kufi&display=swap');
+
 :root {
-  /* --mainColor: #005eac; */
-  --mainColor: #055316;
+  /* --mainColor: #055348; */
+  --mainColor: #055874;
+
   --mainTextColor: #707c80;
 
   ::-webkit-scrollbar {
@@ -19,7 +23,7 @@
     background-color: #ffffff;
   }
   ::selection {
-    background-color: #00c42a50;
+    background-color: #06a8df5e;
   }
 }
 
@@ -30,12 +34,13 @@
 }
 
 body {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
   position: relative;
 }
 
 .container-fluid {
   padding: 0 !important;
-
+  min-height: 100vh;
 }
 
 .container-fluid .row:first-child {
@@ -48,7 +53,6 @@ li {
 }
 
 a {
-  color: inherit !important;
   text-decoration: none !important;
 }
 
@@ -57,4 +61,37 @@ a {
   width: 60px;
   height: 100%;
   vertical-align: middle;
+}
+
+footer .social{
+  a i {
+    font-size: 22px;
+    display: inline-block;
+    transition: .3s ease-in-out;
+  }
+  a[title="Facebook"]  i{
+    color: #546FA4;
+  }
+  a[title="Twitter"]  i{
+    color: #4DB8EC;
+  }
+  a[title="Youtube"]  i{
+    color: #BC423F;
+  }
+  a[title="LinkedIn"]  i{
+    color: #3C85AD;
+  }
+  a[title="Instagram"]  i{
+    color: #EE1F8C;
+  }
+  a[title="Reddit"]  i{
+    color: #F64C00;
+  }
+}
+
+.color {
+  color: var(--mainColor);
+}
+.text-color {
+  color: var(--mainTextColor);
 }
