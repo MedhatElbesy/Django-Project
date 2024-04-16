@@ -3,6 +3,8 @@ import { defineStore } from "pinia";
 export const useAuthenticationStore = defineStore("authenticationStore", {
   state: () => ({
     user: {},
+    errorMessages: '',
+    successMessages: '',
   }),
 
   actions: {
@@ -22,12 +24,17 @@ export const useAuthenticationStore = defineStore("authenticationStore", {
           const userData = await response.json();
           this.user = userData;
           localStorage.setItem('token', userData.token);
-          console.log("Login successful:", this.user);
+          this.successMessages = userData.message;
+          this.errorMessages = '';
+          console.log("Login successful:", this.user, userData.message);
         } else {
+          this.errorMessages = "Login Failed, error in email or password!"
           console.error("Login failed:", response.status, response.statusText);
         }
       } catch (error) {
         console.error("Error during login:", error);
+        this.errorMessages = error;
+        this.successMessages = '';
       }
     },
 
