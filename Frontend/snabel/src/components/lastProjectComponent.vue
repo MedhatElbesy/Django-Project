@@ -123,7 +123,7 @@ export default {
     },
     async created() {
         try{
-            let projects  = await fetch('http://localhost:8080/projects/latest',{
+            let projects  = await fetch('http://localhost:8000/projects/latest',{
                 method: "GET",
                 headers:{
                     "Content-Type": "application/json",

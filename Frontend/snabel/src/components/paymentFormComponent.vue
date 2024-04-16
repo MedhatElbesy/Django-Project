@@ -4,7 +4,7 @@
             <div class="d-flex flex-column justify-content-center align-items-center mx-5 w-75">
 
                 <div class=" box d-flex py-3">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZYdiS6o83xt08rKMnams6WzHDiETtxkYcTg&s">
+                    <img src="project.id">
                     <p class="py-1 px-2">You're supporting TOGETHXR We Can Fund: Bras For Girls Your donation will benefit Bras for Girls</p>
                 </div>
 
@@ -23,7 +23,7 @@
                                 <h4>Tip GoFundMe services</h4>
                                 <p>GoFundMe has a 0% platform fee for organizers. GoFundMe will continue offering its services thanks to donors who will leave an optional amount here:</p>
                                 <div class="progress">
-                                    <div class="progress-bar" role="progressbar" :style="{width: donationPercentage +'%'}" aria-valuenow="donationPercentage" aria-valuemin="0" aria-valuemax="100">{{donationPercentage}} %</div>
+                                    <div class="progress-bar" role="progressbar" :style="{width: tip +'%'}" aria-valuenow="tip" aria-valuemin="0" aria-valuemax="100">{{tip}} %</div>
                                 </div>
                             </div>
                             <label for="" class="col-form-label">Payment Method</label>
@@ -84,10 +84,10 @@
                                 <div class="invalid-feedback">Please choose a username.</div>
                             </div>
 
-                            <div class="my-3">
+                            <!-- <div class="my-3">
                                 <input class="form-check-input" type="checkbox" value="" >
                                 <label class="form-check-label" for="invalidCheck">Save card for future donations</label>
-                            </div>
+                            </div> -->
                             <div class="d-flex justify-content-between flex-column ">
                                 <label for="ccn">Credit Card Number</label>
                                 <input id="ccn" type="tel" inputmode="numeric" class="form-control  my-2" pattern="[0-9\s]{13,19}" 
@@ -121,13 +121,13 @@
                             <label for="validationCustom05" class="form-label">Postal Code</label>
                             <input type="text" class="form-control" id="validationCustom05" required>
                             <div class="invalid-feedback">Please provide a valid Postal Code.</div>
-                            <div class="py-3">
+                            <!-- <div class="py-3">
                                 <input class="form-check-input" type="checkbox">
                                 <label class="form-check-label" for="invalidCheck"> Save card for future donations</label>
-                            </div>
+                            </div> -->
                         </div>
 
-                        <div class="my-5">
+                        <!-- <div class="my-5">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                 <label class="form-check-label" for="flexCheckDefault">Don't display my name publicly on the fundraiser</label>
@@ -140,7 +140,7 @@
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
                                 <label class="form-check-label" for="flexCheckChecked">I'm happy to provide this charity my name and email, so they can notify me about other ways that I can help. I understand that I can unsubscribe at any time by contacting the charity.</label>
                             </div>
-                        </div>
+                        </div> -->
                         <div>
                             <label  class="form-label ">Your donation</label>
                             <input type="text" disabled class="form-control" placeholder="Your donation" :value="donationAmount">
@@ -176,6 +176,7 @@
 
 <script>
 import axios from 'axios';
+import { useProjectStore } from "../stores/project";
 
 // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function () {
@@ -201,8 +202,7 @@ export default {
     data:() =>({
         selectedMethod: 'paypal' ,
         donationAmount: 0,
-        
-
+        project:{},
     }),
     methods: {
         submitForm() {
@@ -224,8 +224,7 @@ export default {
             return (parseFloat(this.donationAmount) / 100) * 10 ;
         },
         tip(){
-            let tiip = this.donationPercentage;
-            return tiip += tiip *.2
+            return  this.donationPercentage;
         },
         total() {
             const tip = parseFloat(this.tip);
@@ -236,20 +235,19 @@ export default {
 
     },
     async created(){
-        try{
-            let data = await fetch('',{
-                method:"GET",
-                headers:{
-                    "Content-Type":"application/json",
-                }
-            });
-            let jsonData = await data.json();
-            this.projects=jsonData;
-        }catch(e){
-            console.log(e);
+            
+            try{
+                let muproject =  useProjectStore();
+                muproject.projectID = 1;
+                await muproject.fetchProjectData();
+                this.project =  muproject.projectData;
+                console.log(this.project);
+            }catch(e){
+                console.log(e);
+            }
         }
     }
-}
+
 
 </script>
 
