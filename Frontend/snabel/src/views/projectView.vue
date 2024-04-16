@@ -1,7 +1,8 @@
 <template>
   <Suspense>
     <template #default>
-      <projectDonationCardsVue />
+      <!-- <projectDonationCardsVue /> -->
+      <h1>yay</h1>
     </template>
     <template #fallback>
       <div>Loading...</div>
@@ -10,11 +11,11 @@
 </template>
 
 <script>
-import projectDonationCardsVue from "../components/projectDonationCards.vue";
+// import projectDonationCardsVue from "../components/projectDonationCards.vue";
 export default {
   name: "projectView",
   components: {
-    projectDonationCardsVue,
+    // projectDonationCardsVue,
   },
 };
 </script>

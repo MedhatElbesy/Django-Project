@@ -2,13 +2,16 @@
   <!-- <h1>hi</h1> -->
   <section class="comments-container">
     <div
-      class="comment row align-baseline"
+      class="comment row d-flex align-baseline my-2"
       v-for="comment in comments"
       :key="comment.id"
     >
       <div class="col-2">
+        <!-- use user image here -->
         <img
-          src="https://images.unsplash.com/photo-1500648735779-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+          class="d-block mx-auto my-2"
+          style="width: 50px; height: 50px; border-radius: 50%"
+          src="https://upload.wikimedia.org/wikipedia/en/b/b1/Portrait_placeholder.png"
           alt=""
         />
       </div>

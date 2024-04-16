@@ -10,10 +10,11 @@ export const useProjectStore = defineStore("project", {
   }),
   actions: {
     async fetchProjectData() {
+      let response;
       try {
-        const response = await fetch(
-          `${this.baseURL}/projects/${this.projectID}`
-        );
+        // response = await fetch(`${this.baseURL}/projects/${this.projectID}`);
+        response = await fetch(`${this.baseURL}/projects/1`);
+
         if (!response.ok) {
           throw new Error(
             "Network response was not ok, failed to fetch project data"
@@ -25,6 +26,8 @@ export const useProjectStore = defineStore("project", {
         console.error(error);
       } finally {
         this.loaded = true;
+        // eslint-disable-next-line no-unsafe-finally
+        return this.projectData;
       }
     },
     setProjectID(projectID) {

@@ -41,7 +41,10 @@ import { useProjectStore } from "@/stores/project"; // Import the project store
 
 export default {
   data: () => ({
-    project: {},
+    project: {
+      title: "loading",
+    },
+    loading: true, // Add loading state to track data loading status
   }),
   components: {
     navbar,
@@ -52,8 +55,19 @@ export default {
     projectCommentsComponent,
   },
   created() {
-    const project = useProjectStore().projectData;
-    this.project = project;
+    this.fetchProjectData();
+  },
+  methods: {
+    async fetchProjectData() {
+      try {
+        const projectData = await useProjectStore().fetchProjectData();
+        this.project = projectData;
+      } catch (error) {
+        console.error("Error fetching project data:", error);
+      } finally {
+        this.loading = false; // Set loading state to false when data fetching is complete
+      }
+    },
   },
 };
 </script>
