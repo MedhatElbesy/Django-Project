@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from django.http import HttpResponse
+from django.contrib.auth.tokens import default_token_generator
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.sites.shortcuts import get_current_site
@@ -18,7 +18,7 @@ from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshVie
 
 from accounts.models import User
 from accounts.forms import RegisterForm
-from accounts.tokens import account_activation_token
+from accounts.tokens import token_generator
 from accounts.serializers import LoginSerializer, RegisterSerializer
 # Create your views here.
 def index(request):
@@ -64,8 +64,8 @@ def delete(request, id):
 
     return redirect(url)
 
-def profile(request):
-    return render(request, "accounts/crud/show.html", status=200)
+def admin_profile(request):
+    return render(request, "accounts/admin_profile.html", status=200)
 
 # Apis
 @api_view(['POST'])
@@ -114,7 +114,7 @@ def register(request):
                             'user': user,
                             'domain': current_site.domain,
                             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                            'token': account_activation_token.make_token(user),
+                            'token': token_generator.make_token(user),
                         })
                         to_email = serializer.validated_data.get('email')
                         email = EmailMessage(mail_subject, message, to=[to_email])
@@ -134,7 +134,7 @@ def activate(request, uidb64, token):
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
-    if user is not None and account_activation_token.check_token(user, token):
+    if user is not None and token_generator.check_token(user, token):
         user.is_active = True
         user.save()
         return JsonResponse({'message': 'Your email address has been verified. Now you can login to your account.'}, status=status.HTTP_200_OK)
@@ -147,3 +147,65 @@ def activate(request, uidb64, token):
 def profile(request):
     user = RegisterSerializer(request.user)
     return Response(user.data)
+
+
+@api_view(['POST'])
+def forget_password(request):
+    email = request.data.get('email')
+    user = User.objects.filter(email=email).first()
+    if user:
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        token = token_generator.make_token(user),
+
+        current_site = get_current_site(request)
+        mail_subject = 'Password reset requested'
+        message = render_to_string('registration/password_reset_email.html', {
+            'user': user,
+            'domain': current_site.domain,
+            'uid': uid,
+            'token': token,
+        })
+        to_email = email
+        email = EmailMessage(mail_subject, message, to=[to_email])
+        email.content_subtype = "html"
+        email.send()
+
+        return Response({'message': 'Password reset email sent'})
+    else:
+        return Response({'error': 'User not found with this email'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def reset_password(request, token):
+    new_password = request.data.get('new_password')
+    user = User.objects.filter(password_reset_token=token).first()
+    if user:
+        user.set_password(new_password)
+        user.password_reset_token = None  # Clear the reset token
+        user.save()
+        return Response({'message': 'Password reset successful'})
+    else:
+        return Response({'error': 'Invalid or expired token'}, status=400)
+
+#
+# def reset_password(request, uidb64, token):
+#     try:
+#         uid = force_text(urlsafe_base64_decode(uidb64))
+#         user = User.objects.get(pk=uid)
+#     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+#         user = None
+#
+#     if user and PasswordResetTokenGenerator().check_token(user, token):
+#         if request.method == 'POST':
+#             # Handle form submission
+#             new_password = request.POST.get('new_password')
+#             user.set_password(new_password)
+#             user.save()
+#             # Redirect to password reset success page
+#             return redirect('password_reset_success')
+#         else:
+#             # Render password reset form
+#             return render(request, 'reset_password.html')
+#     else:
+#         # Invalid token or user not found
+#         return render(request, 'invalid_reset_link.html')
