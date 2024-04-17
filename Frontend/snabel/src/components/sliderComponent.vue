@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { useProjectStore } from '@/stores/project'
 export default {
     name: 'SliderComponent',
     data() {
@@ -54,9 +55,10 @@ export default {
             topProjects: []
         }
     },
-    created(){
-        // fr=etch Data from api to show top five rated project
-
+    async created(){
+        let projects = await useProjectStore().topRated()
+        this.topProjects = projects.results;
+        console.log(this.topProjects);
     }
 }
 </script>

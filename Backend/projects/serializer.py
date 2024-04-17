@@ -4,21 +4,11 @@ from tags.serializer import TagsSerializer
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-
-    pictures_url = serializers.SerializerMethodField()
-
     class Meta:
         model = Project
         exclude = ['is_deleted', 'total_collected', 'deleted_at']
 
-    def get_pictures_url(self, obj):
-        request = self.context.get('request')
-        if obj.pictures:
-            return request.build_absolute_uri(obj.pictures.url)
-        return None
-
-    category_name = serializers.CharField(
-        source='category.name', read_only=True)
+    category_name = serializers.CharField(source='category.name', read_only=True)
     tags_info = TagsSerializer(source="tags", many=True, read_only=True)
     user_name = serializers.CharField(source='user.username', read_only=True)
     remaining_days = serializers.SerializerMethodField()
@@ -26,7 +16,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     progress = serializers.SerializerMethodField()
     donations = serializers.SerializerMethodField()
     total_collected = serializers.SerializerMethodField()
-    project_rating = serializers.SerializerMethodField()
+    get_project_rating = serializers.ReadOnlyField()
 
     class Meta:
         model = Project
@@ -55,6 +45,3 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     def get_total_collected(self, obj):
         return obj.get_total_collected
-
-    def get_project_rating(self, obj):
-        return obj.get_project_rating
