@@ -90,10 +90,15 @@ TEMPLATES = [
         },
     },
 ]
-
+DEBUG = True
 WSGI_APPLICATION = 'Backend.wsgi.application'
 
 AUTH_USER_MODEL = 'accounts.User'
+
+AUTHENTICATION_BACKENDS = [
+    'accounts.authentication.EmailBackend',
+    # 'django.contrib.auth.backends.ModelBackend',
+]
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
