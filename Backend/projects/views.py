@@ -24,7 +24,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
                 deadline = serializer.validated_data.get('deadline')
                 if deadline < datetime.now().date() + timedelta(days=7):
                     return Response({'error': 'End date must be at least a week ahead'}, status=status.HTTP_400_BAD_REQUEST)
-
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
@@ -67,7 +66,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         try:
             projects = Project.objects.all()
             serializer = ProjectSerializer(
-                projects, many=True, context={'request': request})
+                projects, many=True)
             return Response(serializer.data)
         except Project.DoesNotExist:
             return Response({'error': 'No projects found'}, status=status.HTTP_404_NOT_FOUND)
@@ -78,14 +77,14 @@ class ProjectViewSet(viewsets.ModelViewSet):
         try:
             projects = Project.objects.filter(is_featured=True)
             serializer = ProjectSerializer(
-                projects, many=True, context={'request': request})
+                projects, many=True)
             return Response(serializer.data)
         except Project.DoesNotExist:
             return Response({'error': 'No featured projects found'}, status=status.HTTP_404_NOT_FOUND)
 
     @action(detail=False, methods=['get'])
     def latest(self, request, *args, **kwargs):
-        projects = Project.objects.order_by('-created_at')[:10]
+        projects = Project.objects.order_by('-created_at')[:5]
         serializer = ProjectSerializer(
             projects, many=True, context={'request': request})
         return Response(serializer.data)

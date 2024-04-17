@@ -2,35 +2,83 @@
 
 {% block content %}
     <div class="row container pt-3 mt-5">
+        <div class='row m-2 p-2'>
+            <a href="{% url 'reports-create' %}" class="btn btn-primary w-25">ADD</a>
+        </div>
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
+                    <th scope="col">Report IN</th>
+                    <th scope="col">Created At</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td >Larry the Bird</td>
-                    <td >Larry the Bird</td>
-                    <td>@twitter</td>
-                </tr>
+                {% for report in  reports%}
+                    <tr>
+                        <th scope="row">{{report.id}}</th>
+                        <td>{{report.content_type.model}}</td>
+                        <td>{{report.created_at}}</td>
+                        <td>
+                            <button data-bs-toggle="modal" data-bs-target="#modalId" class="btn btn-primary" data-report-id="{{ report.id }}">Details</button>
+                            <a href="{% url 'reports-delete' report.id %}" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-dialog-centered">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitleId">Report Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="container-fluid" id="reportDetails">
+                        {% comment %} here in js {% endcomment %}
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.querySelectorAll('.btn-primary').forEach(button => {
+            button.addEventListener('click', function () {
+                const reportId = this.getAttribute('data-report-id');
+                fetch(`http://127.0.0.1:8000/api/reports/${reportId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        const reportDetails = document.getElementById('reportDetails');
+                        reportDetails.innerHTML = `
+                            <p>project -> title: ${data.title}</p>
+                            <p>project -> description: ${data.description}</p>
+                            <p>project -> total_target: ${data.total_target}</p>
+                            <p>project -> total_collected:${data.total_collected}</p>
+                            <p>project -> deadline: ${data.deadline}</p>
+                            <a href='#'>project -> category_id: ${data.category_id}</a>
+                            <p>Project -> created At: ${data.created_at}</p>
+                        `;
+                    })
+                    .catch(error => console.error('Error fetching report details:', error));
+            });
+        });
+        
+    </script>
 {% endblock %}
