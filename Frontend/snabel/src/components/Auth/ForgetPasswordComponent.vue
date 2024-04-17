@@ -21,7 +21,6 @@
               <span class="text-success">or</span> Return To
               <router-link to="/login">Sign In</router-link>
             </p>
-
             <div class="d-flex justify-content-center mx-4 my-3 mb-lg-4">
               <button class="btn btn-lg" type="button">Request password reset</button>
             </div>

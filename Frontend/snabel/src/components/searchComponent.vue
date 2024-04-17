@@ -12,7 +12,7 @@
     <section class="row g-0 search-feild p-3">
       <form class="col-6 col-lg-4 d-flex align-items-center p-2 m-auto">
         <i class="fa-solid fa-magnifying-glass color"></i> 
-        <input type="search" name="search" id="search" placeholder="Search">
+        <input type="search" name="search" id="search" placeholder="Search" autofocus>
       </form>
     </section>
     <section class="row g-0 mb-5 p-2">
@@ -51,7 +51,6 @@
     position: sticky;
     top: 0;
     background-color: #FFF;
-    box-shadow: 0px 6px 3px 0px #dedede5b;
     box-shadow: 0px 2px 3px 0px #06a8df1a;
     z-index: 9;
   }

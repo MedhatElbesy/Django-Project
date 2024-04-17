@@ -121,21 +121,21 @@ export default {
     methods: {
         
     },
-    async created() {
-        try{
-            let projects  = await fetch('http://localhost:8080/projects/latest',{
-                method: "GET",
-                headers:{
-                    "Content-Type": "application/json",
-                }
-            });
-            this.lastProjects = await projects.json();
-            // console.log(this.lastProjects[0].pictures);
-            console.log(this.lastProjects);
-        }catch(err){
-            console.log(err);
-        }
-    }
+    // async created() {
+    //     try{
+    //         let projects  = await fetch('http://localhost:8000/projects/latest',{
+    //             method: "GET",
+    //             headers:{
+    //                 "Content-Type": "application/json",
+    //             }
+    //         });
+    //         this.lastProjects = await projects.json();
+    //         // console.log(this.lastProjects[0].pictures);
+    //         console.log(this.lastProjects);
+    //     }catch(err){
+    //         console.log(err);
+    //     }
+    // }
 }
 </script>
 

@@ -26,26 +26,23 @@
 
 <script>
 export default {
-    data:()=>({
+    data: ()=>({
         projects:[],
-
-
     }),
-    methods:{
-
-    },
-    async created(){
-        try{
-            let data = await fetch('http://localhost:8080/payment/list',{
+    methods:{},
+    async created() {
+        try {
+            let data = await fetch('http://localhost:8080/payment/list', {
                 method:"GET",
-                headers:{
+                headers: {
                     "Content-Type":"application/json",
                 }
             });
+            
             let jsonData = await data.json();
             console.log(jsonData[0]);
             this.projects=jsonData;
-        }catch(e){
+        } catch(e) {
             console.log(e);
         }
     }
@@ -54,7 +51,7 @@ export default {
 </script>
 
 <style scoped>
-    /* *{
+    /* * {
         padding: 0;
         margin: 0;
         box-sizing: border-box;
