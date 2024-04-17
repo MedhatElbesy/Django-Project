@@ -35,3 +35,4 @@ Backend/projects/__pycache__/
 Backend/projects/migrations/+
 Backend/reports/migrations/
 myapp
+Frontend/snabel/vue.config.js

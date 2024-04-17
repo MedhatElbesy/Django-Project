@@ -62,10 +62,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8000',
     'http://localhost:8080',
     'http://127.0.0.1:8080',
+    'http://127.0.0.1:8000',
     'http://localhost:3000',
 ]
 
@@ -87,10 +90,15 @@ TEMPLATES = [
         },
     },
 ]
-
+DEBUG = True
 WSGI_APPLICATION = 'Backend.wsgi.application'
 
 AUTH_USER_MODEL = 'accounts.User'
+
+AUTHENTICATION_BACKENDS = [
+    'accounts.authentication.EmailBackend',
+    # 'django.contrib.auth.backends.ModelBackend',
+]
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

@@ -37,6 +37,11 @@ const routes = [
     component: ForgetPasswordComponent,
   },
   {
+    path: "/payment",
+    name: "payment",
+    component: ()=> import ("../views/projectPayment.vue") ,
+  },
+  {
     path: "/projectTest/:id",
     name: "ProjectTest",
     component: () => import("../views/projectView.vue"),

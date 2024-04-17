@@ -12,8 +12,11 @@
             <div class=" second d-flex my-5 ">
                 <div class="card mx-2 border-0 " v-for="project in projects" :key="project.id" style="width: 18rem;">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZYdiS6o83xt08rKMnams6WzHDiETtxkYcTg&s" class="card-img-top" alt="">
+                    <div class="card-img-overlay">
+                        <p class="badge rounded-pill bg-black">test</p>
+                    </div>
                     <div class="card-body">
-                        <h5 class="card-title">Title{{project.title}} </h5>
+                        <h5 class="card-title">Title{{project.project_title}} </h5>
                         <p class="card-text">Name{{project.user}}</p>
                         <input type="range"  default value="10.25">
                         <p class="card-text">mony</p>
@@ -33,6 +36,12 @@ export default {
     async created() {
         try {
             let data = await fetch('http://localhost:8080/payment/list', {
+    methods:{
+
+    },
+    async created(){
+        try{
+            let data = await fetch('http://localhost:8000/payment/list',{
                 method:"GET",
                 headers: {
                     "Content-Type":"application/json",
