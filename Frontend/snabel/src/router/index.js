@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 // import sliderComponent from '../components/sliderComponent.vue'
 // import lastProjectComponent from '../components/lastProjectComponent.vue'
-import RegisterComponent from "../components/Auth/RegisterComponent.vue";
-import LoginComponent from "@/components/Auth/LoginComponent.vue";
-import ForgetPasswordComponent from "@/components/Auth/ForgetPasswordComponent.vue";
+import RegisterComponent from "../components/Auth/RegisterComponent2.vue";
+import LoginComponent from "@/components/Auth/LoginComponent2.vue";
+import ForgetPasswordComponent from "@/components/Auth/ForgetPasswordComponent2.vue";
 
 const routes = [
   {
