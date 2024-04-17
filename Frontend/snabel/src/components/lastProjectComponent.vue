@@ -67,7 +67,6 @@ export default {
         try{
             let project = await useProjectStore();
             this.lastProjects = await project.latest();
-            // console.log(this.lastProjects);
         }catch(err){
             console.log(err);
         }

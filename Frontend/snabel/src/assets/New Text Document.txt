@@ -1,0 +1,44 @@
+[
+    {
+        "id": 3,
+        "name": "ay haga tegy mn rehet elhabaib",
+        "description": "This field is required.",
+        "created_at": null,
+        "updated_at": "2024-04-11T00:48:25.814697Z"
+    },
+    {
+        "id": 4,
+        "name": "medical",
+        "description": "With snabel, you can get immediate help with medical bills.",
+        "created_at": "2024-04-15T21:25:27.267153Z",
+        "updated_at": "2024-04-15T21:25:27.267153Z"
+    },
+    {
+        "id": 5,
+        "name": "sports",
+        "description": "With snabel, you can get help with sports bills.",
+        "created_at": "2024-04-15T21:25:43.666434Z",
+        "updated_at": "2024-04-15T21:39:47.751593Z"
+    },
+    {
+        "id": 6,
+        "name": "memorial",
+        "description": "With snabel,  you can get help with memorial costs.",
+        "created_at": "2024-04-15T21:28:40.421601Z",
+        "updated_at": "2024-04-15T21:28:40.422593Z"
+    },
+    {
+        "id": 7,
+        "name": "animal",
+        "description": "With snabel, you can help all animals over the world.",
+        "created_at": "2024-04-15T21:30:05.476664Z",
+        "updated_at": "2024-04-15T21:30:05.476664Z"
+    },
+    {
+        "id": 8,
+        "name": "environment",
+        "description": "With snabel, you can immediately help Environment causes.",
+        "created_at": "2024-04-15T21:31:22.223283Z",
+        "updated_at": "2024-04-15T21:31:22.223283Z"
+    }
+]
