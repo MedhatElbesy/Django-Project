@@ -103,11 +103,15 @@
                                 <img class="rounded-circle" src="img/ahmd.jpg" width="20px" height="20px">
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <li><a class="dropdown-item" href="{% url 'accounts.profile' %}"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile</a></li>
                                 <li><div class="dropdown-divider"></div></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout</a></li>
+                                <li>
+                                    <form class="form-inline" method="post" action="{% url 'logout' %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt fa-sm fa-fw ms-0 me-2 text-gray-400"></i> Logout</button>
+                                    </form>
+                                </li>
                             </ul>
                         </li>
 
