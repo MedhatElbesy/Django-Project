@@ -9,7 +9,7 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component:  () => import("../views/HomeView.vue"),
+    component: () => import("../views/HomeView.vue"),
   },
   {
     path: "/search",
@@ -19,7 +19,7 @@ const routes = [
   {
     path: "/about",
     name: "about",
-    component:  () => import("../views/AboutView.vue")
+    component: () => import("../views/AboutView.vue"),
   },
   {
     path: "/register",
@@ -39,13 +39,18 @@ const routes = [
   {
     path: "/payment",
     name: "payment",
-    component: ()=> import ("../views/projectPayment.vue") ,
+    component: () => import("../views/projectPayment.vue"),
   },
   {
     path: "/projectTest/:id",
     name: "ProjectTest",
     component: () => import("../views/projectView.vue"),
     props: true,
+  },
+  {
+    path: "/addProject",
+    name: "AddProject",
+    component: () => import("../components/addProjectComponent.vue"),
   },
   {
     path: "/:cathcAll(.*)",
