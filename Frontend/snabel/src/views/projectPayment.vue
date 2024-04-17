@@ -7,13 +7,15 @@
       <h1 class="col-12 my-5">
         {{ project.title }}
       </h1>
-      <div class="border border-2 border-danger col-8 medhat">
+      <div class="col-8">
         <projectCommentsComponent />
       </div>
       <div class="col-4">
         <Suspense>
           <template #default>
+            <!-- <div style="height: 70vh; position: sticky; top: 50px"> -->
             <projectDonate />
+            <!-- </div> -->
           </template>
           <template #fallback>
             <div>Loading...</div>

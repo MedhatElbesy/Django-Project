@@ -14,7 +14,19 @@ class RegisterForm(UserCreationForm):
     class Meta:
         model = User
         # fields = '__all__'
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'mobile_phone', 'profile_image')
+        fields = ('first_name', 'last_name', 'email', 'password1', 'password2', 'mobile_phone', 'profile_image')
+
+class UpdateUserForm(forms.ModelForm):
+    email = forms.EmailField(required=True, max_length=254, help_text='Required',
+                             widget=forms.EmailInput(attrs={"autocomplete": "email"}))
+    first_name = forms.CharField(required=True, max_length=150, validators=[MinLengthValidator(2)])
+    last_name = forms.CharField(required=True, max_length=150, validators=[MinLengthValidator(2)])
+    is_superuser = forms.BooleanField(label='Is Superuser', required=False, widget=forms.RadioSelect(choices=((True, '1'), (False, '0'))))
+    is_staff = forms.BooleanField(label='Is Staff', required=False, widget=forms.RadioSelect(choices=((True, '1'), (False, '0'))))
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email', 'mobile_phone', 'profile_image', 'is_superuser', 'is_staff')
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -33,18 +45,18 @@ class RegisterForm(UserCreationForm):
 
         return email
 
-    def clean_username(self):
-        username = self.cleaned_data['username']
-        if username:
-            # Retrieve the current user instance from the form's instance attribute
-            instance = getattr(self, 'instance', None)
-            if instance and instance.pk:
-                # Exclude the current user from the uniqueness check
-                existing_user = User.objects.filter(username=username).exclude(pk=instance.pk).first()
-            else:
-                existing_user = User.objects.filter(username=username).first()
-
-            if existing_user:
-                raise forms.ValidationError("A user with that username already exists, please choose another one")
-
-        return username
+    # def clean_username(self):
+    #     username = self.cleaned_data['username']
+    #     if username:
+    #         # Retrieve the current user instance from the form's instance attribute
+    #         instance = getattr(self, 'instance', None)
+    #         if instance and instance.pk:
+    #             # Exclude the current user from the uniqueness check
+    #             existing_user = User.objects.filter(username=username).exclude(pk=instance.pk).first()
+    #         else:
+    #             existing_user = User.objects.filter(username=username).first()
+    #
+    #         if existing_user:
+    #             raise forms.ValidationError("A user with that username already exists, please choose another one")
+    #
+    #     return username

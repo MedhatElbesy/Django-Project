@@ -102,12 +102,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
         except Project.DoesNotExist:
             return Response({'error': 'Project not found'}, status=status.HTTP_404_NOT_FOUND)
 
-    # TODO after donation implementation
-    # def get_project_donations(self, request, *args, **kwargs):
-    #     try:
-    #         project = Project.objects.get(id=kwargs['pk'])
-    #         donations = project.donations.all()
-    #         serializer = DonationSerializer(donations, many=True)
-    #         return Response(serializer.data)
-    #     except Project.DoesNotExist:
-    #         return Response({'error': 'Project not found'}, status=status.HTTP_404_NOT_FOUND)
+    @action(detail=False, methods=['get'])
+    def top_rated(self, request, *args, **kwargs):
+        top_projects = Project.get_top_five_rated_active_project()
+        serializer = ProjectSerializer(top_projects, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
