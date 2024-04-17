@@ -1,5 +1,8 @@
 import datetime
 from django.db import models
+from django.db.models import Avg, F, Value
+from django.db.models.functions import Coalesce
+
 # TODO uncomment the following lines when the models are ready
 from accounts.models import User
 from categories.models import Category
@@ -22,7 +25,7 @@ class Project(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     status = models.CharField(
-        max_length=2, choices=ProjectStatus.choices, default=ProjectStatus.IN_PROGRESS,null=True)
+        max_length=2, choices=ProjectStatus.choices, default=ProjectStatus.IN_PROGRESS, null=True)
     pictures = models.ImageField(
         upload_to='projects/pictures/')
     video = models.FileField(upload_to='projects/videos/', null=True)
@@ -76,13 +79,21 @@ class Project(models.Model):
     def get_total_payments(self):
         return self.projectrelated.filter(status__in=[PaymentStatus.SUCCESS, PaymentStatus.PENDING]).count()
 
-    @property
     def get_project_rating(self):
-        return self.ratings.aggregate(average_rating=models.Avg('rating'))['average_rating']
+        average_rating = self.ratings.aggregate(
+            models.Avg('rating'))['rating__avg']
+        return average_rating if average_rating is not None else 1
 
     @property
     def get_total_collected(self):
         return sum(payment.amount for payment in self.projectrelated.all() if payment.status in [PaymentStatus.SUCCESS, PaymentStatus.PENDING])
+
+    @classmethod
+    def get_top_five_rated_active_project(cls):
+        top_projects = cls.objects.filter(is_active=True).annotate(
+            avg_rating=models.Avg('ratings__rating')
+        ).order_by('-avg_rating')[:5]
+        return top_projects
 
     class Meta:
         ordering = ['-created_at']
