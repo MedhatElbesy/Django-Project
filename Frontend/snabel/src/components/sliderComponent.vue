@@ -61,7 +61,13 @@ export default {
     },
     methods: {
         getImageUrl(image){
+            if(image.include('http://127.0.0.1:8000')){
+                return image;
+            }
             return `http://127.0.0.1:8000${image}`;
+        },
+        getName(){
+            return "Mohamed Isamil";
         }
     }
 }
