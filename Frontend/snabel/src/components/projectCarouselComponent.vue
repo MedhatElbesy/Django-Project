@@ -1,35 +1,47 @@
 <template>
-  <div
-    id="carouselExampleAutoplaying"
-    class="carousel slide carousel-fade"
-    data-bs-ride="carousel"
-  >
-    <div class="carousel-inner">
-      <!-- v-for="(projectItem, indx) in project"
+  <div class="my-3">
+    <div
+      id="carouselExampleAutoplaying"
+      class="carousel slide carousel-fade"
+      data-bs-ride="carousel"
+    >
+      <div class="carousel-inner">
+        <!-- v-for="(projectItem, indx) in project"
         :class="{ active: indx === 0 }"
         :key="indx" -->
-      <div class="carousel-item active">
-        <img :src="project.pictures" class="d-block w-100" alt="..." />
+        <div class="carousel-item active">
+          <img :src="project.pictures" class="d-block w-100" alt="..." />
+        </div>
       </div>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleAutoplaying"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleAutoplaying"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
     </div>
-    <button
-      class="carousel-control-prev"
-      type="button"
-      data-bs-target="#carouselExampleAutoplaying"
-      data-bs-slide="prev"
-    >
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button
-      class="carousel-control-next"
-      type="button"
-      data-bs-target="#carouselExampleAutoplaying"
-      data-bs-slide="next"
-    >
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
+    <hr class="w-50 mx-auto" />
+    <h5 class="h4">Sadaka started by: {{ project.user_name }}</h5>
+    <span>{{ project.remaining_days }} days left</span>
+    <hr class="w-50 mx-auto" />
+    <h5 class="h4">The amazing story about this project</h5>
+    <span class="badge bg-primary">{{ project.category_name }}</span>
+
+    <p class="my-3">
+      {{ project.description }}
+    </p>
   </div>
 </template>
 
