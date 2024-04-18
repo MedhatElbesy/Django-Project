@@ -1,25 +1,26 @@
 <template >
     <div class="container my-3 py-2">
         <h2 class="my-5 line">More ways to make a difference.<br> fundraisers inspired by what you care about.</h2>
-        <select class="form-select one text-center my-5" aria-label="Default select example">
-            <option selected>Close to Goal</option>
-            <option value="1">Just Launched</option>
-            <option value="2">Needs Momentum</option>
-            <option value="3">Happening Worldwide</option>
-            <option value="4">Charities</option>
+        <select v-model="selectedOption" class="form-select one text-center my-5" aria-label="Default select example" @change="fetchData">
+            <option value="close_to_goal">Close to Goal</option>
+            <option value="just_launched">Just Launched</option>
+            <option value="top_rated">Top Rated</option>
+            <option value="happening_worldwide">Happening Worldwide</option>
         </select>
         <div class=" d-flex  justify-content-between align-items-center">
             <div class=" second d-flex my-5 ">
-                <div class="card mx-2 border-0 " v-for="project in projects" :key="project.id" style="width: 18rem;">
+                <div class="card mx-2 border-0 " v-for="project in projetInfo" :key="project.id" style="width: 18rem;">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZYdiS6o83xt08rKMnams6WzHDiETtxkYcTg&s" class="card-img-top" alt="">
                     <div class="card-img-overlay">
-                        <p class="badge rounded-pill bg-black">test</p>
+                        <p class="badge rounded-pill bg-black">{{ project.donations }} donors</p>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Title{{project.project_title}} </h5>
-                        <p class="card-text">Name{{project.user}}</p>
-                        <input type="range"  default value="10.25">
-                        <p class="card-text">mony</p>
+                        <h5 class="card-title">This Donation For {{project.user_name}} </h5>
+                        <!-- <p class="card-text">Name{{project.user}}</p> -->
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" :style="{ width: (project.total_collected / project.total_target) * 100 + '%',}" :aria-valuenow="project.total_collected" aria-valuemin="0" :aria-valuemax="project.total_target">{{ (project.total_collected / project.total_target) * 100 }}%</div>
+                        </div>
+                        <p class="card-text">{{project.total_collected}} Raised</p>
                     </div>
                 </div>
             </div>
@@ -28,37 +29,46 @@
 </template>
 
 <script>
+import { useProjectStore } from "../stores/project";
+
 export default {
-    data: ()=>({
-        projects:[],
+    data:()=>({
+        selectedOption: "close_to_goal",
+        heighRate:{},
+        projetInfo:{},
+        
     }),
-    methods:{},
-    async created(){
-        try{
-            let data = await fetch('http://localhost:8000/payment/list',{
-                method:"GET",
-                headers: {
-                    "Content-Type":"application/json",
+    methods:{
+        async fetchData() {
+            try {
+                const myStore = useProjectStore();
+                if (this.selectedOption == "just_launched"){
+                    const lunched = await myStore.latest();
+                    this.projetInfo = lunched;
+                }else if(this.selectedOption == "top_rated"){
+                    let topRated = await myStore.allProject();
+                    topRated.sort((a, b) => b.get_project_rating - a.get_project_rating);
+                    this.projetInfo = topRated.slice(0, 5);
+                }else if(this.selectedOption == "happening_worldwide"){
+                    this.projetInfo = '';
+                }else{
+                    const paymentData = await myStore.allProject();
+                    this.projetInfo = paymentData;
                 }
-            });
-            
-            let jsonData = await data.json();
-            console.log(jsonData[0]);
-            this.projects=jsonData;
-        } catch(e) {
-            console.log(e);
-        }
+                // const topRatedData = await myStore.topRated();
+                // this.heighRate = topRatedData.results;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        },
+    }, async created(){
+        this.fetchData();
     }
 }
 
 </script>
 
 <style scoped>
-    /* * {
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-    } */
     .one{
         border-radius: 20px;
         left: 0; 
@@ -71,17 +81,16 @@ export default {
     }
     .container{
         background-color: #4e6c8882;
-        width: 100%;
+        width: auto; 
+        max-width: 100%; 
         overflow: auto;
         border-radius: 15px;
-        
     }
     .container::-webkit-scrollbar {
         display: none;
     }
     .card{
         border-radius: 15px;
-        /* background-color: transparent !important; */
         background-color: #4e6c88;
     }
     .card:hover{

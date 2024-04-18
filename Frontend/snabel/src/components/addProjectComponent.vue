@@ -34,6 +34,7 @@
           @submit.prevent="onSubmit"
           @reset.prevent="onReset"
           style="width: 500px"
+          enctype="multipart/form-data"
           class="mx-auto"
         >
           <div class="form-floating mb-3">
@@ -76,15 +77,15 @@
           <div class="mb-3">
             <input
               type="file"
-              name="pictures"
+              name="images"
               class="form-control"
-              id="input-pictures"
+              id="input-images"
               multiple
               accept="image/*"
               @change="handleFileChange"
               required
             />
-            <label for="input-pictures" class="form-label mt-1">pictures</label>
+            <label for="input-images" class="form-label mt-1">images</label>
           </div>
 
           <div class="mb-3">
@@ -100,10 +101,10 @@
             <label for="input-video" class="form-label mt-1">Video</label>
           </div>
 
-          <div v-if="form.pictures.length > 0">
+          <div v-if="form.images.length > 0">
             <div
               class="mb-3"
-              v-for="(image, index) in form.pictures"
+              v-for="(image, index) in form.images"
               :key="index"
             >
               <img :src="image.preview" class="img-thumbnail" width="100" />
@@ -113,6 +114,8 @@
           <div class="form-floating mb-3">
             <input
               type="date"
+              name="deadline"
+              format="yyyy-MM-dd"
               class="form-control"
               v-model="form.deadline"
               id="deadline"
@@ -178,12 +181,13 @@ export default {
         title: "",
         description: "",
         price: null,
-        pictures: [],
+        images: [],
+        pictures: "",
         deadline: [],
         category: "", // store selected category ID here
         total_target: "",
         tags: [],
-        user: "",
+        user: 1,
       },
       show: true,
     };
@@ -208,6 +212,7 @@ export default {
     onSubmit(event) {
       event.preventDefault();
       alert(JSON.stringify(this.form));
+      this.submitForm();
     },
     onReset(event) {
       event.preventDefault();
@@ -215,12 +220,13 @@ export default {
       this.form.title = "";
       this.form.description = "";
       this.form.price = null;
-      this.form.pictures = [];
+      this.form.images = [];
+      // this.form.pictures = this.form.images[0];
       this.form.deadline = [];
       this.form.category = "";
       this.form.tags = [];
       this.form.total_target = "";
-      this.form.user = "";
+      this.form.user = 1;
       // Trick to reset/clear native browser form validation state
       // Trick to reset/clear native browser form validation state
       this.show = false;
@@ -230,7 +236,7 @@ export default {
     },
     handleFileChange(event) {
       const files = event.target.files;
-      this.form.pictures = Array.from(files);
+      this.form.images = Array.from(files);
       console.log(this.form);
     },
     submitForm() {
@@ -249,13 +255,29 @@ export default {
       formData.append("tags", this.form.tags);
       formData.append("total_target", this.form.total_target);
       formData.append("user", this.form.user);
+      formData.append("pictures", this.form.images[0]);
 
-      // Append pictures
-      this.project.pictures.forEach((file, index) => {
-        formData.append(`pictures_${index}`, file);
+      // Append images
+      this.form.images.forEach((file, index) => {
+        formData.append(`images_${index}`, file);
       });
 
-      // Submit formData using fetch
+      const response = fetch("http://127.0.0.1:8000/projects/", {
+        method: "POST",
+        body: formData,
+      });
+      if (response.ok) {
+        alert("Project created successfully!");
+      } else {
+        console.log(response);
+        alert("Failed to create project.");
+      }
+
+      if (response.ok) {
+        alert("Project created successfully!");
+      } else {
+        alert("Failed to create project.");
+      }
     },
   },
 };
