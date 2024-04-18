@@ -2,6 +2,7 @@ import datetime
 from django.db import models
 from django.db.models import Avg, F, Value
 from django.db.models.functions import Coalesce
+from multiupload.fields import MultiImageField
 
 # TODO uncomment the following lines when the models are ready
 from accounts.models import User
@@ -15,6 +16,21 @@ class ProjectStatus(models.TextChoices):
     DONE = 'D', 'Done'
 
 
+def validate_image_extension(value):
+    import os
+    from django.core.exceptions import ValidationError
+    ext = os.path.splitext(value.name)[1]  # [0] returns path+filename
+    valid_extensions = ['.jpg', '.jpeg', '.png', '.gif']
+    if not ext.lower() in valid_extensions:
+        raise ValidationError('Unsupported file extension.')
+
+
+class ProjectImage(models.Model):
+    project = models.ForeignKey(
+        'Project', related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='projects/pictures/')
+
+
 class Project(models.Model):
     # Attributes definition
     id = models.AutoField(primary_key=True)
@@ -26,8 +42,9 @@ class Project(models.Model):
     description = models.TextField()
     status = models.CharField(
         max_length=2, choices=ProjectStatus.choices, default=ProjectStatus.IN_PROGRESS, null=True)
-    pictures = models.ImageField(
-        upload_to='projects/pictures/')
+    pictures = models.ImageField(upload_to='projects/pictures/',
+                                 null=True, blank=True, validators=[validate_image_extension])
+
     video = models.FileField(upload_to='projects/videos/', null=True)
     total_target = models.DecimalField(
         default=0, max_digits=10, decimal_places=2)
