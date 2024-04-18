@@ -31,6 +31,7 @@ import projectDonate from "../components/projectDonationCards.vue"
 import card from "../components/cardComponent.vue"
 import pay from "../components/paymentFormComponent.vue"
 import footerComponent from "../components/footerComponent.vue"
+
 export default {
     data:()=>({
         
