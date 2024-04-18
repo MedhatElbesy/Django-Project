@@ -36,21 +36,15 @@
             <a href="#" class="navbar-brand">Cafateria</a><hr>
             <ul class="mynav nav nav-pills flex-column flex-grow-1 pe-3 mb-auto">
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link text-white active" aria-current="page" >
+                    <a href='{% url "accounts.index" %}' class="nav-link text-white" aria-current="page" >
                         <i class="fa-regular fa-user"></i>
-                        Admins
+                        Accounts
                     </a>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="#" class="nav-link text-white" aria-current="page" >
+                    <a href="{% url 'report-home' %}" class="nav-link text-white" aria-current="page" >
                         <i class="fa-regular fa-user"></i>
-                        Admins
-                    </a>
-                </li>
-                <li class="nav-item mb-1">
-                    <a href="#" class="nav-link text-white" aria-current="page" >
-                        <i class="fa-regular fa-user"></i>
-                        Admins
+                        reports
                     </a>
                 </li>
             </ul>
@@ -103,11 +97,15 @@
                                 <img class="rounded-circle" src="img/ahmd.jpg" width="20px" height="20px">
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <li><a class="dropdown-item" href="{% url 'accounts.profile' %}"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile</a></li>
                                 <li><div class="dropdown-divider"></div></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout</a></li>
+                                <li>
+                                    <form class="form-inline" method="post" action="{% url 'logout' %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt fa-sm fa-fw ms-0 me-2 text-gray-400"></i> Logout</button>
+                                    </form>
+                                </li>
                             </ul>
                         </li>
 
@@ -115,7 +113,7 @@
                 </nav>
 
                 <hr>
-                
+                {% block body %}{% endblock %}
                 {% block content %}
                 {% comment %}
                     #must include the content of the page in this block in row 
@@ -129,5 +127,18 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     </div>
+
+    <script>
+        // Get the current URL
+        var currentUrl = window.location.pathname;
+    
+        // Check each navigation link and add the "active" class to the active link
+        var navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(function(navLink) {
+            if (navLink.getAttribute('href') === currentUrl) {
+                navLink.classList.add('active');
+            }
+        });
+    </script>
 </body>
 </html>

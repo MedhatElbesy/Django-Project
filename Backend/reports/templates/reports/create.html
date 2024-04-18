@@ -1,0 +1,38 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<style>
+    
+    form{
+        position: relative;
+    }
+    .errorlist li{
+        list-style: none;
+        color: red;
+    }
+
+</style>
+<div class="row container pt-3 mt-5">
+    <h1 class="text-center p-2">{% if instance %}Edit{% else %}Add{% endif %} Report</h1>
+
+    <div class="container mt-3">
+        <div class="card text-start">
+            <div class="card-body">
+                <form method="POST" class="form-control">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </form>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+<script>
+    document.getElementById('id_content_type').classList.add('form-select');
+    document.getElementById('id_object_id').classList.add('form-control');
+</script>
+
+{% endblock %}

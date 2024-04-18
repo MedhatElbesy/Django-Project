@@ -72,6 +72,7 @@
 <style scoped>
 .donation-info {
   background-color: rgb(243, 241, 241);
+  border-radius: 16px;
   padding: 2em;
   max-width: 450px;
 }
