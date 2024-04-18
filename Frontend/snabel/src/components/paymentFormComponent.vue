@@ -160,6 +160,7 @@
 </template>
 
 
+
 <script>
 // import axios from 'axios';
 import { useProjectStore } from "../stores/project";
@@ -171,37 +172,49 @@ export default {
         project:{},
     }),
     methods: {
-        submitForm() {
-            const formData = {
-                amount: this.total,
-                currency: this.currency,
-                user:this.project.user,
-                project: 1,
-            };
-            fetch('http://127.0.0.1:8000/payment/create/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                
-                console.log('Data sent successfully:', data);
-                // console.log(data);
-                // console.log("medhat");
-            })
-            .catch(error => {
-                console.error('Error sending data:', error);
-            });
+        collected(){
+            if(this.project.total_target < (this.project.total_target+this.donationAmount)){
+                this.donationAmount=(this.project.total_target-this.project.total_target)
+            }else{
+                return this.donationAmount;
+            }
         },
-    },
+        submitForm() {
+            if(this.project.deadline > Date.now()){
+                const formData = {
+                    amount: this.total,
+                    currency: this.currency,
+                    user:this.project.user,
+                    project: 2,
+                };
+                fetch('http://127.0.0.1:8000/payment/create/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    
+                    console.log('Data sent successfully:', data);
+                    // console.log(data);
+                    // console.log("medhat");
+                })
+                
+                .catch(error => {
+                    console.error('Error sending data:', error);
+                });
+            }else
+                alert('Timeout: The project deadline has passed.');
+        },
+}
+    ,
     computed:{
         donationPercentage(){
             return (parseFloat(this.donationAmount)) / 100 ;
@@ -210,6 +223,7 @@ export default {
             return  (parseInt(this.donationPercentage));
         },
         total() {
+            this.collected();
             const tip = parseFloat(this.tip);
             const donationAmount = parseFloat(this.donationAmount);
                 return tip + donationAmount;
@@ -221,8 +235,8 @@ export default {
                 myproject.projectID = 1;
                 await myproject.fetchProjectData();
                 this.project =  myproject.projectData;
-                // console.log(this.project);
-                // console.log('uuuuuuuuuuuuuuuuuuu');
+                console.log(this.project);
+                console.log('uuuuuuuuuuuuuuuuuuu');
             }catch(e){
                 console.log("Error is",e);
             }

@@ -36,6 +36,7 @@ export default {
         selectedOption: "close_to_goal",
         heighRate:{},
         projetInfo:{},
+        
     }),
     methods:{
         async fetchData() {
