@@ -35,6 +35,8 @@
           @reset.prevent="onReset"
           style="width: 500px"
           enctype="multipart/form-data"
+          action="http://127.0.0.1:8000/projects/"
+          method="POST"
           class="mx-auto"
         >
           <div class="form-floating mb-3">
@@ -88,6 +90,15 @@
             <label for="input-images" class="form-label mt-1">images</label>
           </div>
 
+          <div v-if="form.images.length > 0">
+            <div
+              class="mb-3"
+              v-for="(image, index) in form.images"
+              :key="index"
+            >
+              <img :src="image.preview" class="img-thumbnail" width="100" />
+            </div>
+          </div>
           <div class="mb-3">
             <input
               type="file"
@@ -100,17 +111,6 @@
             />
             <label for="input-video" class="form-label mt-1">Video</label>
           </div>
-
-          <div v-if="form.images.length > 0">
-            <div
-              class="mb-3"
-              v-for="(image, index) in form.images"
-              :key="index"
-            >
-              <img :src="image.preview" class="img-thumbnail" width="100" />
-            </div>
-          </div>
-
           <div class="form-floating mb-3">
             <input
               type="date"
@@ -201,7 +201,7 @@ export default {
       const response = await fetch("http://127.0.0.1:8000/tags/list");
       const data = await response.json();
       this.tags = data;
-      console.log(this.tags);
+      // console.log(this.tags);
     },
     async getCategories() {
       const response = await fetch("http://127.0.0.1:8000/categories/list");
@@ -209,8 +209,8 @@ export default {
       this.categories = data;
       this.category = data;
     },
-    onSubmit(event) {
-      event.preventDefault();
+    onSubmit() {
+      // event.preventDefault();
       alert(JSON.stringify(this.form));
       this.submitForm();
     },
@@ -239,43 +239,51 @@ export default {
       this.form.images = Array.from(files);
       console.log(this.form);
     },
-    submitForm() {
+    async submitForm() {
       const formData = new FormData();
 
       // Append other form fields
-      // formData.append("title", this.project.title);
-      // formData.append("description", this.project.description);
-      // formData.append("status", this.project.status);
-      // Append other form fields
+      // append data
       formData.append("title", this.form.title);
       formData.append("description", this.form.description);
-      formData.append("price", this.form.price);
+      // formData.append("price", this.form.price);
       formData.append("deadline", this.form.deadline);
       formData.append("category", this.form.category);
-      formData.append("tags", this.form.tags);
+      // formData.append("tags", this.form.tags);
       formData.append("total_target", this.form.total_target);
       formData.append("user", this.form.user);
-      formData.append("pictures", this.form.images[0]);
+      formData.append("pictures", this.form.pictures);
+
+      // formData.append("title", "this.form.title");
+      // formData.append("description", "lzkrnkd vzknvfz zkdjfnkjzsd");
+      // formData.append("deadline", "2024-09-11");
+      // formData.append("category", 1);
+      formData.append("tags", 1);
+      formData.append("tags", 2);
+      formData.append("tags", 3);
+
+      // formData.append("total_target", 12000);
+      // formData.append("user", 1);
+      // formData.append("pictures", this.form.pictures);
 
       // Append images
-      this.form.images.forEach((file, index) => {
-        formData.append(`images_${index}`, file);
-      });
+      for (let index = 0; index < this.form.images.length; index++) {
+        formData.append("images", this.form.images[index]);
+      }
+      // Append tags
+      for (let index = 0; index < this.form.tags.length; index++) {
+        formData.append("tags", this.form.tags[index]);
+      }
 
-      const response = fetch("http://127.0.0.1:8000/projects/", {
+      this.form.pictures = this.form.images[0];
+      const response = await fetch("http://127.0.0.1:8000/projects/", {
         method: "POST",
         body: formData,
       });
       if (response.ok) {
         alert("Project created successfully!");
       } else {
-        console.log(response);
-        alert("Failed to create project.");
-      }
-
-      if (response.ok) {
-        alert("Project created successfully!");
-      } else {
+        console.log("************", this.form);
         alert("Failed to create project.");
       }
     },
