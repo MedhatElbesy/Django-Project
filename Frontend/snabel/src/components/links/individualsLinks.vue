@@ -25,41 +25,24 @@
 </template>
 
 <script>
-export default {
-  data: ()=>({
+  import { useCategoryStore } from "@/stores/categoryStore"
+  import { useTagStore } from "@/stores/tagStore"
+
+  export default {
+    data: ()=>({
       numTodisplay: 4,
+      useCategoryStore: useCategoryStore(),
+      useTagStore: useTagStore(),
       categories: [],
       tags: [],
-    }),
-    methods:{
-    },
+      }),
     async created() {
-      try {
-        let data = await fetch('http://localhost:8000/categories/list', {
-          method:"GET",
-          headers: {
-            "Content-Type":"application/json",
-          }
-        });
-        let jsonData = await data.json();
-        this.categories = jsonData;
-      } catch(e) {
-          console.log(e);
-      }
-      try {
-        let data = await fetch('http://localhost:8000/tags/list', {
-          method:"GET",
-          headers: {
-            "Content-Type":"application/json",
-          }
-        });
-        let jsonData = await data.json();
-        this.tags = jsonData;
-      } catch(e) {
-          console.log(e);
-      }
+        await this.useCategoryStore.fetchCategories() instanceof Error 
+        ? this.$router.push({ name: "error" }) : this.categories =  this.useCategoryStore.categories;
+        await this.useTagStore.fetchTags() instanceof Error 
+        ? this.$router.push({ name: "error" }) : this.tags = this.useTagStore.tags;
     }
-}
+  }
 </script>
 
 <style scoped>
@@ -82,6 +65,7 @@ export default {
 
   ul li a {
     display: inline-block;
+    width: 100%;
     text-transform: capitalize;
     padding: 4px 16px;
     color: var(--mainTextColor);

@@ -1,6 +1,6 @@
 <template>
-  <div class="row g-0 auth-page bg-light">
-    <article class="col-lg-4  p-lg-5 p-3">
+  <div class="page row g-0 auth-page bg-light">
+    <article class="col-12 col-lg-4 p-3 transition">
       <figure class="mb-lg-5 mb-3">
         <router-link to="/"><img src="../../assets/logo.png" width="50px" alt="Snabel Logo"></router-link>
       </figure>
@@ -13,14 +13,14 @@
         </p>
       </div>
     </article>
-    <article class="login d-flex flex-wrap align-content-center shadow col-lg-8">
+    <article class="login d-flex flex-wrap align-content-center shadow transition col-12 col-lg-8">
       <form class="w-75 m-auto mt-5" enctype="multipart/form-data" @submit.prevent="registerUser">
         <p class="signin color mb-5">Already have an account? <router-link to="/login" class="text-color text-decoration-underline">Log In</router-link></p>
-        <div class="mb-3 text-center">
+        <div class="image mb-3 text-center">
           <div id="image_preview"
                 class="bg-light border position-relative border-1 d-inline-block text-center rounded rounded-circle position-relative overflow-hidden"
                 @click="triggerFileInput">
-            <img alt="Current Image" class="rounded rounded-circle"
+            <img alt="user image" class="rounded rounded-circle"
                   height="100"
                   src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg">
             <i class="fas fa-camera position-absolute" style="bottom: 15px; right: 8px;"></i>
@@ -114,7 +114,7 @@
             </li>
           </ul>
         </div>
-        <div class="submit text-center col-lg-8">
+        <div class="submit text-center col-lg-8 transition">
           <p class="terms text-color w-100">By clicking the Sign Up button below, you agree to the Snabel Terms of Service and acknowledge the Privacy Notice.</p>
           <button class="btn btn-secondary text-light fw-bold px-3 mx-5" type="submit">Sign Up</button>
         </div>
@@ -139,6 +139,9 @@
 </script>
 
 <style scoped>
+  .page {
+    max-height: 100vh;
+  }
   .welcome {
     padding-top: 28px;
   }
@@ -246,6 +249,14 @@
     border-left: 1px solid #4666a7;
   }
 
+  @media screen and (min-width: 992px) {
+    .login {
+      border-top-right-radius: 52px;
+      max-height: 100%;
+      overflow: auto;
+      padding-top: 250px;
+    }
+  }
   @media screen and (max-width: 992px) {
     .login {
       border-top-right-radius: 52px;

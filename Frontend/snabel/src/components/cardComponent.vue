@@ -33,12 +33,6 @@ export default {
         projects:[],
     }),
     methods:{},
-    async created() {
-        try {
-            let data = await fetch('http://localhost:8080/payment/list', {
-    methods:{
-
-    },
     async created(){
         try{
             let data = await fetch('http://localhost:8000/payment/list',{

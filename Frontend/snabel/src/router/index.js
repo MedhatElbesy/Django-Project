@@ -14,7 +14,7 @@ const routes = [
   {
     path: "/search",
     name: "search",
-    component: () => import("../components/searchComponent.vue"),
+    component: () => import("../views/searchView.vue"),
   },
   {
     path: "/about",
@@ -46,6 +46,11 @@ const routes = [
     name: "ProjectTest",
     component: () => import("../views/projectView.vue"),
     props: true,
+  },
+  {
+    path: "/error",
+    name: "error",
+    component: () => import("../components/errors/errorComponent.vue"),
   },
   {
     path: "/:cathcAll(.*)",

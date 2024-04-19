@@ -1,6 +1,6 @@
 <template>
-  <div class="row g-0 auth-page bg-light vh-100">
-    <article class="col-lg-4 p-lg-5 p-3">
+  <div class="auth-page row g-0  bg-light vh-100">
+    <article class="col-lg-4 p-lg-5 p-3 transition">
       <figure class="mb-lg-5 mb-3">
         <router-link to="/"><img src="../../assets/logo.png" width="50px" alt="Snabel Logo"></router-link>
       </figure>
@@ -15,7 +15,7 @@
         </p>
       </div>
     </article>
-    <article class="login d-flex flex-wrap align-content-center shadow col-lg-8">
+    <article class="login d-flex flex-wrap align-content-center transition shadow col-lg-8">
       <form class="w-75 m-auto mt-5" @submit.prevent="authenticationStore.login(user.username, user.password)">
         <div>
           <p class="signup color mb-5">Don't have an account? <router-link to="/register" class="text-color text-decoration-underline">Sign Up</router-link></p>
@@ -55,7 +55,7 @@
             </li>
           </ul>
         </div>
-        <div class="submit text-center col-lg-8">
+        <div class="submit text-center col-lg-8 transition">
           <p class="terms text-color w-100">By clicking the Log In button below, you agree to the Snabel Terms of Service and acknowledge the Privacy Notice.</p>
           <button class="btn btn-secondary text-light fw-bold px-3 mx-5" type="submit">Log In</button>
         </div>
@@ -73,7 +73,6 @@
         username: '',
         password: '',
       },
-
       errorMessages: {},
       successMessages: '',
     })
