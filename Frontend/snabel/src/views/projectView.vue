@@ -7,6 +7,7 @@
       <h1 class="col-12 my-5">
         {{ project.title }}
       </h1>
+      <h5 class="col-12 h5">{{ project.get_project_rating }} / 5 Stars!</h5>
       <div class="col-8">
         <Suspense>
           <template #default>

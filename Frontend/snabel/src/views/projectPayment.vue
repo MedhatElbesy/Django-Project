@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import { provide } from "vue";
+
 import navbar from "../components/navComponent.vue";
 import projectDonate from "../components/projectDonationCards.vue";
 import card from "../components/cardComponent.vue";
@@ -76,12 +78,15 @@ export default {
   methods: {
     async fetchProjectData() {
       try {
-        const projectData = await useProjectStore().fetchProjectData();
+        const projectStore = useProjectStore();
+        provide("projectStore", projectStore);
+        console.log(projectStore.projectID);
+        const projectData = await projectStore.fetchProjectData();
         this.project = projectData;
       } catch (error) {
         console.error("Error fetching project data:", error);
       } finally {
-        this.loading = false; // Set loading state to false when data fetching is complete
+        this.loading = false;
       }
     },
   },
