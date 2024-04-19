@@ -10,22 +10,10 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="height: auto;"></button>
     </div>
     <!-- End Of Messages -->
-    <article class="col-lg-4 p-lg-5 p-3">
-      <figure class="mb-lg-5 mb-3">
-        <router-link to="/"><img src="../../assets/logo.png" width="50px" alt="Snabel Logo"></router-link>
-      </figure>
-      <div class="welcome">
-        <span class="text-color">Welcome Back</span>
-        <h3 class="color">Don't Forget: </h3>
-        <p class="ayat">
-          <strong lang="ar" title="(18) Indeed, the men who practice charity and the women who practice charity and [they who] have loaned Allāh a goodly loan - it will be multiplied for them, and they will have a noble reward. ">إِنَّ الْمُصَّدِّقِينَ وَالْمُصَّدِّقَاتِ وَأَقْرَضُوا اللَّـهَ قَرْضًا حَسَنًا يُضَاعَفُ لَهُمْ وَلَهُمْ أَجْرٌ كَرِيمٌ
-          <br>
-          </strong>
-          <em class="text-color">Surah Al-Hadīd: 18</em>
-        </p>
-      </div>
-    </article>
-    <article class="login d-flex flex-wrap align-content-center shadow col-lg-8">
+
+    <SidebarComponent/>
+
+    <article class="login d-flex flex-wrap align-content-center shadow col-lg-8 vh-100">
       <form class="w-75 m-auto mt-5" @submit.prevent="authenticationStore.login(user.email, user.password)">
         <div>
           <p class="signup color mb-5">Don't have an account? <router-link to="/register" class="text-color text-decoration-underline">Sign Up</router-link></p>
@@ -76,9 +64,12 @@
 </template>
 <script>
 import {useAuthenticationStore} from "../../stores/auth";
-
+import SidebarComponent from "@/components/Auth/SidebarComponent.vue";
 export default {
   name: "LoginComponent",
+  components: {
+    SidebarComponent
+  },
   data: () => ({
     authenticationStore: useAuthenticationStore(),
     user: {
