@@ -20,15 +20,27 @@
         <p>{{ comment.comment }}</p>
       </div>
     </div>
-    <form @submit.prevent="handleSubmit" class="form">
+    <form @submit.prevent class="form">
       <label class="form-label" for="comment"
         >Say something about this project!</label
       >
       <br />
       <input class="form-control" type="text" name="comment" id="comment" />
-      <input type="hidden" name="project" :value="projectID" />
+      <input
+        class="form-control"
+        type="hidden"
+        name="projec"
+        id="project"
+        :value="projectID"
+      />
+
       <br />
-      <input class="btn btn-success text-light" type="submit" value="Submit" />
+      <input
+        class="btn btn-success text-light"
+        type="submit"
+        value="Submit"
+        @click="handleSubmit"
+      />
     </form>
   </section>
 </template>
@@ -107,13 +119,8 @@ export default {
     const comments = ref([]);
     const projectStore = inject("projectStore");
     const projectID = ref(null);
-
-    console.log("from child comment ", projectID);
-
     watchEffect(() => {
       projectID.value = projectStore.projectID;
-      console.log(projectID.value);
-      console.log("from child ", projectStore.projectData.value);
       fetchComments(projectID.value);
     });
 
@@ -132,16 +139,18 @@ export default {
     }
 
     async function handleSubmit() {
-      const comment = document.querySelector("#comment").innerText;
-      const project = document.querySelector("input[name='project']").value;
+      const comment = document.querySelector("#comment").value;
+      const id = projectID.value;
+
       const response = await fetch("http://localhost:8000/comments/create/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          user: 1,
           comment: comment,
-          project: project,
+          project: id,
         }),
       });
       if (response.ok) {
@@ -151,7 +160,7 @@ export default {
       }
     }
 
-    return { comments, handleSubmit };
+    return { comments, handleSubmit, projectID };
   },
 };
 </script>
