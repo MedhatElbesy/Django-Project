@@ -20,18 +20,65 @@
         <p>{{ comment.comment }}</p>
       </div>
     </div>
+    <form @submit.prevent="handleSubmit" class="form">
+      <label class="form-label" for="comment"
+        >Say something about this project!</label
+      >
+      <br />
+      <input class="form-control" type="text" name="comment" id="comment" />
+      <input type="hidden" name="project" :value="projectID" />
+      <br />
+      <input class="btn btn-success text-light" type="submit" value="Submit" />
+    </form>
   </section>
 </template>
 
-<script>
-// import { useProjectStore } from "@/stores/project";
+<!-- <script>
+import { ref, watchEffect, inject } from "vue";
 export default {
   data() {
     return {
       comments: [],
     };
   },
-  methods: {},
+  methods: {
+    async handleSubmit() {
+      const comment = document.querySelector("#comment").innerText;
+      const project = document.querySelector("input[name='project']").value;
+      const response = await fetch("http://localhost:8000/comments/create/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          comment: comment,
+          project: project,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+      }
+      window.location.reload();
+    },
+  },
+  setup() {
+    const projectStore = inject("projectStore");
+    const projectID = ref(null);
+    console.log("from child ", projectID);
+    watchEffect(() => {
+      projectID.value = projectStore.projectID;
+    });
+    // getting id from url
+    const currentProjectID = projectID;
+    try {
+      return { projectID: currentProjectID };
+    } catch (error) {
+      alert("here");
+      console.error("Failed to fetch project data:", error);
+      return { project: null, projectID: currentProjectID };
+    }
+  },
   computed: {},
   async created() {
     // const store = useProjectStore();
@@ -50,6 +97,60 @@ export default {
   components: {},
   props: {},
   emits: {},
+};
+</script> -->
+<script>
+import { ref, watchEffect, inject } from "vue";
+
+export default {
+  setup() {
+    const comments = ref([]);
+    const projectStore = inject("projectStore");
+    const projectID = ref(null);
+
+    watchEffect(() => {
+      projectID.value = projectStore.projectID;
+      console.log(projectID.value);
+      console.log("from child ", projectStore.projectData.value);
+      fetchComments(projectID.value);
+    });
+
+    async function fetchComments(id) {
+      try {
+        const response = await fetch(
+          `http://localhost:8000/comments/project/${id}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          comments.value = data;
+        }
+      } catch (error) {
+        console.error("Failed to fetch project data:", error);
+      }
+    }
+
+    async function handleSubmit() {
+      const comment = document.querySelector("#comment").innerText;
+      const project = document.querySelector("input[name='project']").value;
+      const response = await fetch("http://localhost:8000/comments/create/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          comment: comment,
+          project: project,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        window.location.reload();
+      }
+    }
+
+    return { comments, handleSubmit };
+  },
 };
 </script>
 

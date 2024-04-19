@@ -9,11 +9,11 @@ export const useAuthenticationStore = defineStore("authenticationStore", {
   }),
 
   actions: {
-    async login(username, password) {
-      console.log(username,password)
+    async login(email, password) {
+      console.log(email,password)
       try {
         const formData = new FormData();
-        formData.append('username', username);
+        formData.append('email', email);
         formData.append('password', password);
 
         let response = await fetch(`http://localhost:8000/api/login/`, {
