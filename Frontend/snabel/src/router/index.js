@@ -1,15 +1,15 @@
 import { createRouter, createWebHistory } from "vue-router";
 // import sliderComponent from '../components/sliderComponent.vue'
 // import lastProjectComponent from '../components/lastProjectComponent.vue'
-import RegisterComponent from "../components/Auth/RegisterComponent2.vue";
-import LoginComponent from "@/components/Auth/LoginComponent2.vue";
-import ForgetPasswordComponent from "@/components/Auth/ForgetPasswordComponent2.vue";
+import RegisterComponent from "../components/Auth/RegisterComponent.vue";
+import LoginComponent from "@/components/Auth/LoginComponent.vue";
+import ForgetPasswordComponent from "@/components/Auth/ForgetPasswordComponent.vue";
 
 const routes = [
   {
     path: "/",
     name: "home",
-    component:  () => import("../views/HomeView.vue"),
+    component: () => import("../views/HomeView.vue"),
   },
   {
     path: "/search",
@@ -19,7 +19,7 @@ const routes = [
   {
     path: "/about",
     name: "about",
-    component:  () => import("../views/AboutView.vue")
+    component: () => import("../views/AboutView.vue"),
   },
   {
     path: "/register",
@@ -39,13 +39,18 @@ const routes = [
   {
     path: "/payment",
     name: "payment",
-    component: ()=> import ("../views/projectPayment.vue") ,
+    component: () => import("../views/projectPayment.vue"),
   },
   {
-    path: "/projectTest/:id",
+    path: "/projects/:id",
     name: "ProjectTest",
     component: () => import("../views/projectView.vue"),
     props: true,
+  },
+  {
+    path: "/addProject",
+    name: "AddProject",
+    component: () => import("../components/addProjectComponent.vue"),
   },
   {
     path: "/:cathcAll(.*)",

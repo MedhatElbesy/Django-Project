@@ -1,145 +1,139 @@
 <template>
-    <!-- <div class="row justify-content-center align-items-center m-0 auth-page">
-      <div class="col-lg-6 col-xl-6"> -->
-        <div class="card m-2 border-0 text-black h-75 bg-transparent">
-          <div class="card-body p-4">
-            <h1 class="card-title text-center text-light fw-bold mb-3">
-              Create an account
-            </h1>
-            <div class="row justify-content-center align-items-center">
-              <!-- Start Messages -->
-              <div v-if="successMessages" class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>{{ successMessages }}</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
-              <div v-for="(messages, field) in errorMessages" :key="field" class="alert alert-danger alert-dismissible fade show" role="alert">
-                <ul>
-                  <li v-for="message in messages" :key="message">{{ message }}</li>
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
-              <!-- End Of Messages -->
+  <div class="row g-0 auth-page bg-light position-relative">
+    <!-- Start Messages -->
+    <div v-if="successMessages" class="alert alert-success alert-dismissible fade show position-absolute top-0 start-50 translate-middle-x p-2" role="alert">
+        <strong class="mb-0">{{ successMessages }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="height: auto;"></button>
+    </div>
 
-              <!-- Form Here-->
-              <form class="mx-1 mx-md-4" enctype="multipart/form-data" @submit.prevent="registerUser">
-                <div class="mb-3 text-center">
-                  <div id="image_preview"
-                       class="bg-light border position-relative border-1 d-inline-block text-center rounded rounded-circle position-relative overflow-hidden"
-                       @click="triggerFileInput">
-                    <img alt="Current Image" class="rounded rounded-circle"
-                         height="100"
-                         src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg">
-                    <i class="fas fa-camera position-absolute" style="bottom: 15px; right: 8px;"></i>
-                  </div>
-                  <input id="image_input" accept="image/*" name="profile_image"
-                         style="display: none;"
-                         type="file" @change="handleFileChange">
-                </div>
-
-                <div class="row">
-                  <div class="col-12 col-sm-6">
-                    <div class="form-floating mb-3">
-                      <input id="first_name" v-model="user.first_name"
-                             class="form-control  border-0 border-bottom shadow"
-                             name="first_name" placeholder="name@example.com"
-                             type="text">
-                      <label for="first_name">First Name</label>
-                    </div>
-                  </div>
-                  <div class="col-12 col-sm-6">
-                    <div class="form-floating mb-3">
-                      <input id="last_name" v-model="user.last_name" class="form-control  border-0 border-bottom shadow"
-                             name="last_name" placeholder="name@example.com"
-                             type="text">
-                      <label for="last_name">Last Name</label>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col mb-3">
-                    <div class="form-floating position-relative">
-                      <input v-model="user.username" aria-describedby="username" aria-label="username"
-                             class="form-control border-0 border-bottom shadow" name="username"
-                             placeholder="enter your first name"
-                             required type="text">
-                      <i class="fa-solid fa-user icon position-absolute"></i>
-                      <label for="username">Username</label>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col mb-3">
-                    <div class="form-floating position-relative">
-                      <input v-model="user.email" aria-describedby="email" aria-label="email"
-                             class="form-control border-0 border-bottom shadow" name="email"
-                             placeholder="enter your email" required
-                             type="email">
-                      <i class="fa-solid fa-envelope icon position-absolute"></i>
-                      <label for="email">Email</label>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col mb-3">
-                    <div class="form-floating position-relative">
-                      <input v-model="user.mobile_phone" aria-describedby="mobile_phone" aria-label="mobile_phone"
-                             class="form-control border-0 border-bottom shadow" name="mobile_phone"
-                             placeholder="enter your first name"
-                             required type="text">
-                      <i class="fa-solid fa-mobile icon position-absolute"></i>
-                      <label for="mobile_phone">Mobile Phone</label>
-                    </div>
-                    <!--<div v-if="errorMessages.mobile_phone" class="text-danger" >
-                      <ul>
-                        <li v-for="message in errorMessages.mobile_phone" :key="message">{{ message }}</li>
-                      </ul>
-                    </div> -->
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col mb-3">
-                    <div class="form-floating position-relative">
-                      <input v-model="user.password1" aria-describedby="password" aria-label="password1"
-                             class="form-control border-0 border-bottom shadow" name="password1"
-                             placeholder="enter your password"
-                             required type="password">
-                      <i id="togglePassword1"
-                         :class="password1Visible ? 'fas fa-eye icon position-absolute' : 'fas fa-eye-slash icon position-absolute'"
-                         @click="togglePassword1Visibility"></i>
-                      <label for="password">Password</label>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col mb-3">
-                    <div class="form-floating position-relative">
-                      <input v-model="user.password2" aria-describedby="password" aria-label="password"
-                             class="form-control border-0 border-bottom shadow" name="password2"
-                             placeholder="enter your password"
-                             required type="password">
-                      <i id="togglePassword2"
-                         :class="password2Visible ? 'fas fa-eye icon position-absolute' : 'fas fa-eye-slash icon position-absolute'"
-                         @click="togglePassword2Visibility"></i>
-                      <label for="password2">Password Confirmation</label>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                  <button class="btn btn-lg rounded auth-button" type="submit">Sign In</button>
-                </div>
-              </form>
+    <div v-for="(messages, field) in errorMessages" :key="field" class="alert alert-danger alert-dismissible fade show position-absolute top-0 start-50 translate-middle-x p-2" role="alert">
+      <ul class="mb-0">
+        <li class="p-0 bullet-list" v-for="message in messages" :key="message">{{ message }}</li>
+      </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="height: auto;"></button>
+    </div>
+    <!-- End Of Messages -->
+    <article class="col-lg-4  p-lg-5 p-3">
+      <figure class="mb-lg-5 mb-3">
+        <router-link to="/"><img src="../../assets/logo.png" width="50px" alt="Snabel Logo"></router-link>
+      </figure>
+      <div class="welcome">
+        <span class="text-color">Welcome To Snable</span>
+        <h3 class="color">Always Remember: </h3>
+        <p class="ayat"><strong lang="ar" title="Never will you attain the good [reward] until you spend [in the way of Allah] from that which you love. And whatever you spend - indeed, Allah is Knowing of it.">لَن تَنَالُوا الْبِرَّ حَتَّىٰ تُنفِقُوا مِمَّا تُحِبُّونَ ۚ
+          <br>وَمَا تُنفِقُوا مِن شَيْءٍ فَإِنَّ اللَّهَ بِهِ عَلِيمٌ<br></strong>
+          <em class="text-color">Surah Al Imran: 92</em>
+        </p>
+      </div>
+    </article>
+    <article class="login d-flex flex-wrap align-content-center shadow col-lg-8">
+      <form class="w-75 m-auto mt-5" enctype="multipart/form-data" @submit.prevent="registerUser">
+        <p class="signin color mb-5">Already have an account? <router-link to="/login" class="text-color text-decoration-underline">Log In</router-link></p>
+        <div class="mb-3 text-center">
+          <div id="image_preview"
+                class="bg-light border position-relative border-1 d-inline-block text-center rounded rounded-circle position-relative overflow-hidden"
+                @click="triggerFileInput">
+            <img alt="Current Image" class="rounded rounded-circle"
+                  height="100"
+                  src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg">
+            <i class="fas fa-camera position-absolute" style="bottom: 15px; right: 8px;"></i>
+          </div>
+          <input id="image_input" accept="image/*" name="profile_image"
+                  style="display: none;"
+                  type="file" @change="handleFileChange">
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <div class="form-floating mb-3">
+              <input id="first_name" v-model="user.first_name"
+                      class="form-control  border-0 border-bottom shadow"
+                      name="first_name" placeholder="name@example.com"
+                      type="text" autofocus>
+              <label for="first_name">First Name</label>
             </div>
-            <p class="text-center text-light">Already have an account? <router-link to="/login">Sign In</router-link></p>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="form-floating mb-3">
+              <input id="last_name" v-model="user.last_name" class="form-control  border-0 border-bottom shadow"
+                      name="last_name" placeholder="name@example.com"
+                      type="text">
+              <label for="last_name">Last Name</label>
+            </div>
           </div>
         </div>
-      <!-- </div>
-    </div> -->
+        <div class="form-floating position-relative mb-3 ">
+          <input v-model="user.username" aria-describedby="username" aria-label="username"
+                  class="form-control border-0 border-bottom shadow" name="username"
+                  placeholder="enter your first name"
+                  required type="text">
+          <i class="fa-solid fa-user icon position-absolute"></i>
+          <label for="username">Username</label>
+        </div>
+        <div class="form-floating position-relative mb-3 ">
+          <input v-model="user.email" aria-describedby="email" aria-label="email"
+                  class="form-control border-0 border-bottom shadow" name="email"
+                  placeholder="enter your email" required
+                  type="email">
+          <i class="fa-solid fa-envelope icon position-absolute"></i>
+          <label for="email">Email</label>
+        </div>
+        <div class="form-floating position-relative mb-3 ">
+          <input v-model="user.mobile_phone" aria-describedby="mobile_phone" aria-label="mobile_phone"
+                  class="form-control border-0 border-bottom shadow" name="mobile_phone"
+                  placeholder="enter your first name"
+                  required type="text">
+          <i class="fa-solid fa-mobile icon position-absolute"></i>
+          <label for="mobile_phone">Mobile Phone</label>
+        </div>
+        <!--<div v-if="errorMessages.mobile_phone" class="text-danger" >
+          <ul>
+            <li v-for="message in errorMessages.mobile_phone" :key="message">{{ message }}</li>
+          </ul>
+        </div> -->
+        <div class="form-floating position-relative mb-3 ">
+          <input v-model="user.password1" aria-describedby="password" aria-label="password1"
+                  class="form-control border-0 border-bottom shadow" name="password1"
+                  placeholder="enter your password"
+                  required type="password">
+          <i id="togglePassword1"
+              :class="password1Visible ? 'fas fa-eye icon' : 'fas fa-eye-slash icon'" class="position-absolute"
+              @click="togglePassword1Visibility"></i>
+          <label for="password">Password</label>
+        </div>
+        <div class="form-floating position-relative mb-3 ">
+          <input v-model="user.password2" aria-describedby="password" aria-label="password"
+                  class="form-control border-0 border-bottom shadow" name="password2"
+                  placeholder="enter your password"
+                  required type="password">
+          <i id="togglePassword2"
+              :class="password2Visible ? 'fas fa-eye icon' : 'fas fa-eye-slash icon'"  class="position-absolute"
+              @click="togglePassword2Visibility"></i>
+          <label for="password2">Password Confirmation</label>
+        </div>
+        <div class="social w-100 m-auto text-center mt-5">
+          <p class="text-color fw-bold position-relative">or</p>
+          <ul class="social-platforms d-flex flex-wrap justify-content-evenly m-0 p-0">
+            <li class="col-12 mb-3 col-md-6">
+              <a href="https://google.com" title="google">
+                <i class="fa-brands fa-google"></i>
+                <span>Sign Up With Google</span>
+              </a>
+            </li>
+            <li class="col-12 mb-3 col-md-6">
+              <a href="https://facebook.com" title="Facebook">
+                <i class="fa-brands fa-facebook-f"></i>
+                <span>Sign Up With Facebook</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="submit text-center col-lg-8">
+          <p class="terms text-color w-100">By clicking the Sign Up button below, you agree to the Snabel Terms of Service and acknowledge the Privacy Notice.</p>
+          <button class="btn btn-secondary text-light fw-bold px-3 mx-5" type="submit">Sign Up</button>
+        </div>
+      </form>
+    </article>
+  </div>
 </template>
 
 <script>
@@ -240,22 +234,138 @@ export default {
 </script>
 
 <style scoped>
-.auth-page {
-  background-image: url('@/assets/bg.jpg');
-  background-size: cover;
-  background-position: center;
-}
+  .bullet-list {
+      list-style-type: disc;
+      margin-left: 20px;
+  }
 
-.auth-button {
-  background: #a8ff78; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #78ffd6, #a8ff78); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #78ffd6, #a8ff78); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  .bullet-list li {
+      margin-left: 10px;
+  }
+  .welcome {
+    padding-top: 28px;
+  }
+  h3 {
+    margin-bottom: 24px;
+  }
+  .ayat {
+    text-align: center;
+    direction: rtl;
+    padding-bottom: 40px;
+    font-weight: bold;
+    color: var(--mainTextColor);
+    letter-spacing: 2px;
+    word-spacing: 3px;
+    font-family: 'Reem Kufi', sans-serif;
+  }
+  em {
+    font-size: 12px;
+  }
+  .login {
+    border-top-left-radius: 52px;
+    background-color: #FFF;
+  }
+  .signin {
+    text-align: right;
+  }
+  .submit {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    background-color: #FFF;
+    padding: 25px;
+    border-top: 1px solid #e2e2e2;
+  }
+  form input {
+    color: var(--mainColor);
+  }
+  form input:focus {
+    caret-color: var(--mainColor);
+    color: var(--mainTextColor);
+  }
+  form label {
+    color: var(--mainColor);
+  }
+  .icon {
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: var(--mainColor)
+  }
+  .social {
+    padding-bottom: 150px;
+  }
+  .social p::before{
+    content: "";
+    position: absolute;
+    height: 1px;
+    width: 40%;
+    top: 50%;
+    left: 3%;
+    transform: translateY(50%);
+    border: 1px solid #8f8f8f48;
+  }
+  .social p::after{
+    content: "";
+    position: absolute;
+    height: 1px;
+    width: 40%;
+    top: 50%;
+    right: 3%;
+    transform: translateY(50%);
+    border: 1px solid #8f8f8f48;
+  }
+  .social-platforms a {
+    color: #FFF;
+    border-radius: 8px;
+    display: inline-block;
+  }
+  .social-platforms i {
+    padding: 12px;
+    width: 40px;
+  }
+  .social-platforms span {
+    padding: 12px;
+    width: 200px;
+    display: inline-block;
+    border-radius: 8px;
+  }
+  .social-platforms li:first-child a {
+    background-color: #C53329;
+  }
+  .social-platforms li:first-child span {
+    background-color: #F44235;
+    border-left: 1px solid #e76464;
+  }
+  .social-platforms li:last-child a {
+    background-color: #3A5998;
+  }
+  .social-platforms li:last-child span {
+    background-color: #243B68;
+    border-left: 1px solid #4666a7;
+  }
 
-}
-
-.icon {
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-}
+  @media screen and (max-width: 992px) {
+    .login {
+      border-top-right-radius: 52px;
+    }
+  }
+  @media screen and (max-width: 576px) {
+    form {
+      width: 100% !important;
+      padding-right: 16px;
+      padding-left: 16px;
+    }
+    .submit {
+      position: static;
+      justify-content: center;
+    }
+    .social {
+      padding-bottom: 0;
+    }
+  }
 </style>

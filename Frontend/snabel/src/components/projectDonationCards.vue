@@ -72,6 +72,7 @@
 <style scoped>
 .donation-info {
   background-color: rgb(243, 241, 241);
+  border-radius: 16px;
   padding: 2em;
   max-width: 450px;
 }
@@ -93,26 +94,39 @@ i {
 </style>
 
 <script>
-import { useProjectStore } from "../stores/project";
-// import { useRoute } from "vue-router";
+// import { useProjectStore } from "../stores/project";
+import { useRoute } from "vue-router";
+import { inject, watchEffect, ref } from "vue";
 
 export default {
   async setup() {
     // getting project id
     // const route = useRoute();
-    const projectStore = useProjectStore();
-    const currentProjectID = 1;
+    const projectStore = inject("projectStore");
+    const projectID = ref(null);
+    const loading = ref(false);
+    const error = ref(null);
+    const projectData = ref({});
+    console.log("from child ", projectID);
+    console.log("from child ", projectData);
+    watchEffect(() => {
+      projectID.value = projectStore.projectID;
+      projectData.value = projectStore.projectData;
+      loading.value = projectStore.loading;
+      error.value = projectStore.error;
+    });
+    // getting id from url
+    const route = useRoute();
+    const currentProjectID = route.params.id || 1;
     projectStore.setProjectID(currentProjectID);
 
     // fetching project data by id
     try {
-      await projectStore.fetchProjectData();
       let projectPayment = await projectStore.fetchProjectPayment();
       // make project payment = to latest 5
       projectPayment = projectPayment.slice(-5).reverse();
-      const project = projectStore.projectData;
-      console.log(projectPayment);
-      // console.log("Project data:", project);
+      const project = projectData;
+
       // console.log(project);
       return { project, projectID: currentProjectID, projectPayment };
     } catch (error) {

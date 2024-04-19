@@ -1,6 +1,12 @@
 from rest_framework import serializers
-from .models import Project
+from .models import Project, ProjectImage
 from tags.serializer import TagsSerializer
+
+
+class ProjectImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectImage
+        fields = ('id', 'image')
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -8,7 +14,9 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Project
         exclude = ['is_deleted', 'total_collected', 'deleted_at']
 
-    category_name = serializers.CharField(source='category.name', read_only=True)
+    images = ProjectImageSerializer(many=True, read_only=True)
+    category_name = serializers.CharField(
+        source='category.name', read_only=True)
     tags_info = TagsSerializer(source="tags", many=True, read_only=True)
     user_name = serializers.CharField(source='user.username', read_only=True)
     remaining_days = serializers.SerializerMethodField()
