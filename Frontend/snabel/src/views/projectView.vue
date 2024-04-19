@@ -83,6 +83,7 @@ export default {
     async fetchProjectData() {
       try {
         const projectStore = useProjectStore();
+        projectStore.projectID = this.$route.params.id;
         provide("projectStore", projectStore);
         console.log(projectStore.projectID);
         const projectData = await projectStore.fetchProjectData();
