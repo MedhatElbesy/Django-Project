@@ -1,5 +1,15 @@
 <template>
-  <div class="row g-0 auth-page bg-light vh-100">
+  <div class="row g-0 auth-page bg-light position-relative">
+    <!-- Start Messages -->
+    <div v-if="authenticationStore.successMessages" class="alert alert-success alert-dismissible fade show position-absolute top-0 start-50 translate-middle-x p-2" role="alert">
+      <strong class="ms-4">{{ authenticationStore.successMessages }}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="height: auto;"></button>
+    </div>
+    <div v-if="authenticationStore.errorMessages" class="alert alert-danger alert-dismissible fade show position-absolute top-0 start-50 translate-middle-x p-2" role="alert">
+      <strong class="ms-4">{{ authenticationStore.errorMessages }}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="height: auto;"></button>
+    </div>
+    <!-- End Of Messages -->
     <article class="col-lg-4 p-lg-5 p-3">
       <figure class="mb-lg-5 mb-3">
         <router-link to="/"><img src="../../assets/logo.png" width="50px" alt="Snabel Logo"></router-link>
@@ -16,26 +26,27 @@
       </div>
     </article>
     <article class="login d-flex flex-wrap align-content-center shadow col-lg-8">
-      <form class="w-75 m-auto mt-5" @submit.prevent="authenticationStore.login(user.username, user.password)">
+      <form class="w-75 m-auto mt-5" @submit.prevent="authenticationStore.login(user.email, user.password)">
         <div>
           <p class="signup color mb-5">Don't have an account? <router-link to="/register" class="text-color text-decoration-underline">Sign Up</router-link></p>
           <p>Sign in to <strong class="color">Snabel</strong></p>
           <div class="form-floating mb-3 position-relative">
-            <input v-model="user.username" aria-describedby="username"
-                    aria-label="username" class="form-control border-0 border-bottom shadow"
-                    name="username" placeholder="enter your first name"
+            <input v-model="user.email" aria-describedby="email"
+                    aria-label="email" class="form-control border-0 border-bottom shadow"
+                    name="email" placeholder="enter your first name"
                     required autofocus type="text">
             <i class="fa-solid fa-user icon position-absolute"></i>
-            <label for="username">Username</label>
+            <label for="email">Email</label>
           </div>
-          <div class="form-floating mb-3 position-relative">
-            <input v-model="user.password" aria-describedby="password"
-                    aria-label="password" class="form-control border-0 border-bottom shadow"
-                    name="password" placeholder="enter your password"
-                    required type="password">
-            <i id="togglePassword" class="fas fa-eye-slash icon position-absolute"></i>
-            <label for="password">Password</label>
-          </div>
+
+          <div class="form-floating position-relative mb-3 ">
+          <input v-model="user.password" aria-describedby="password" aria-label="password"
+              class="form-control border-0 border-bottom shadow" name="password"
+              placeholder="enter your password"
+                  required type="password">
+          <i id="togglePassword1" :class="passwordVisible ? 'fas fa-eye icon' : 'fas fa-eye-slash icon'" class="position-absolute" @click="togglePasswordVisibility"></i>
+          <label for="password">Password</label>
+        </div>
           <router-link to="/forget-password" class="text-color text-decoration-underline">Forgot your password?</router-link>
         </div>
         <div class="social w-100 m-auto text-center mt-5">
@@ -64,23 +75,41 @@
   </div>
 </template>
 <script>
-  import {useAuthenticationStore} from "../../stores/auth";
-  export default {
-    name: "LoginComponent",
-    data: () => ({
-      authenticationStore: useAuthenticationStore(),
-      user: {
-        username: '',
-        password: '',
-      },
+import {useAuthenticationStore} from "../../stores/auth";
 
-      errorMessages: {},
-      successMessages: '',
-    })
+export default {
+  name: "LoginComponent",
+  data: () => ({
+    authenticationStore: useAuthenticationStore(),
+    user: {
+      email: '',
+      password: '',
+    },
+    passwordVisible: false,
+  }),
+
+  methods: {
+      togglePasswordVisibility() {
+      this.passwordVisible = !this.passwordVisible;
+      const passwordInput = document.querySelector('input[name="password"]');
+      if (passwordInput) {
+        passwordInput.type = this.passwordVisible ? 'text' : 'password';
+      }
+    },
   }
+}
 </script>
 
 <style scoped>
+  .bullet-list {
+      list-style-type: disc;
+      margin-left: 20px;
+  }
+
+  .bullet-list li {
+      margin-left: 10px;
+  }
+
   .welcome {
     padding-top: 28px;
   }

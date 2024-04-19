@@ -17,16 +17,16 @@
       <div class="card mt-auto m-2 p-4 shadow-lg text-black h-75 w-7">
         <div class="card-body p-2">
           <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign In</p>
-          <form class="mx-1 mx-md-4" @submit.prevent="authenticationStore.login(user.username, user.password)">
+          <form class="mx-1 mx-md-4" @submit.prevent="authenticationStore.login(user.email, user.password)">
             <div class="row">
               <div class="col">
                 <div class="form-floating mb-3 position-relative">
-                  <input v-model="user.username" aria-describedby="username"
-                         aria-label="username" class="form-control border-0 border-bottom shadow"
-                         name="username" placeholder="enter your first name"
+                  <input v-model="user.email" aria-describedby="email"
+                         aria-label="email" class="form-control border-0 border-bottom shadow"
+                         name="email" placeholder="enter your first name"
                          required type="text">
                   <i class="fa-solid fa-user icon position-absolute"></i>
-                  <label for="username">Username</label>
+                  <label for="email">Email</label>
                 </div>
               </div>
             </div>
@@ -64,7 +64,7 @@ export default {
   data: () => ({
     authenticationStore: useAuthenticationStore(),
     user: {
-      username: '',
+      email: '',
       password: '',
     },
   })

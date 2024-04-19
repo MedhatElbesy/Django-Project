@@ -73,9 +73,9 @@ def login(request):     #login(TokenObtainPairView):
     if request.method == 'POST':
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
-            username = serializer.validated_data['username']
+            email = serializer.validated_data['email']
             password = serializer.validated_data['password']
-            user = authenticate(username=username, password=password)
+            user = authenticate(email=email, password=password)
             if user:
                 token_obtain_view = TokenObtainPairView.as_view()
                 token_request = request._request
@@ -83,13 +83,13 @@ def login(request):     #login(TokenObtainPairView):
                 token_data = token_response.data
                 return Response({
                     'message': 'Login successfully',
-                    'user': user.username,
+                    'user': user.email,
                     'email': user.email,
                     'token': token_data['access'],
                     'refresh_token': token_data['refresh']
                 })
             else:
-                return Response({'error': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
+                return Response({'error': 'Invalid email or password'}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
     else:
