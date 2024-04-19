@@ -17,7 +17,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView,)
 
 from accounts.models import User
-from accounts.forms import RegisterForm
+from accounts.forms import RegisterForm, UpdateUserForm
 from accounts.tokens import token_generator
 from accounts.serializers import LoginSerializer, RegisterSerializer
 # Create your views here.
@@ -39,10 +39,10 @@ def create(request):
 
 def edit(request, id):
     user = get_object_or_404(User, pk=id)
-    form = RegisterForm(instance=user)
+    form = UpdateUserForm(instance=user)
 
     if request.method == "POST":
-        form = RegisterForm(request.POST, request.FILES, instance=user)
+        form = UpdateUserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             user = form.save()
 

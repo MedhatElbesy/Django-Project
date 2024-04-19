@@ -7,13 +7,27 @@
       <h1 class="col-12 my-5">
         {{ project.title }}
       </h1>
-      <div class="border border-2 border-danger col-8 medhat">
-        <projectCommentsComponent />
+      <div class="col-8">
+        <Suspense>
+          <template #default>
+            <div class="">
+              <projectCarouselComponent />
+            </div>
+          </template>
+          <template #fallback>
+            <div>Loading...</div>
+          </template>
+        </Suspense>
+        <div class="my-4">
+          <projectCommentsComponent />
+        </div>
       </div>
       <div class="col-4">
         <Suspense>
           <template #default>
+            <!-- <div style="height: 70vh; position: sticky; top: 50px"> -->
             <projectDonate />
+            <!-- </div> -->
           </template>
           <template #fallback>
             <div>Loading...</div>
@@ -37,6 +51,7 @@ import card from "../components/cardComponent.vue";
 import pay from "../components/paymentFormComponent.vue";
 import footerComponent from "../components/footerComponent.vue";
 import projectCommentsComponent from "@/components/projectCommentsComponent.vue";
+import projectCarouselComponent from "../components/projectCarouselComponent.vue";
 import { useProjectStore } from "@/stores/project"; // Import the project store
 
 export default {
@@ -53,6 +68,7 @@ export default {
     pay,
     footerComponent,
     projectCommentsComponent,
+    projectCarouselComponent,
   },
   created() {
     this.fetchProjectData();

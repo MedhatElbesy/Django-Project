@@ -1,5 +1,9 @@
 import datetime
 from django.db import models
+from django.db.models import Avg, F, Value
+from django.db.models.functions import Coalesce
+from multiupload.fields import MultiImageField
+
 # TODO uncomment the following lines when the models are ready
 from accounts.models import User
 from categories.models import Category
@@ -12,6 +16,21 @@ class ProjectStatus(models.TextChoices):
     DONE = 'D', 'Done'
 
 
+def validate_image_extension(value):
+    import os
+    from django.core.exceptions import ValidationError
+    ext = os.path.splitext(value.name)[1]  # [0] returns path+filename
+    valid_extensions = ['.jpg', '.jpeg', '.png', '.gif']
+    if not ext.lower() in valid_extensions:
+        raise ValidationError('Unsupported file extension.')
+
+
+class ProjectImage(models.Model):
+    project = models.ForeignKey(
+        'Project', related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='projects/pictures/')
+
+
 class Project(models.Model):
     # Attributes definition
     id = models.AutoField(primary_key=True)
@@ -22,9 +41,10 @@ class Project(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     status = models.CharField(
-        max_length=2, choices=ProjectStatus.choices, default=ProjectStatus.IN_PROGRESS,null=True)
-    pictures = models.ImageField(
-        upload_to='projects/pictures/')
+        max_length=2, choices=ProjectStatus.choices, default=ProjectStatus.IN_PROGRESS, null=True)
+    pictures = models.ImageField(upload_to='projects/pictures/',
+                                 null=True, blank=True, validators=[validate_image_extension])
+
     video = models.FileField(upload_to='projects/videos/', null=True)
     total_target = models.DecimalField(
         default=0, max_digits=10, decimal_places=2)
@@ -63,7 +83,16 @@ class Project(models.Model):
 
     @property
     def get_progress(self):
-        return (self.total_collected / self.total_target) * 100
+        try:
+            # check if total target is not zero
+            if self.total_target == 0:
+                # throw an err
+                raise ZeroDivisionError
+
+            value = (self.total_collected / self.total_target) * 100
+            return value
+        except ZeroDivisionError:
+            return 0
 
     @property
     def get_remaining_amount(self):
@@ -76,13 +105,21 @@ class Project(models.Model):
     def get_total_payments(self):
         return self.projectrelated.filter(status__in=[PaymentStatus.SUCCESS, PaymentStatus.PENDING]).count()
 
-    @property
     def get_project_rating(self):
-        return self.ratings.aggregate(average_rating=models.Avg('rating'))['average_rating']
+        average_rating = self.ratings.aggregate(
+            models.Avg('rating'))['rating__avg']
+        return average_rating if average_rating is not None else 1
 
     @property
     def get_total_collected(self):
         return sum(payment.amount for payment in self.projectrelated.all() if payment.status in [PaymentStatus.SUCCESS, PaymentStatus.PENDING])
+
+    @classmethod
+    def get_top_five_rated_active_project(cls):
+        top_projects = cls.objects.filter(is_active=True).annotate(
+            avg_rating=models.Avg('ratings__rating')
+        ).order_by('-avg_rating')[:5]
+        return top_projects
 
     class Meta:
         ordering = ['-created_at']

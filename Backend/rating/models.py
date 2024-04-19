@@ -1,4 +1,5 @@
 from django.db import models
+from payments.models import Payment, PaymentStatus
 
 
 class Rating(models.Model):
@@ -10,3 +11,4 @@ class Rating(models.Model):
     project = models.ForeignKey(
         'projects.Project', on_delete=models.CASCADE, related_name='ratings'
     )
+

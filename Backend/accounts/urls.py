@@ -1,7 +1,7 @@
 from django.urls import path, re_path
 from accounts.views import (index, show, create, edit, delete, admin_profile, profile, login, register, activate, forget_password, reset_password)
 from django.contrib.auth.decorators import login_required
-from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView,)
+from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView,) # type: ignore
 
 urlpatterns = [
     # Dashboard

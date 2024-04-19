@@ -1,22 +1,20 @@
 from rest_framework import serializers
-from .models import Project
+from .models import Project, ProjectImage
 from tags.serializer import TagsSerializer
 
 
+class ProjectImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectImage
+        fields = ('id', 'image')
+
+
 class ProjectSerializer(serializers.ModelSerializer):
-
-    pictures_url = serializers.SerializerMethodField()
-
     class Meta:
         model = Project
         exclude = ['is_deleted', 'total_collected', 'deleted_at']
 
-    def get_pictures_url(self, obj):
-        request = self.context.get('request')
-        if obj.pictures:
-            return request.build_absolute_uri(obj.pictures.url)
-        return None
-
+    images = ProjectImageSerializer(many=True, read_only=True)
     category_name = serializers.CharField(
         source='category.name', read_only=True)
     tags_info = TagsSerializer(source="tags", many=True, read_only=True)
@@ -26,7 +24,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     progress = serializers.SerializerMethodField()
     donations = serializers.SerializerMethodField()
     total_collected = serializers.SerializerMethodField()
-    project_rating = serializers.SerializerMethodField()
+    get_project_rating = serializers.ReadOnlyField()
 
     class Meta:
         model = Project
@@ -55,6 +53,3 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     def get_total_collected(self, obj):
         return obj.get_total_collected
-
-    def get_project_rating(self, obj):
-        return obj.get_project_rating
