@@ -1,4 +1,5 @@
 # from django.shortcuts import render
+from django.shortcuts import render
 from rest_framework.exceptions import ValidationError
 import datetime
 from rest_framework import viewsets, status
@@ -8,6 +9,7 @@ from .models import Project, ProjectStatus, ProjectImage
 from .serializer import ProjectSerializer
 from datetime import datetime, timedelta
 from rest_framework.exceptions import ValidationError
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
@@ -131,3 +133,27 @@ class ProjectViewSet(viewsets.ModelViewSet):
         top_projects = Project.get_top_five_rated_active_project()
         serializer = ProjectSerializer(top_projects, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    
+    
+##############  Dashboard  ###############
+
+
+def index(request):
+    # Get all projects
+    projects = Project.objects.all()
+    paginator = Paginator(projects, 5)  # Show 5 projects per page
+    page_number = request.GET.get('page')
+    try:
+        paginated_projects = paginator.page(page_number)
+    except PageNotAnInteger:
+        paginated_projects = paginator.page(1)
+    except EmptyPage:
+        paginated_projects = paginator.page(paginator.num_pages)
+    return render(request, 'index.html', {'projects': paginated_projects})
+
+
+def view_details(requset,pk):
+    #get Project by id
+    project = Project.objects.get(id=pk)
+    return render(requset,'show.html',{'project':project})
