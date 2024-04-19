@@ -108,6 +108,8 @@ export default {
     const projectStore = inject("projectStore");
     const projectID = ref(null);
 
+    console.log("from child comment ", projectID);
+
     watchEffect(() => {
       projectID.value = projectStore.projectID;
       console.log(projectID.value);
