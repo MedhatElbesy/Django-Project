@@ -82,7 +82,16 @@ class Project(models.Model):
 
     @property
     def get_progress(self):
-        return (self.total_collected / self.total_target) * 100
+        try:
+            # check if total target is not zero
+            if self.total_target == 0:
+                # throw an err
+                raise ZeroDivisionError
+
+            value = (self.total_collected / self.total_target) * 100
+            return value
+        except ZeroDivisionError:
+            return 0
 
     @property
     def get_remaining_amount(self):

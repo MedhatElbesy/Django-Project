@@ -7,10 +7,18 @@
     >
       <div class="carousel-inner">
         <!-- v-for="(projectItem, indx) in project"
-        :class="{ active: indx === 0 }"
         :key="indx" -->
-        <div class="carousel-item active">
-          <img :src="project.pictures" class="d-block w-100" alt="..." />
+        <div
+          class="carousel-item"
+          :class="{ active: indx === 0 }"
+          v-for="(image, indx) in project.images"
+          :key="indx"
+        >
+          <img
+            :src="image.image || project.pictures"
+            class="d-block w-100"
+            alt="..."
+          />
         </div>
       </div>
       <button
@@ -37,67 +45,50 @@
     <span>{{ project.remaining_days }} days left</span>
     <hr class="w-50 mx-auto" />
     <h5 class="h4">The amazing story about this project</h5>
-    <span class="badge bg-primary">{{ project.category_name }}</span>
-
+    <span class="badge bg-primary mx-1"
+      ><i class="fa-solid fa-list"> </i> {{ project.category_name }}</span
+    >
+    <br />
+    <span
+      v-for="(tag, index) in project.tags_info"
+      :key="index"
+      class="badge bg-success mx-1"
+      ><i class="fa-solid fa-tag"> </i>{{ tag.name }}
+    </span>
     <p class="my-3">
       {{ project.description }}
     </p>
   </div>
 </template>
 
-<!-- <script>
-import { useProjectStore } from "../stores/project";
-import { useRoute } from "vue-router";
-
-export default {
-  setup() {
-    const projectStore = useProjectStore();
-    const route = useRoute();
-    const currentProjectID = route.params.id || 1; // assuming project ID is in route params
-
-    projectStore.setProjectID(currentProjectID);
-
-    const fetchProjectData = async () => {
-      try {
-        await projectStore.fetchProjectData();
-        return projectStore.projectData;
-      } catch (error) {
-        console.error("Failed to fetch project data:", error);
-        return null;
-      }
-    };
-
-    return {
-      projects: fetchProjectData(),
-      projectID: currentProjectID,
-    };
-  },
-};
-</script> -->
 <script>
-import { useProjectStore } from "../stores/project";
 // import { useRoute } from "vue-router";
+import { ref, watchEffect, inject } from "vue";
 
 export default {
   async setup() {
     // getting project id
     // const route = useRoute();
-    const projectStore = useProjectStore();
-    const currentProjectID = 1;
-    projectStore.setProjectID(currentProjectID);
-
-    // fetching project data by id
+    const projectStore = inject("projectStore");
+    const projectID = ref(null);
+    const loading = ref(false);
+    const error = ref(null);
+    const projectData = ref({});
+    console.log("from child ", projectID);
+    console.log("from child carousel ", projectData);
+    watchEffect(() => {
+      projectID.value = projectStore.projectID;
+      projectData.value = projectStore.projectData;
+      loading.value = projectStore.loading;
+      error.value = projectStore.error;
+    });
+    // getting id from url
+    const currentProjectID = projectID;
     try {
-      await projectStore.fetchProjectData();
-      let projectPayment = await projectStore.fetchProjectPayment();
-      // make project payment = to latest 5
-      projectPayment = projectPayment.slice(-5).reverse();
-      const project = projectStore.projectData;
-      console.log(projectPayment);
-      // console.log("Project data:", project);
-      // console.log(project);
-      return { project, projectID: currentProjectID, projectPayment };
+      const project = projectData;
+      return { project, projectID: currentProjectID };
     } catch (error) {
+      alert("here");
       console.error("Failed to fetch project data:", error);
       return { project: null, projectID: currentProjectID };
     }
