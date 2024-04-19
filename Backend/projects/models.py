@@ -2,7 +2,7 @@ import datetime
 from django.db import models
 from django.db.models import Avg, F, Value
 from django.db.models.functions import Coalesce
-from multiupload.fields import MultiImageField
+from multiupload.fields import MultiImageField # type: ignore
 
 # TODO uncomment the following lines when the models are ready
 from accounts.models import User
@@ -42,8 +42,7 @@ class Project(models.Model):
     description = models.TextField()
     status = models.CharField(
         max_length=2, choices=ProjectStatus.choices, default=ProjectStatus.IN_PROGRESS, null=True)
-    pictures = models.ImageField(upload_to='projects/pictures/',
-                                 null=True, blank=True, validators=[validate_image_extension])
+    pictures = models.ImageField(upload_to='projects/pictures/',null=True, blank=True, validators=[validate_image_extension])
 
     video = models.FileField(upload_to='projects/videos/', null=True)
     total_target = models.DecimalField(
@@ -120,6 +119,10 @@ class Project(models.Model):
             avg_rating=models.Avg('ratings__rating')
         ).order_by('-avg_rating')[:5]
         return top_projects
+    
+    @property
+    def image_url(self):
+        return f"/media/{self.pictures}"
 
     class Meta:
         ordering = ['-created_at']
