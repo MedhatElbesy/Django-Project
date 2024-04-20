@@ -1,8 +1,8 @@
 <template>
-    <main class="d-flex align-items-center justify-content-center firstcontainer">
-        <div class=" w-50 container secondcontainer my-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-8 col-md-10 col-sm-12">
+    <main class="d-flex align-items-center justify-content-center firstcontainer ">
+        <!-- <div class=" container secondcontainer my-5"> -->
+            <!-- <div class="row justify-content-center">  -->
+                <div class="col-lg-8 col-md-10 col-sm-12 secondcontainer my-5">
                     <div class="d-flex flex-column justify-content-center align-items-center mx-5">
                         <div class="box d-flex py-3">
                             <img src="https://media.istockphoto.com/id/1283030328/photo/silhouette-of-businessman-holding-target-board-on-the-top-of-mountain-with-over-blue-sky-and.jpg?s=612x612&w=0&k=20&c=2ZifINbmOZq9dWW8iviW1k275x2zDy8w5_TBuLB5Sso=">
@@ -13,14 +13,13 @@
                                     <label for="" class="col-form-label">Enter your donation</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">
-                                            <select class="form-select" id="validationCustom04" v-model="currency" required>
-                                                <option selected disabled :value="currency">Currency</option>
+                                            <select class="form-select" id="validationCustom04" v-model="selectedCurrency" required>
+                                                <option selected disabled value="Currency">Currency</option>
                                                 <option value="USD">USD</option>
                                                 <option value="EUR">EUR</option>
                                             </select>
                                         </span>
                                         <input type="text" name="money" v-model="donationAmount" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
-                                        <span class="input-group-text">0.00</span>
                                     </div>
                                     <div>
                                         <h4>Tip GoFundMe services</h4>
@@ -29,7 +28,7 @@
                                             <div class="progress-bar" role="progressbar" :style="{ width: tip/100 + '%' }" :aria-valuenow="tip" aria-valuemin="0" aria-valuemax="100">{{ tip }}%</div>
                                         </div>
                                     </div>
-                                    <label for="" class="col-form-label">Payment Method</label>
+                                    <!-- <label for="" class="col-form-label">Payment Method</label>
                                     <div>
                                         <input class="form-check-input" type="radio" name="paymentMethod" id="paypalRadio" v-model="selectedMethod" value="paypal">
                                         <label class="form-check-label" for="paypalRadio">PayPal</label>
@@ -37,9 +36,9 @@
                                     <div>
                                         <input class="form-check-input" type="radio" name="paymentMethod" id="creditRadio" v-model="selectedMethod" value="credit">
                                         <label class="form-check-label" for="creditRadio">Credit</label>
-                                    </div>
+                                    </div> -->
                                 </div>
-                                <div v-if="selectedMethod === 'paypal'" class="paypal col-12">
+                                 <!-- <div v-if="selectedMethod === 'paypal'" class="paypal col-12">
                                     <label for="validationCustom01" class="form-label">First name</label>
                                     <input type="text" class="form-control" id="validationCustom01" value="" required>
                                     <div class="valid-feedback">Looks good!</div>
@@ -67,8 +66,8 @@
                                     <label for="validationCustom05" class="form-label">Postal Code</label>
                                     <input type="number" class="form-control" id="validationCustom05" required>
                                     <div class="invalid-feedback">Please provide a valid Postal Code.</div>
-                                </div>
-                                <div v-if="selectedMethod === 'credit'" class="credit col-12">
+                                </div> 
+                                 <div v-if="selectedMethod === 'credit'" class="credit col-12">
                                     <label for="validationCustom01" class="form-label">First name</label>
                                     <input type="text" class="form-control" id="validationCustom01" value="" required>
                                     <div class="valid-feedback">Looks good!</div>
@@ -117,11 +116,7 @@
                                     <input type="text" class="form-control" id="validationCustom05" required>
                                     <div class="invalid-feedback">Please provide a valid Postal Code.</div>
 
-                                    <div class="py-3">
-                                        <input class="form-check-input" type="checkbox">
-                                        <label class="form-check-label" for="invalidCheck"> Save card for future donations</label>
-                                    </div>
-                                </div>
+                                </div>  -->
                                 <div class="col-12">
                                     <div>
                                         <label class="form-label">Your donation</label>
@@ -154,38 +149,37 @@
                             </form>
                     </div>
                 </div>
-            </div>
-        </div>
+            <!-- </div> -->
+        <!-- </div> -->
     </main>
 </template>
 
 
 
 <script>
-// import axios from 'axios';
 import { useProjectStore } from "../stores/project";
 export default {
     data:() =>({
         selectedMethod: 'paypal' ,
         donationAmount: 0,
-        currency: "USD",
+        selectedCurrency: "USD",
         project:{},
+        conversionRates: {
+        USD: 1,
+        EUR: 1.18 
+    },
     }),
     methods: {
-        collected(){
-            if(this.project.total_target < (this.project.total_target+this.donationAmount)){
-                this.donationAmount=(this.project.total_target-this.project.total_target)
-            }else{
-                return this.donationAmount;
-            }
-        },
         submitForm() {
-            if(this.project.deadline > Date.now()){
+            console.log("Deadline is ",this.project.deadline);
+            const deadlineDate = new Date(this.project.deadline);
+            if(deadlineDate > new Date()){
+                const amountToSubmit = this.selectedCurrency === "EUR" ? this.donationAmount * this.conversionRates.EUR : this.donationAmount;
                 const formData = {
-                    amount: this.total,
-                    currency: this.currency,
+                    amount: amountToSubmit,
+                    currency: this.selectedCurrency,
                     user:this.project.user,
-                    project: 2,
+                    project: 9,
                 };
                 fetch('http://127.0.0.1:8000/payment/create/', {
                     method: 'POST',
@@ -198,22 +192,21 @@ export default {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
+                    alert('Payment Done Successfully ');
                     return response.json();
                 })
-                .then(data => {
-                    
-                    console.log('Data sent successfully:', data);
-                    // console.log(data);
-                    // console.log("medhat");
-                })
-                
+                // .then(data => {
+                //     console.log('Data sent successfully:', data);
+                //     console.log(data);
+                //     console.log("medhat");
+                // })
                 .catch(error => {
                     console.error('Error sending data:', error);
                 });
             }else
                 alert('Timeout: The project deadline has passed.');
         },
-}
+    }
     ,
     computed:{
         donationPercentage(){
@@ -223,7 +216,6 @@ export default {
             return  (parseInt(this.donationPercentage));
         },
         total() {
-            this.collected();
             const tip = parseFloat(this.tip);
             const donationAmount = parseFloat(this.donationAmount);
                 return tip + donationAmount;
@@ -232,11 +224,11 @@ export default {
     async created(){
             try{
                 let myproject =  useProjectStore();
-                myproject.projectID = 1;
+                myproject.projectID = 5;
                 await myproject.fetchProjectData();
                 this.project =  myproject.projectData;
-                console.log(this.project);
-                console.log('uuuuuuuuuuuuuuuuuuu');
+                // console.log(this.project);
+                // console.log('uuuuuuuuuuuuuuuuuuu');
             }catch(e){
                 console.log("Error is",e);
             }
@@ -259,6 +251,7 @@ export default {
     .secondcontainer{
         border-radius: 50px;
         background-color: white;
+        max-width: 600px;
     }
     .paypal input[type="text"],
     .paypal select,
@@ -269,6 +262,9 @@ export default {
     .credit select,
     .credit input[type="date"] {
         border-radius: 5px; 
+    }
+    .container-fluid{
+        padding: 0 !important;
     }
     
 </style>

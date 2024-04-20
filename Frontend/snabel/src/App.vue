@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid ">
     <main class="row g-0">
       <router-view />
     
@@ -16,4 +16,9 @@
 </script>
 
 <style scoped>
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 </style>

@@ -1,4 +1,6 @@
-
+from django.shortcuts import render,get_object_or_404,reverse,redirect
+from django.http import HttpResponse
+# from payments.forms import PaymentModelForm
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -62,3 +64,35 @@ class PaymentViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         except Payment.DoesNotExist:
             return Response({'error': 'No Payment found'}, status=status.HTTP_404_NOT_FOUND)
+
+def payments_index(request):
+    payments = Payment.objects.all()
+    return render(request,template_name="payments/crud/index.html",
+                context={"payments":payments})
+
+def payment_show(request,id):
+    payments = get_object_or_404(Payment,pk=id)
+    return render(request,template_name="payments/crud/show.html",
+                context={"payments":payments})
+
+def payments_create(request):
+    if request.method == "POST":
+        payment = Payment(amount=request.POST["amount"],currency=request.POST["currency"],
+                    status=request.POST["status"],project_id=request.POST["project_id"],
+                    user_id=request.POST["user_id"])
+        payment.save()
+        return redirect(payment.show_url)
+    return render(request,template_name="payments/crud/create.html")
+
+# def payments_create(request):
+#     form = PaymentModelForm()
+#     if request.method == "POST":
+#         form = PaymentModelForm(request.POST)
+#         if form.is_valid():
+#             payment = form.save()
+#             return redirect(payment.show_url)
+#     return render(request , template_name="payments/forms/formModel.html"
+#                     ,context={"form":form})
+
+
+

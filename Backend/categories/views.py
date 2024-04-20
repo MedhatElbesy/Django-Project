@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from .serializer import CategorySerializer
 from .models import Category
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -63,3 +64,8 @@ class CategoryViewSet(viewsets.ModelViewSet):
       return Response(status=status.HTTP_204_NO_CONTENT)
     except Category.DoesNotExist:
       return Response({'error': 'Category Not Found'}, status=status.HTTP_404_NOT_FOUND)
+    
+
+
+
+

@@ -1,0 +1,36 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}Payments{%endblock%}
+{% block body %}
+
+<a href="{% url 'paymentscreate' %}" class="btn btn-info" style="margin: 20px;">Add New Via Model Form</a>
+<table class="table">
+    <tr style="font-weight: bold; text-align: center;">
+        <td> ID</td>
+        <td> Amount</td>
+        <td> Currency </td>
+        <td> Status</td>
+        <td> Related Project</td>
+        <td> Related User</td>
+        <td> Action</td>
+    </tr>
+    {% for payment in payments %}
+    <tr style="text-align: center;">
+        <td>{{payment.id }}</td>
+        <td>{{payment.amount }}</td>
+        <td> {{payment.currency}}</td>
+        <td>{{payment.status}}</td>
+        <td>{{payment.project_id}}</td>
+        <td>{{payment.user_id}}</td>
+    
+        <td>
+            <a class="btn btn-primary" href="{{payment.show_url}}">Show</a>
+        </td>
+        
+        
+    </tr>
+    {% endfor %}
+</table>
+    {%endblock%}
+
+    

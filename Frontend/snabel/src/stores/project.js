@@ -13,7 +13,7 @@ export const useProjectStore = defineStore("project", {
       let response;
       try {
         // response = await fetch(`${this.baseURL}/projects/${this.projectID}`);
-        response = await fetch(`${this.baseURL}/projects/1`);
+        response = await fetch(`${this.baseURL}/projects/9`);
 
         if (!response.ok) {
           throw new Error(

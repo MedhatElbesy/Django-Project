@@ -7,4 +7,5 @@ urlpatterns = [
     path('list/', CategoryViewSet.as_view({'get': 'list'}), name='list_all_categories'),
     path('update/<int:pk>', CategoryViewSet.as_view({'put': 'update'}), name='update_category'),
     path('delete/<int:pk>', CategoryViewSet.as_view({'delete': 'delete'}), name='delete_category'),
+    
 ]
