@@ -162,11 +162,13 @@ def five_featured_projects(request):
     paginated_projects = paginatedPages(request, projects)
     return render(request, 'index.html', {'projects': paginated_projects})
 
-def get_commests(request,id):
+
+def project_commests(request,id):
     project = Project.objects.get(id=id)
     comments = Comment.objects.filter(project=project)
     paginated_comments = paginatedPages(request, comments)
-    return render(request, 'index.html', {'comments': paginated_comments})
+    return render(request, 'comments.html', {'comments': paginated_comments,'project':project})
+
 
 def project_deleted(request):
     projects = Project.objects.filter(is_deleted=True)

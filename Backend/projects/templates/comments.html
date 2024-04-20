@@ -1,0 +1,37 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="row container pt-3 mt-5 ">
+    <div class="card p-3">
+        <div class="card card m-auto p-3">
+            <div class="row g-0 pt-2">
+                <div class="col-md-4 p-2">
+                    <img src="{{project.image_url}}" class="img-fluid h-100">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+
+                        <h5 class="card-title text-center">{{project.title}}</h5>
+                        <h5 class="card-title">Username: <span class="text-muted">{{project.user.username}}</span></h5>
+                        <h4 class="card-title">Comments: </h4>
+                        <ul>
+                            {% for comment in comments %}
+                                <li class="card-text">
+                                    <small class="text-muted">{{comment.comment}}</small>
+                                </>
+                            {% endfor %}
+                        </ul>
+
+                    
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+{%endblock%}

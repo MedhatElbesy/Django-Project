@@ -1,5 +1,5 @@
 from django import forms
-from categories.models import Categories
+from categories.models import Category
 
 class CategoryForm(forms.Form):
     name = forms.CharField(max_length=100,label=' Name', required=True)
@@ -8,5 +8,5 @@ class CategoryForm(forms.Form):
 
 class CategoryModelForm(forms.ModelForm):
   class Meta:
-    model = Categories
+    model = Category
     fields = '__all__'

@@ -5,7 +5,7 @@
 
 {% block content %}
 
-    <div class="row container pt-3 mt-5 myrow">
+    <div class="row container pt-3 mt-5 ">
         {% if messages %}
             <ul class="messages alert alert-success text-center list-unstyled">
                 {% for message in messages %}
@@ -50,6 +50,7 @@
                         <a href="{% url 'project.featured' project.id %}" class="btn btn-success" {% if project.is_featured %}disabled{% endif %}>
                             {% if project.is_featured %}Remove Featured{% else %}Add to Featured{% endif %}
                         </a>
+                        <a href='{% url "project.comments" project.id%}' class="btn btn-primary">Comments</a>
                     </td>
                 </tr>
                 {% endfor %}

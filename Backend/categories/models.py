@@ -10,7 +10,7 @@ class CategoryStatus(models.TextChoices):
     UNDER_PROCESS = 'Under Process'
     DELETED = 'Deleted'
 
-class Categories(models.Model):
+class Category(models.Model):
   name=models.CharField(max_length=50, unique=True)
   description=models.CharField(max_length=255)
   created_at = models.DateTimeField(auto_now_add=True, null=True)
