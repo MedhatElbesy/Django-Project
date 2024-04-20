@@ -17,11 +17,17 @@
                         <h5 class="card-title">Username: <span class="text-muted">{{project.user.username}}</span></h5>
                         <h4 class="card-title">Comments: </h4>
                         <ul>
-                            {% for comment in comments %}
+                            {% if comments|length  > 0 %}
+                                {% for comment in comments %}
+                                    <li class="card-text">
+                                        <small class="text-muted">{{comment.comment}}</small>
+                                    </>
+                                {% endfor %}
+                            {% else %}
                                 <li class="card-text">
-                                    <small class="text-muted">{{comment.comment}}</small>
-                                </>
-                            {% endfor %}
+                                    <small class="text-muted">No comments yet</small>
+                                </li>
+                            {% endif %}
                         </ul>
 
                     

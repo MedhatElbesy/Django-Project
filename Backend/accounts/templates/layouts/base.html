@@ -113,19 +113,22 @@
                         </li>
                         <li class="nav-item dropdown me-3 me-lg-0">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Ahmed Elbalouty</span>
-                                <img class="rounded-circle" src="img/ahmd.jpg" width="20px" height="20px">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user.username }}</span>
+                                <img class="rounded-circle" src="{{ user.image_url }}" width="20px" height="20px">
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{% url 'accounts.profile' %}"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile</a></li>
-                                <li><div class="dropdown-divider"></div></li>
                                 <li>
-                                    <form class="form-inline" method="post" action="{% url 'logout' %}">
-                                        {% csrf_token %}
-                                        <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt fa-sm fa-fw ms-0 me-2 text-gray-400"></i> Logout</button>
-                                    </form>
+                                    <div class="dropdown-divider"></div>
                                 </li>
+                                <li>
+                                    <button class="dropdown-item"data-bs-toggle="modal"
+                                    data-bs-target="#modalId">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw ms-0 me-2 text-gray-400"></i>
+                                    Profile</button></li>
+                                <li>
+                                
                             </ul>
                         </li>
 
@@ -148,6 +151,48 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     </div>
 
+    
+    <!-- Modal -->
+    <div
+        class="modal fade"
+        id="modalId"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="modalTitleId"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitleId">
+                        Are You Sure To logout
+                    </h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">Add rows here</div>
+                </div>
+                <div class="modal-footer">
+                    <form class="form-inline" method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-secondary"data-bs-dismiss="modal">
+                            logout
+                        </button>
+                    </form>
+                        
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                    aria-label="Close">cansel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
     <script>
         // Get the current URL
         var currentUrl = window.location.pathname;

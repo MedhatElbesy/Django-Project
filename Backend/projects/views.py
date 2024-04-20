@@ -15,6 +15,8 @@ from django.contrib import messages
 from projects.forms import ProjectForm
 from comments.models import Comment
 
+
+
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
