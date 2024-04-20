@@ -13,6 +13,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 from django.contrib import messages
 from projects.forms import ProjectForm
+from comments.models import Comment
 
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
@@ -136,10 +137,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
         serializer = ProjectSerializer(top_projects, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    
-    
-##############  Dashboard  ###############
 
+
+##############  Dashboard URL ###############
 def paginatedPages(request,projects):
     paginator = Paginator(projects, 5)  # Show 5 projects per page
     page_number = request.GET.get('page')
@@ -157,6 +157,16 @@ def index(request):
     paginated_projects = paginatedPages(request, projects)
     return render(request, 'index.html', {'projects': paginated_projects})
 
+def five_featured_projects(request):
+    projects = Project.objects.filter(is_featured=True)
+    paginated_projects = paginatedPages(request, projects)
+    return render(request, 'index.html', {'projects': paginated_projects})
+
+def get_commests(request,id):
+    project = Project.objects.get(id=id)
+    comments = Comment.objects.filter(project=project)
+    paginated_comments = paginatedPages(request, comments)
+    return render(request, 'index.html', {'comments': paginated_comments})
 
 def project_deleted(request):
     projects = Project.objects.filter(is_deleted=True)
@@ -171,15 +181,24 @@ def top_five_rated_projects(request):
 
 def add_to_feature(request,id):
     project= Project.objects.get(id=id)
+    featured_count = Project.objects.filter(is_featured=True).count()
+
     if project.is_featured:
         project.is_featured=False
         messages.success(request, 'Remove Project From Featured!')
-    else:
+        project.save()
+        return redirect('project.home')
+
+    if featured_count < 5:
         project.is_featured=True
         messages.success(request, 'Project Has bean featured!')
+    else:
+        messages.warning(request, 'You can only feature up to 5 projects.')
+
     project.save()
-    
     return redirect('project.home')
+
+
 
 def view_details(requset,pk):
     project = Project.objects.get(id=pk)
