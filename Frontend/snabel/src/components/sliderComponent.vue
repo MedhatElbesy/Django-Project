@@ -1,5 +1,5 @@
 <template>
-    <div id="productImage" class="carousel slide " data-bs-ride="carousel">
+    <div id="productImage" class="carousel slide " data-bs-ride="carousel" v-if="projects.length > 0">
         <!-- buttons indicators -->
         <div class="carousel-indicators">
             <button v-for="(project, index) in topProjects" 
