@@ -1,8 +1,9 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import './registerServiceWorker'
-import router from './router'
+import { createApp } from 'vue';
+import App from './App.vue';
+import './registerServiceWorker';
+import router from './router';
 import { createPinia } from "pinia";
+import '@/assets/styles/formStyle.css';
 
 const app = createApp(App);
 const pinia = createPinia();

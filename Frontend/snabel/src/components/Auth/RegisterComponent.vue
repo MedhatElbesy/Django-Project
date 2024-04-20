@@ -1,11 +1,10 @@
 <template>
-  <div class="row g-0 auth-page bg-light position-relative vh-100">
+  <div class="auth-page row g-0 bg-light position-relative vh-100">
     <!-- Start Messages -->
     <div v-if="successMessages" class="alert alert-success alert-dismissible fade show position-absolute top-0 start-50 translate-middle-x p-2" role="alert">
         <strong class="mb-0">{{ successMessages }}</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="height: auto;"></button>
     </div>
-
     <div v-for="(messages, field) in errorMessages" :key="field" class="alert alert-danger alert-dismissible fade show position-absolute top-0 start-50 translate-middle-x p-2" role="alert">
       <ul class="mb-0">
         <li class="p-0 bullet-list" v-for="message in messages" :key="message">{{ message }}</li>
@@ -16,9 +15,9 @@
 
     <SidebarComponent/>
 
-    <article class="login d-flex flex-wrap align-content-center shadow col-lg-8 vh-100">
+    <article class="signup d-flex flex-wrap align-content-center shadow transition col-12 col-lg-8">
       <form class="w-75 m-auto mt-5" enctype="multipart/form-data" @submit.prevent="registerUser">
-        <p class="signin color mb-5">Already have an account? <router-link to="/login" class="text-color text-decoration-underline">Sign In</router-link></p>
+        <p class="signin color mb-5">Already have an account? <router-link :to="{name: 'Login'}" class="text-color text-decoration-underline">Sign In</router-link></p>
         <div class="mb-3 text-center">
           <div id="image_preview"
                 class="bg-light border position-relative border-1 d-inline-block text-center rounded rounded-circle position-relative overflow-hidden"
@@ -233,30 +232,10 @@ export default {
       list-style-type: disc;
       margin-left: 20px;
   }
-
   .bullet-list li {
       margin-left: 10px;
   }
-  .welcome {
-    padding-top: 28px;
-  }
-  h3 {
-    margin-bottom: 24px;
-  }
-  .ayat {
-    text-align: center;
-    direction: rtl;
-    padding-bottom: 40px;
-    font-weight: bold;
-    color: var(--mainTextColor);
-    letter-spacing: 2px;
-    word-spacing: 3px;
-    font-family: 'Reem Kufi', sans-serif;
-  }
-  em {
-    font-size: 12px;
-  }
-  .login {
+  .signup {
     border-top-left-radius: 52px;
     background-color: #FFF;
   }
@@ -344,8 +323,16 @@ export default {
     border-left: 1px solid #4666a7;
   }
 
+  @media screen and (min-width: 992px) {
+    .signup {
+      border-top-right-radius: 52px;
+      max-height: 100%;
+      overflow: auto;
+      padding-top: 250px;
+    }
+  }
   @media screen and (max-width: 992px) {
-    .login {
+    .signup {
       border-top-right-radius: 52px;
     }
   }

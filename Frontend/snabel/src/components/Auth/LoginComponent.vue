@@ -13,10 +13,10 @@
 
     <SidebarComponent/>
 
-    <article class="login d-flex flex-wrap align-content-center shadow col-lg-8 vh-100">
+    <article class="login d-flex flex-wrap align-content-center shadow transition col-lg-8">
       <form class="w-75 m-auto mt-5" @submit.prevent="authenticationStore.login(user.email, user.password)">
         <div>
-          <p class="signup color mb-5">Don't have an account? <router-link to="/register" class="text-color text-decoration-underline">Sign Up</router-link></p>
+          <p class="signup color mb-5">Don't have an account? <router-link :to="{name: 'Register'}" class="text-color text-decoration-underline">Sign Up</router-link></p>
           <p>Sign in to <strong class="color">Snabel</strong></p>
           <div class="form-floating mb-3 position-relative">
             <input v-model="user.email" aria-describedby="email"
@@ -35,7 +35,7 @@
           <i id="togglePassword1" :class="passwordVisible ? 'fas fa-eye icon' : 'fas fa-eye-slash icon'" class="position-absolute" @click="togglePasswordVisibility"></i>
           <label for="password">Password</label>
         </div>
-          <router-link to="/forget-password" class="text-color text-decoration-underline">Forgot your password?</router-link>
+          <router-link :to="{name: 'ForgetPassword'}" class="text-color text-decoration-underline">Forgot your password?</router-link>
         </div>
         <div class="social w-100 m-auto text-center mt-5">
           <p class="text-color fw-bold position-relative">or</p>
@@ -99,26 +99,6 @@ export default {
 
   .bullet-list li {
     margin-left: 10px;
-  }
-
-  .welcome {
-    padding-top: 28px;
-  }
-  h3 {
-    margin-bottom: 24px;
-  }
-  .ayat {
-    text-align: center;
-    direction: rtl;
-    padding-bottom: 40px;
-    font-weight: bold;
-    color: var(--mainTextColor);
-    letter-spacing: 2px;
-    word-spacing: 3px;
-    font-family: 'Reem Kufi', sans-serif;
-  }
-  em {
-    font-size: 12px;
   }
   .login {
     border-top-left-radius: 52px;
