@@ -1,7 +1,7 @@
 <template>
   <div class="links d-flex flex-wrap mb-3">
     <div class="top d-flex flex-wrap align-items-center justify-content-between px-5 mx-3 w-100">
-      <figure class="d-flex align-items-center w-75"><router-link to="/">
+      <figure class="d-flex align-items-center w-75"><router-link :to="{name: 'Home'}">
         <img src="../assets/logo.png" width="150" alt="Snabel Logo"></router-link>
         <figcaption>A way to <strong>CHANGE</strong> the world</figcaption>
       </figure>
@@ -15,9 +15,9 @@
       </ul>
       <ul class="w-75">
         <li>1998-2024 &copy; Snabel-ITI</li>
-        <li><router-link to="/terms">Terms</router-link></li>
-        <li><router-link to="/privacy">Privacy Notice</router-link></li>
-        <li><router-link to="/legal">Legal</router-link></li>
+        <li><router-link :to="{name: 'About'}">Terms</router-link></li>
+        <li><router-link :to="{name: 'About'}">Privacy Notice</router-link></li>
+        <li><router-link :to="{name: 'About'}">Legal</router-link></li>
       </ul>
       <ul class="w-25 justify-content-between">
         <li><a href="https://www.googleplay.com"><img src="../assets/googleplay.png" width="120" alt="googleplay"></a></li>

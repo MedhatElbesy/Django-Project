@@ -29,43 +29,42 @@
 </template>
 
 <script>
-import { useProjectStore } from "../stores/project";
+    import { useProjectStore } from "../stores/project";
 
-export default {
-    data:()=>({
-        selectedOption: "close_to_goal",
-        heighRate:{},
-        projetInfo:{},
-        
-    }),
-    methods:{
-        async fetchData() {
-            try {
-                const myStore = useProjectStore();
-                if (this.selectedOption == "just_launched"){
-                    const lunched = await myStore.latest();
-                    this.projetInfo = lunched;
-                }else if(this.selectedOption == "top_rated"){
-                    let topRated = await myStore.allProject();
-                    topRated.sort((a, b) => b.get_project_rating - a.get_project_rating);
-                    this.projetInfo = topRated.slice(0, 5);
-                }else if(this.selectedOption == "happening_worldwide"){
-                    this.projetInfo = '';
-                }else{
-                    const paymentData = await myStore.allProject();
-                    this.projetInfo = paymentData;
+    export default {
+        data:()=>({
+            selectedOption: "close_to_goal",
+            heighRate:{},
+            projetInfo:{},
+            
+        }),
+        methods:{
+            async fetchData() {
+                try {
+                    const myStore = useProjectStore();
+                    if (this.selectedOption == "just_launched"){
+                        const lunched = await myStore.latest();
+                        this.projetInfo = lunched;
+                    }else if(this.selectedOption == "top_rated"){
+                        let topRated = await myStore.allProject();
+                        topRated.sort((a, b) => b.get_project_rating - a.get_project_rating);
+                        this.projetInfo = topRated.slice(0, 5);
+                    }else if(this.selectedOption == "happening_worldwide"){
+                        this.projetInfo = '';
+                    }else{
+                        const paymentData = await myStore.allProject();
+                        this.projetInfo = paymentData;
+                    }
+                    // const topRatedData = await myStore.topRated();
+                    // this.heighRate = topRatedData.results;
+                } catch (error) {
+                    console.error('Error fetching data:', error);
                 }
-                // const topRatedData = await myStore.topRated();
-                // this.heighRate = topRatedData.results;
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        },
-    }, async created(){
-        this.fetchData();
+            },
+        }, async created(){
+            this.fetchData();
+        }
     }
-}
-
 </script>
 
 <style scoped>

@@ -1,10 +1,11 @@
-import { defineStore } from "pinia";
+ import { defineStore } from "pinia";
 
 export const useAuthenticationStore = defineStore("authenticationStore", {
   state: () => ({
     user: {},
     errorMessages: '',
     successMessages: '',
+    // isAuth: false,
   }),
 
   actions: {
@@ -26,6 +27,7 @@ export const useAuthenticationStore = defineStore("authenticationStore", {
           localStorage.setItem('token', userData.token);
           this.successMessages = userData.message;
           this.errorMessages = '';
+          // this.isAuth = true;
           console.log("Login successful:", this.user, userData.message);
         } else {
           this.errorMessages = "Login Failed, error in email or password!"
@@ -37,11 +39,10 @@ export const useAuthenticationStore = defineStore("authenticationStore", {
         this.successMessages = '';
       }
     },
-
-
     logout() {
       localStorage.removeItem('token');
       this.user = {};
-    }
+      // this.isAuth = false;
+    },
   },
 });

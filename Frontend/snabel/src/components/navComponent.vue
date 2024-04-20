@@ -2,7 +2,7 @@
   <div class="d-flex justify-content-between align-items-center">
     <ul class="left d-flex">
       <li>
-        <router-link to="/search"
+        <router-link :to="{name: 'Search'}"
           ><i class="fa-solid fa-magnifying-glass"></i> Search</router-link
         >
       </li>
@@ -12,18 +12,17 @@
           <individualsLinks />
         </div>
       </li>
-      <li><router-link to="/">For Charities</router-link></li>
+      <li><router-link :to="{name: 'Home'}">For Charities</router-link></li>
     </ul>
     <figure class="logo d-flex justify-content-center align-items-center mb-0">
-      <router-link to="/"
-        ><img src="../assets/logo.png" alt="Snabel Logo"
+      <router-link :to="{name: 'Home'}"><img src="../assets/logo.png" alt="Snabel Logo"
       /></router-link>
     </figure>
     <div class="right d-flex justify-content-end">
-      <router-link to="/AddProject" class="fw-bold color"
+      <router-link :to="{name: 'AddProject'}" class="fw-bold color"
         >Start SnabelSadaka</router-link
       >
-      <router-link to="/login" class="fw-bold text-color">Log In</router-link>
+      <router-link :to="{name: 'Login'}" class="fw-bold text-color">Log In</router-link>
     </div>
   </div>
 </template>

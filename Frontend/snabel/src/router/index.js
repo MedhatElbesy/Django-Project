@@ -1,35 +1,38 @@
 import { createRouter, createWebHistory } from "vue-router";
 // import sliderComponent from '../components/sliderComponent.vue'
 // import lastProjectComponent from '../components/lastProjectComponent.vue'
-import RegisterComponent from "../components/Auth/RegisterComponent.vue";
-import LoginComponent from "@/components/Auth/LoginComponent.vue";
-import ForgetPasswordComponent from "@/components/Auth/ForgetPasswordComponent.vue";
+// import RegisterComponent from "@/components/Auth/RegisterComponent.vue";
+// import LoginComponent from "@/components/Auth/LoginComponent.vue";
+import ForgetPasswordComponent from "@/components/Auth/ForgetPasswordComponent2.vue";
 
 const routes = [
   {
     path: "/",
-    name: "home",
+    name: "Home",
     component: () => import("../views/HomeView.vue"),
   },
   {
     path: "/search",
-    name: "search",
-    component: () => import("../components/searchComponent.vue"),
+    name: "Search",
+    component: () => import("../views/searchView.vue"),
   },
   {
     path: "/about",
-    name: "about",
+    name: "About",
     component: () => import("../views/AboutView.vue"),
   },
   {
     path: "/register",
     name: "Register",
-    component: RegisterComponent,
+    // component: RegisterComponent,
+    component: () => import("@/components/Auth/AuthinticationComponent.vue"),
+    
   },
   {
     path: "/login",
     name: "Login",
-    component: LoginComponent,
+    // component: LoginComponent,
+    component: () => import("@/components/Auth/AuthinticationComponent.vue"),
   },
   {
     path: "/forget-password",
@@ -51,6 +54,11 @@ const routes = [
     path: "/addProject",
     name: "AddProject",
     component: () => import("../components/addProjectComponent.vue"),
+  },
+  {
+    path: "/error",
+    name: "error",
+    component: () => import("../components/errors/errorComponent.vue"),
   },
   {
     path: "/:cathcAll(.*)",
