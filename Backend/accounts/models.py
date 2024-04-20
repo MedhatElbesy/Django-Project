@@ -45,7 +45,6 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
 
-    @property
     def __str__(self):
         return self.email
 
