@@ -1,11 +1,13 @@
 from django.shortcuts import render,get_object_or_404,reverse,redirect
-from django.http import HttpResponse
-# from payments.forms import PaymentModelForm
+from django.http import HttpResponse,JsonResponse
+from django.core.exceptions import ValidationError
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from .serializer import PaymentSerializer
 from .models import Payment
+from reports.views import home
+from rest_framework.pagination import PageNumberPagination
 
 # Create your views here.
 
@@ -67,6 +69,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
 
 def payments_index(request):
     payments = Payment.objects.all()
+    
     return render(request,template_name="payments/crud/index.html",
                 context={"payments":payments})
 
@@ -77,6 +80,18 @@ def payment_show(request,id):
 
 def payments_create(request):
     if request.method == "POST":
+        amount = request.POST("amount")
+        currency = request.POST("currency")
+        
+        try:
+            amount = float(amount)
+            if amount <= 0:
+                raise ValidationError("Amount must be a positive number.")
+        except ValueError:
+            return JsonResponse({"error": "Invalid amount."}, status=400)
+        
+        if currency not in ['EUR', 'USD']:
+            return JsonResponse({"error": "Invalid currency. Must be EUR or USD."}, status=400)
         payment = Payment(amount=request.POST["amount"],currency=request.POST["currency"],
                     status=request.POST["status"],project_id=request.POST["project_id"],
                     user_id=request.POST["user_id"])
@@ -84,15 +99,7 @@ def payments_create(request):
         return redirect(payment.show_url)
     return render(request,template_name="payments/crud/create.html")
 
-# def payments_create(request):
-#     form = PaymentModelForm()
-#     if request.method == "POST":
-#         form = PaymentModelForm(request.POST)
-#         if form.is_valid():
-#             payment = form.save()
-#             return redirect(payment.show_url)
-#     return render(request , template_name="payments/forms/formModel.html"
-#                     ,context={"form":form})
+
 
 
 
