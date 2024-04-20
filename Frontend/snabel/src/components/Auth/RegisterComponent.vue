@@ -1,5 +1,5 @@
 <template>
-  <div class="row g-0 auth-page bg-light position-relative">
+  <div class="row g-0 auth-page bg-light position-relative vh-100">
     <!-- Start Messages -->
     <div v-if="successMessages" class="alert alert-success alert-dismissible fade show position-absolute top-0 start-50 translate-middle-x p-2" role="alert">
         <strong class="mb-0">{{ successMessages }}</strong>
@@ -13,7 +13,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="height: auto;"></button>
     </div>
     <!-- End Of Messages -->
-    <article class="col-lg-4  p-lg-5 p-3">
+    <article class="col-lg-4  p-lg-5 p-3 transition">
       <figure class="mb-lg-5 mb-3">
         <router-link to="/"><img src="../../assets/logo.png" width="50px" alt="Snabel Logo"></router-link>
       </figure>
@@ -26,7 +26,7 @@
         </p>
       </div>
     </article>
-    <article class="login d-flex flex-wrap align-content-center shadow col-lg-8">
+    <article class="login d-flex flex-wrap align-content-center shadow col-lg-8 transition">
       <form class="w-75 m-auto mt-5" enctype="multipart/form-data" @submit.prevent="registerUser">
         <p class="signin color mb-5">Already have an account? <router-link to="/login" class="text-color text-decoration-underline">Log In</router-link></p>
         <div class="mb-3 text-center">
@@ -127,7 +127,7 @@
             </li>
           </ul>
         </div>
-        <div class="submit text-center col-lg-8">
+        <div class="submit text-center col-lg-8 transition">
           <p class="terms text-color w-100">By clicking the Sign Up button below, you agree to the Snabel Terms of Service and acknowledge the Privacy Notice.</p>
           <button class="btn btn-secondary text-light fw-bold px-3 mx-5" type="submit">Sign Up</button>
         </div>

@@ -3,22 +3,22 @@ import { createRouter, createWebHistory } from "vue-router";
 // import lastProjectComponent from '../components/lastProjectComponent.vue'
 import RegisterComponent from "../components/Auth/RegisterComponent.vue";
 import LoginComponent from "@/components/Auth/LoginComponent.vue";
-import ForgetPasswordComponent from "@/components/Auth/ForgetPasswordComponent.vue";
+import ForgetPasswordComponent from "@/components/Auth/ForgetPasswordComponent2.vue";
 
 const routes = [
   {
     path: "/",
-    name: "home",
+    name: "Home",
     component: () => import("../views/HomeView.vue"),
   },
   {
     path: "/search",
-    name: "search",
+    name: "Search",
     component: () => import("../views/searchView.vue"),
   },
   {
     path: "/about",
-    name: "about",
+    name: "About",
     component: () => import("../views/AboutView.vue"),
   },
   {

@@ -1,0 +1,28 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}Categories{%endblock%}
+{% block body %}
+    <a href="{% url 'category_create' %}" class="btn btn-info" style="margin: 20px;">Add New </a>
+    <table class="table">
+        <tr style="font-weight: bold; text-align: center;">
+            <td>ID</td>
+            <td>Name</td>
+            <td>Description </td>
+            <td>Created At</td>
+            <td>Updated At</td>
+            <td colspan="3">Actions</td>
+        </tr>
+        {% for category in categories %}
+        <tr style="text-align: center;">
+            <td>{{category.id }}</td>
+            <td>{{category.name }}</td>
+            <td>{{category.description}}</td>
+            <td>{{category.created_at}}</td>
+            <td>{{category.updated_at}}</td>
+            <td><a class="btn btn-primary" href="{{category.show_url}}">Show</a></td>
+            <td><a class="btn btn-info" href="{{category.update_url}}">Update</a></td>
+            <td><a class="btn btn-danger" href="{{category.delete_url}}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+{%endblock%}

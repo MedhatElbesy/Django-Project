@@ -1,5 +1,5 @@
 <template>
-  <div class="row g-0 auth-page bg-light position-relative">
+  <div class="row g-0 auth-page bg-light position-relative vh-100">
     <!-- Start Messages -->
     <div v-if="authenticationStore.successMessages" class="alert alert-success alert-dismissible fade show position-absolute top-0 start-50 translate-middle-x p-2" role="alert">
       <strong class="ms-4">{{ authenticationStore.successMessages }}</strong>
@@ -10,9 +10,9 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="height: auto;"></button>
     </div>
     <!-- End Of Messages -->
-    <article class="col-lg-4 p-lg-5 p-3">
+    <article class="col-lg-4 p-lg-5 p-3 transition">
       <figure class="mb-lg-5 mb-3">
-        <router-link to="/"><img src="../../assets/logo.png" width="50px" alt="Snabel Logo"></router-link>
+        <router-link :to="{name: 'Home'}"><img src="../../assets/logo.png" width="50px" alt="Snabel Logo"></router-link>
       </figure>
       <div class="welcome">
         <span class="text-color">Welcome Back</span>
@@ -25,7 +25,7 @@
         </p>
       </div>
     </article>
-    <article class="login d-flex flex-wrap align-content-center shadow col-lg-8">
+    <article class="login d-flex flex-wrap align-content-center transition shadow col-lg-8">
       <form class="w-75 m-auto mt-5" @submit.prevent="authenticationStore.login(user.email, user.password)">
         <div>
           <p class="signup color mb-5">Don't have an account? <router-link to="/register" class="text-color text-decoration-underline">Sign Up</router-link></p>
@@ -102,12 +102,12 @@ export default {
 
 <style scoped>
   .bullet-list {
-      list-style-type: disc;
-      margin-left: 20px;
+    list-style-type: disc;
+    margin-left: 20px;
   }
 
   .bullet-list li {
-      margin-left: 10px;
+    margin-left: 10px;
   }
 
   .welcome {

@@ -6,7 +6,7 @@ from multiupload.fields import MultiImageField # type: ignore
 
 # TODO uncomment the following lines when the models are ready
 from accounts.models import User
-from categories.models import Category
+from categories.models import Categories
 from tags.models import Tags
 from payments.models import Payment, PaymentStatus
 
@@ -35,7 +35,7 @@ class Project(models.Model):
     # Attributes definition
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Categories, on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tags, related_name='projects')
     ################################################
     title = models.CharField(max_length=200)

@@ -112,7 +112,9 @@ export const useProjectStore = defineStore("project", {
     async fetchProjectData() {
       try {
         // let id = this.projectID;
-        const response = await fetch(`${this.baseURL}/projects/39`);
+        const response = await fetch(
+          `${this.baseURL}/projects/${this.projectID}`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch project data");
         }
