@@ -15,8 +15,10 @@
           :key="indx"
         >
           <img
-            :src="image.image || project.pictures"
-            class="d-block w-100"
+            :src="image.image || project.pictures[0]"
+            height="400"
+            width="100%"
+            class="d-block"
             alt="..."
           />
         </div>

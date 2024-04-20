@@ -20,85 +20,81 @@
         <p>{{ comment.comment }}</p>
       </div>
     </div>
-    <form @submit.prevent="handleSubmit" class="form">
+    <form @submit.prevent class="form">
       <label class="form-label" for="comment"
         >Say something about this project!</label
       >
       <br />
       <input class="form-control" type="text" name="comment" id="comment" />
-      <input type="hidden" name="project" :value="projectID" />
+      <input
+        class="form-control"
+        type="hidden"
+        name="projec"
+        id="project"
+        :value="projectID"
+      />
+
       <br />
-      <input class="btn btn-success text-light" type="submit" value="Submit" />
+      <input
+        class="btn btn-success text-light"
+        type="submit"
+        value="Submit"
+        @click="handleSubmit"
+      />
     </form>
+    <br />
+    <br />
+    <!-- project rating of 5 stars -->
+    <h5 class="h5">Rate this project from 1 to 5 stars!</h5>
+    <form action="" class="form w-50 mx-auto d-flex justify-content-between">
+      <input
+        class="form-control visually-hidden"
+        type="radio"
+        name="rating"
+        id="rating1"
+        value="1"
+      />
+      <label class="star" for="1"><i class="far fa-star"></i></label>
+      <input
+        class="form-control visually-hidden"
+        type="radio"
+        name="rating"
+        id="2"
+        value="2"
+      />
+      <label class="star" for="2"><i class="far fa-star"></i></label>
+      <input
+        class="form-control visually-hidden"
+        type="radio"
+        name="rating"
+        id="3"
+        value="3"
+      />
+      <label class="star" for="3"><i class="far fa-star"></i></label>
+      <input
+        class="form-control visually-hidden"
+        type="radio"
+        name="rating"
+        id="4"
+        value="4"
+      />
+      <label class="star" for="4"><i class="far fa-star"></i></label>
+      <input
+        class="form-control visually-hidden"
+        type="radio"
+        name="rating"
+        id="5"
+        value="5"
+      />
+      <label class="star" for="5"><i class="far fa-star"></i></label>
+      <br />
+    </form>
+    <button class="my-2 btn btn-success text-light" @click="submitRating">
+      Rate this project!
+    </button>
   </section>
 </template>
 
-<!-- <script>
-import { ref, watchEffect, inject } from "vue";
-export default {
-  data() {
-    return {
-      comments: [],
-    };
-  },
-  methods: {
-    async handleSubmit() {
-      const comment = document.querySelector("#comment").innerText;
-      const project = document.querySelector("input[name='project']").value;
-      const response = await fetch("http://localhost:8000/comments/create/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          comment: comment,
-          project: project,
-        }),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-      }
-      window.location.reload();
-    },
-  },
-  setup() {
-    const projectStore = inject("projectStore");
-    const projectID = ref(null);
-    console.log("from child ", projectID);
-    watchEffect(() => {
-      projectID.value = projectStore.projectID;
-    });
-    // getting id from url
-    const currentProjectID = projectID;
-    try {
-      return { projectID: currentProjectID };
-    } catch (error) {
-      alert("here");
-      console.error("Failed to fetch project data:", error);
-      return { project: null, projectID: currentProjectID };
-    }
-  },
-  computed: {},
-  async created() {
-    // const store = useProjectStore();
-    // const currentProjectID = store.projectID;
-    const response = await fetch("http://localhost:8000/comments/project/1");
-    console.log("**************************************************");
-    console.log(response);
-    if (response.ok) {
-      const data = await response.json();
-      this.comments = data;
-      console.log(data);
-    }
-  },
-  mounted() {},
-  watch: {},
-  components: {},
-  props: {},
-  emits: {},
-};
-</script> -->
 <script>
 import { ref, watchEffect, inject } from "vue";
 
@@ -107,13 +103,8 @@ export default {
     const comments = ref([]);
     const projectStore = inject("projectStore");
     const projectID = ref(null);
-
-    console.log("from child comment ", projectID);
-
     watchEffect(() => {
       projectID.value = projectStore.projectID;
-      console.log(projectID.value);
-      console.log("from child ", projectStore.projectData.value);
       fetchComments(projectID.value);
     });
 
@@ -132,16 +123,18 @@ export default {
     }
 
     async function handleSubmit() {
-      const comment = document.querySelector("#comment").innerText;
-      const project = document.querySelector("input[name='project']").value;
+      const comment = document.querySelector("#comment").value;
+      const id = projectID.value;
+
       const response = await fetch("http://localhost:8000/comments/create/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          user: 1,
           comment: comment,
-          project: project,
+          project: id,
         }),
       });
       if (response.ok) {
@@ -151,9 +144,72 @@ export default {
       }
     }
 
-    return { comments, handleSubmit };
+    async function submitRating() {
+      const rating = document.querySelector(
+        "input[name='rating']:checked"
+      ).value;
+      alert("rating" + rating);
+      const id = projectID.value;
+
+      const response = await fetch("http://localhost:8000/ratings/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user: 1,
+          rating: rating,
+          project: id,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        window.location.reload();
+      }
+    }
+
+    return { comments, handleSubmit, submitRating, projectID };
+  },
+  mounted() {
+    const stars = document.querySelectorAll(".star");
+
+    stars.forEach((star) => {
+      star.addEventListener("click", function () {
+        stars.forEach((star) => {
+          star.classList.remove("clicked");
+          star.previousSibling.checked = false;
+        });
+        const rating = parseInt(star.previousSibling.value);
+        for (let index = 0; index < rating; index++) {
+          stars[index].classList.add("clicked");
+        }
+        // Mark input as checked for the clicked star
+        star.previousElementSibling.checked = true;
+        console.log(star.previousElementSibling);
+      });
+    });
   },
 };
 </script>
+<style>
+.visually-hidden {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+.star {
+  font-size: 24px;
+  cursor: pointer;
+  color: #ccc;
+  transition: color 0.3s;
+}
 
-<style></style>
+.clicked {
+  color: yellow; /* Color of clicked stars and preceding stars */
+}
+</style>

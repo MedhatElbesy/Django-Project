@@ -10,25 +10,15 @@
       <ul class="mb-0">
         <li class="p-0 bullet-list" v-for="message in messages" :key="message">{{ message }}</li>
       </ul>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="height: auto;"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="height: auto;"></button>
     </div>
     <!-- End Of Messages -->
-    <article class="col-lg-4  p-lg-5 p-3 transition">
-      <figure class="mb-lg-5 mb-3">
-        <router-link to="/"><img src="../../assets/logo.png" width="50px" alt="Snabel Logo"></router-link>
-      </figure>
-      <div class="welcome">
-        <span class="text-color">Welcome To Snable</span>
-        <h3 class="color">Always Remember: </h3>
-        <p class="ayat"><strong lang="ar" title="Never will you attain the good [reward] until you spend [in the way of Allah] from that which you love. And whatever you spend - indeed, Allah is Knowing of it.">لَن تَنَالُوا الْبِرَّ حَتَّىٰ تُنفِقُوا مِمَّا تُحِبُّونَ ۚ
-          <br>وَمَا تُنفِقُوا مِن شَيْءٍ فَإِنَّ اللَّهَ بِهِ عَلِيمٌ<br></strong>
-          <em class="text-color">Surah Al Imran: 92</em>
-        </p>
-      </div>
-    </article>
-    <article class="login d-flex flex-wrap align-content-center shadow col-lg-8 transition">
+
+    <SidebarComponent/>
+
+    <article class="login d-flex flex-wrap align-content-center shadow col-lg-8 vh-100">
       <form class="w-75 m-auto mt-5" enctype="multipart/form-data" @submit.prevent="registerUser">
-        <p class="signin color mb-5">Already have an account? <router-link to="/login" class="text-color text-decoration-underline">Log In</router-link></p>
+        <p class="signin color mb-5">Already have an account? <router-link to="/login" class="text-color text-decoration-underline">Sign In</router-link></p>
         <div class="mb-3 text-center">
           <div id="image_preview"
                 class="bg-light border position-relative border-1 d-inline-block text-center rounded rounded-circle position-relative overflow-hidden"
@@ -138,9 +128,14 @@
 
 <script>
 import axios from 'axios';
+import SidebarComponent from "@/components/Auth/SidebarComponent.vue";
 
 export default {
   name: "RegisterComponent",
+
+  components: {
+    SidebarComponent
+  },
 
   data: () => ({
     user: {

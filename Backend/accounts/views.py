@@ -7,7 +7,7 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.db import transaction
 from rest_framework import status
 from rest_framework.views import APIView
@@ -20,6 +20,9 @@ from accounts.models import User
 from accounts.forms import RegisterForm, UpdateUserForm
 from accounts.tokens import token_generator
 from accounts.serializers import LoginSerializer, RegisterSerializer
+
+import os       # for use .env -> python-dotenv
+
 # Create your views here.
 def index(request):
     users = User.objects.all()
@@ -128,6 +131,7 @@ def register(request):
             return Response({'error': 'An error occurred. Please try again later.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     return Response({'error': 'Invalid URL'}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
 def activate(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -137,9 +141,15 @@ def activate(request, uidb64, token):
     if user is not None and token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        return JsonResponse({'message': 'Your email address has been verified. Now you can login to your account.'}, status=status.HTTP_200_OK)
+        frontend_host = os.getenv('FRONTEND_HOST', 'http://localhost:8080')
+        messages.success(request, "Your email address has been verified. Now you can login to your account.")
+        print("Your email address has been verified. Now you can login to your account.")
+        return HttpResponseRedirect(f"{frontend_host}/login")
     else:
-        return JsonResponse({'error': 'Activation link is invalid!'}, status=status.HTTP_400_BAD_REQUEST)
+        frontend_host = os.getenv('FRONTEND_HOST', 'http://localhost:8080')
+        messages.success(request, "Activation link is invalid!")
+        print("Error, Activation link is invalid!")
+        return HttpResponseRedirect(f"{frontend_host}/login")
 
 
 @api_view(['GET'])
