@@ -158,11 +158,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
 ##############  Dashboard  ###############
 
 def paginatedPages(request, projects):
-
-    ##############  Dashboard URL ###############
-
-
-def paginatedPages(request, projects):
     paginator = Paginator(projects, 5)  # Show 5 projects per page
     page_number = request.GET.get('page')
     try:
@@ -224,9 +219,6 @@ def add_to_feature(request, id):
 
     project.save()
     return redirect('project.home')
-
-
-def view_details(requset, pk):
 
 
 def view_details(requset, pk):
