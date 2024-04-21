@@ -1,5 +1,5 @@
-from django.shortcuts import render,get_object_or_404,reverse,redirect
-from django.http import HttpResponse,JsonResponse
+from django.shortcuts import render, get_object_or_404, reverse, redirect
+from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ValidationError
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -66,39 +66,37 @@ class PaymentViewSet(viewsets.ModelViewSet):
         except Payment.DoesNotExist:
             return Response({'error': 'No Payment found'}, status=status.HTTP_404_NOT_FOUND)
 
+
 def payments_index(request):
     payments = Payment.objects.all()
     paginated_payment = paginatedPages(request, payments)
-    return render(request,template_name="payments/crud/index.html",
-                context={"payments":paginated_payment})
+    return render(request, template_name="payments/crud/index.html",
+                  context={"payments": paginated_payment})
 
-def payment_show(request,id):
-    payments = get_object_or_404(Payment,pk=id)
-    return render(request,template_name="payments/crud/show.html",
-                context={"payments":payments})
 
-# def payments_create(request):
+def payment_show(request, id):
+    payments = get_object_or_404(Payment, pk=id)
+    return render(request, template_name="payments/crud/show.html",
+                  context={"payments": payments})
+
+
+def payments_create(request):
     if request.method == "POST":
         amount = request.POST("amount")
         currency = request.POST("currency")
-        
+
         try:
             amount = float(amount)
             if amount <= 0:
                 raise ValidationError("Amount must be a positive number.")
         except ValueError:
             return JsonResponse({"error": "Invalid amount."}, status=400)
-        
+
         if currency not in ['EUR', 'USD']:
             return JsonResponse({"error": "Invalid currency. Must be EUR or USD."}, status=400)
-        payment = Payment(amount=request.POST["amount"],currency=request.POST["currency"],
-                    status=request.POST["status"],project_id=request.POST["project_id"],
-                    user_id=request.POST["user_id"])
+        payment = Payment(amount=request.POST["amount"], currency=request.POST["currency"],
+                          status=request.POST["status"], project_id=request.POST["project_id"],
+                          user_id=request.POST["user_id"])
         payment.save()
         return redirect(payment.show_url)
-    return render(request,template_name="payments/crud/create.html")
-
-
-
-
-
+    return render(request, template_name="payments/crud/create.html")
