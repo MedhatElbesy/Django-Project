@@ -65,7 +65,7 @@ class TagsViewSet(viewsets.ModelViewSet):
     except Tags.DoesNotExist:
       return Response({'error': 'Tags Not Found'}, status=status.HTTP_404_NOT_FOUND)
 
-# Crud Operations
+# Tags Dashboard Crud Operations
 def index(request):
   tags = Tags.objects.all()
   return render(request, template_name="tags/crud/index.html",
@@ -86,7 +86,7 @@ def tag_update(request, id):
   if request.method == "POST":
       tag.name = request.POST["name"]
       tag.save()
-      url = reverse("tag_show", args=[id])
+      url = reverse("tag-show", args=[id])
       return redirect(url)
   return render(request, template_name="tags/crud/update.html", context= {"tag": tag})
 
@@ -98,5 +98,5 @@ def tag_show(request, id):
 def tag_delete(request,id):
   tag = get_object_or_404(Tags, pk=id)
   tag.delete()
-  url = reverse("tag_index")
+  url = reverse("tag-home")
   return redirect(url)

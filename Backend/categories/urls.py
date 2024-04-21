@@ -8,9 +8,10 @@ urlpatterns = [
     path('update/<int:pk>', CategoryViewSet.as_view({'put': 'update'}), name='update_category'),
     path('delete/<int:pk>', CategoryViewSet.as_view({'delete': 'delete'}), name='delete_category'),
 
-    path('index/', index,  name='category_index'),
-    path('createcategory/', category_create,  name='category_create'),
-    path('updatecategory/<int:id>', category_update,  name='category_update'),
-    path('showcategory/<int:id>', category_show,  name='category_show'),
-    path('deletecategory/<int:id>', category_delete,  name='category_delete'),
+    #  Dasboard
+    path('home/', index,  name='category-home'),
+    path('createcategory/', category_create,  name='category-create'),
+    path('updatecategory/<int:id>', category_update,  name='category-update'),
+    path('showcategory/<int:id>', category_show,  name='category-show'),
+    path('deletecategory/<int:id>', category_delete,  name='category-delete'),
 ]

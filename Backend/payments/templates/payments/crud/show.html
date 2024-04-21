@@ -1,0 +1,18 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}Payment{%endblock%}
+{% block body %}
+
+<div class="card" style="width: 18rem;">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Currency : {{payments.currency}}</li>
+            <li class="list-group-item">Status : {{payments.status}}</li>
+            <li class="list-group-item">Project Related : {{payments.project_id}}</li>
+            <li class="list-group-item">User Related : {{payments.user_id}}</li>
+        </ul>
+    <div class="card-body">
+        <a href="{% url 'paymentsindex' %}" class="btn btn-dark">Go Back</a>
+    </div>
+</div>
+
+{% endblock %}

@@ -18,17 +18,17 @@ class Category(models.Model):
 
   @property
   def show_url(self):
-    url = reverse('category_show', args=[self.id])
+    url = reverse('category-show', args=[self.id])
     return url
   
   @property
   def update_url(self):
-    url = reverse('category_update', args=[self.id])
+    url = reverse('category-update', args=[self.id])
     return url
   
   @property
   def delete_url(self):
-    url = reverse('category_delete', args=[self.id])
+    url = reverse('category-delete', args=[self.id])
     return url
   
   @property 

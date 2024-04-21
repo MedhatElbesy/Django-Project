@@ -1,8 +1,10 @@
+from django.shortcuts import redirect,render
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import Comment
 from .serializer import CommentSerializer
-
+from django.contrib import messages
+from .forms import CommentForm
 # Create your views here.
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -33,4 +35,24 @@ class CommentViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Comment.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        
+
+def delete_comment(request, id):
+    comment = Comment.objects.get(pk=id)
+    messages.success(request, 'Comment is deleted Succufuly')
+    comment.delete()
+    return redirect('project.comments', comment.project_id)
+
+
+def create_comment(request):
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save()
+            messages.success(request, 'Comment is Create Succufuly')
+            return redirect('project.comments', comment.project_id)
+    else:
+        form = CommentForm()
+    return render(request, 'create.html', {'form': form})
 

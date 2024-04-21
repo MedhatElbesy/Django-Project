@@ -31,7 +31,10 @@ urlpatterns = [
     path('api/reports/', include('reports.urls')),
     path('comments/', include('comments.urls')),
     path('ratings/', include('rating.urls')),
+
     # for DashBorad Routes
     path('reports/', include('reports.dashboardUrls')),
     path('dashboard/projects/', include('projects.urls')),
+    path('dashboard/categories/', include('categories.urls')),
+    path('dashboard/tags/', include('tags.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

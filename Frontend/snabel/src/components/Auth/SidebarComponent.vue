@@ -1,5 +1,5 @@
 <template>
-  <sidebar class="col-lg-4 p-lg-5 p-3 transition">
+  <aside class="col-lg-4 p-lg-5 p-3 transition">
     <figure class="mb-lg-5 mb-3">
       <router-link to="/"><img src="../../assets/logo.png" width="50px" alt="Snabel Logo"></router-link>
     </figure>
@@ -13,7 +13,7 @@
         <em class="text-color">Surah Al-Hadīd: 18</em>
       </p>
     </div>
-  </sidebar>
+  </aside>
 </template>
 
 <script>
