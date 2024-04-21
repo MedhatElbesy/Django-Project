@@ -19,17 +19,17 @@ class Tags(models.Model):
 
   @property
   def show_url(self):
-    url = reverse('tag_show', args=[self.id])
+    url = reverse('tag-show', args=[self.id])
     return url
   
   @property
   def update_url(self):
-    url = reverse('tag_update', args=[self.id])
+    url = reverse('tag-update', args=[self.id])
     return url
   
   @property
   def delete_url(self):
-    url = reverse('tag_delete', args=[self.id])
+    url = reverse('tag-delete', args=[self.id])
     return url
   
   @property 

@@ -11,27 +11,42 @@
     </section>
     <section class="search-feild row flex-wrap justify-content-center g-0 p-3">
       <form class="d-flex align-items-center col-11 col-md-8 col-lg-5 mx-1">
-        <select v-model="searchOption" name="options" id="">
+        <select v-model="searchData.searchOption" name="options" id="">
           <option value="category">Categoty</option>
           <option value="tag">Tag</option>
         </select>
-        <input 
-          @focusout="outOfFocus" @focus="search" @input="search" 
-          v-model="searchValue" type="search" 
-          :placeholder="'search by ' + searchOption" autofocus>
+        <input
+          @focus="search" @input="search" 
+          v-model="searchData.searchValue" type="search" 
+          :placeholder="'search by ' + searchData.searchOption" autofocus>
         <i class="fa-solid fa-magnifying-glass"></i> 
       </form>
-      <div class="col-12"></div>
-      <ul v-if="searchResult.length" class="search-result mt-2 col-11  col-lg-5">
-        <li v-for="category in searchResult" :key="category.id">
-          <router-link to="/categories/{{category.name}}">
-            <i class="fa-solid fa-magnifying-glass color invisible"></i> {{ category.name }}
-          </router-link>
-        </li>
-      </ul>
     </section>
-    <section class="row g-0 mb-5 p-2">
-        <lastProjectComponent />
+    <section v-if="searchData.searchResult.length" class="m-auto">
+      <h3 class="color my-4 text-center">Available Projects</h3>
+      <div class="row w-75 m-auto g-0 justify-content-around align-items-center mb-5 p-2">
+        <div class="project transition col-md-6 col-lg-4 col-xl-3" v-for="project in searchData.searchResult" :key="project.id">
+          <router-link :to="{name: 'ProjectTest', params: {id: project.id}}">
+            <figure>
+              <img :src="`http://localhost:8000/${project.pictures}`" :alt="project.title">
+            </figure>
+            <div class="data px-3">
+              <p class="title fw-bold color m-0">{{project.title}}</p>
+              <p class="user text-color">by {{project.user_name}}</p>
+            </div>
+            <div class="position-relative">
+              <label for="donations"
+                :style="{ left: `${parseInt((project.total_collected / project.total_target) * 100)}%` }">
+              </label>
+              <progress class="w-100" id="donations" :value="parseInt((project.total_collected / project.total_target) * 100 +0)" max="100"></progress>
+            </div>
+            <p class="m-0 text-color">{{ project.total_collected }} raised</p>
+          </router-link>
+        </div>
+      </div>
+    </section>
+    <section v-else class="container">
+      <lastProjectComponent />
     </section>
     <footer class="row g-0 bg-light">
       <footerComponent />
@@ -40,19 +55,26 @@
 </template>
 
 <script>
-  import navbar from "@/components/navComponent.vue"
-  import lastProjectComponent from "@/components/lastProjectComponent.vue"
-  import footerComponent from "@/components/footerComponent.vue"
-  import { useCategoryStore } from "@/stores/categoryStore"
-  import { useTagStore } from "@/stores/tagStore"
+  import navbar from "@/components/navComponent.vue";
+  import lastProjectComponent from "@/components/lastProjectComponent.vue";
+  import footerComponent from "@/components/footerComponent.vue";
+  import { useCategoryStore } from "@/stores/categoryStore";
+  import { useProjectStore } from "@/stores/project";
+  import { useTagStore } from "@/stores/tagStore";
 
   export default {
     data:()=>({
-      useCategoryStore: useCategoryStore(),
-      useTagStore: useTagStore(),
-      searchValue: "",
-      searchOption: "category",
-      searchResult: [],
+      stores: {
+        useCategoryStore: useCategoryStore(),
+        useTagStore: useTagStore(),
+        useProjectStore: useProjectStore(),
+      },
+      allProjects: [],
+      searchData: {
+        searchValue: "",
+        searchOption: "category",
+        searchResult: [],
+      },
     }),
     components: {
       navbar,
@@ -60,36 +82,39 @@
       footerComponent,
     },
     async created() {
-      if(await this.useCategoryStore.fetchCategories() instanceof Error){
-        this.$router.push({ name: "error" });
-      }
-      if(await this.useTagStore.fetchTags() instanceof Error ) {
-        this.$router.push({ name: "error" });
-      }
-      
+      // Fetch Categories
+      await this.stores.useCategoryStore.fetchCategories();
+      // Fetch Tags
+      await this.stores.useTagStore.fetchTags();
+      // Fetch Projects
+      this.allProjects = await this.stores.useProjectStore.allProject();
     },
     methods: {
       search() {
         try {
-          let searchOptions = [];
-
-          // Check Search Option
-          this.searchOption == "category" ? searchOptions = this.useCategoryStore.categories : searchOptions = this.useTagStore.tags;
+          let searchValue = this.searchData.searchValue.trim().toLowerCase();
+          if(!searchValue) {
+            this.searchData.searchResult =[];
+            return;
+          }
 
           // Search In Selected Search Option
-          this.searchValue
-          ? this.searchResult = searchOptions.filter((option) => {
-              return option.name.toLowerCase().startsWith(this.searchValue.toLowerCase());
+          if(this.searchData.searchOption == "category") {
+            this.searchData.searchResult = this.allProjects.filter((project) => {
+              return project.category_name.toLowerCase().startsWith(searchValue);
             })
-          : this.searchResult = [];
+          } else if(this.searchData.searchOption == "tag") {
+            this.searchData.searchResult = this.allProjects.filter((project) => {
+              return project.tags_info.some((tag)=>{
+                return tag.name.toLowerCase().startsWith(searchValue);
+              });
+            });
+          }
         } catch(error) {
-          this.$router.push({ name: "error" });
+          console.log(error)
         }
       },
-      outOfFocus() {
-        setTimeout(()=>{this.searchResult = []}, 200)
-      },
-    },
+    }
   }
 </script>
 
@@ -103,7 +128,7 @@
     position: sticky;
     top: 0;
     background-color: #FFF;
-    box-shadow: 0px 2px 3px 0px #06a8df1a;
+    box-shadow: 0px 2px 3px 0px #1fc3fa1a;
     z-index: 9;
   }
   form {
@@ -112,7 +137,7 @@
     transition: .3s ease-in-out;
     background-color: #F1F1F1;
   }
-  form input {
+  form [type="search"] {
     padding: 8px;
     outline: none;
     border: none;
@@ -121,11 +146,11 @@
     display: inline-block;
     width: 100%;
   }
-  form input:focus {
+  form [type="search"] :focus {
     caret-color: var(--mainColor);
     color: var(--mainTextColor);
   }
-  form input::placeholder {
+  form [type="search"] ::placeholder {
     font-style: italic;
     font-size: 14px;
   }
@@ -151,30 +176,56 @@
     border-radius: 50%;
     padding: 16px;
   }
-  .search-result {
-    border: 1px solid #cccccc71;
-    border-radius: 24px;
-    border-radius: 8px;
-    padding: 4px 4px 0 4px;
+  .show {
+    animation: show 3s alternate forwards;
+    transition: 3s ease-in-out;
+    transform-origin: top center;
+    opacity:0;
   }
-  .search-result a {
-    display: inline-block;
+  .project {
+    cursor: pointer;
+    border-radius: 12px;
+    padding: 12px;
+  }
+  .project:hover {
+    background-color: #F8F8F8;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  }
+  .project figure {
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .project figure img{
     width: 100%;
+    height: 150px;
+    border-radius: 12px;
+  }
+  .project .title {
     text-transform: capitalize;
-    padding: 4px 16px;
-    color: var(--mainTextColor);
-    transition: .2s ease-in-out;
-    border-radius: 8px;
-    margin-bottom: 4px;
-    border: 1px solid transparent;
-    background-color: #c0c0c021;
   }
-  .search-result a:hover {
-    color: var(--mainColor);
-    font-weight: bold;
-    background-color: #cccccc71;
+  progress {
+    height: 6px;
+    background-color: #ddd;
+    border-radius: 12px;
   }
-  .search-result a:hover i {
-    visibility: visible !important;
+
+  progress::-webkit-progress-bar {
+    background-color: #ddd;
+    border-radius: 10px;
+  }
+
+  progress::-webkit-progress-value {
+    background-color: var(--mainColor);
+    border-radius: 12px;
+  }
+  label {
+    position: absolute;
+    top: 15px;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--mainColor);
+    padding: 8px;;
   }
 </style>

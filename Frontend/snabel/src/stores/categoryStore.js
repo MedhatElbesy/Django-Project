@@ -19,7 +19,7 @@ export const useCategoryStore = defineStore("category", {
         }
         this.categories = await response.json();
       } catch(error) {
-        return error;
+        console.log(error);
       }
     },
   },

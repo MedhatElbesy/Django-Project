@@ -1,5 +1,3 @@
-
-
 <!doctype html>
 <html lang="en">
 
@@ -35,7 +33,7 @@
 <body>
     <div class="container-fluid p-0 d-flex h-100 mysidebar">
         <div id="sidebar" class="d-flex flex-column flex-shrink-0 p-3 text-bg-info text-white offcanvas-md offcanvas-start">
-            <a href="#" class="navbar-brand">GoFownMe</a><hr>
+            <a href="#" class="navbar-brand">Snabel Dashboard</a><hr>
             <ul class="mynav nav nav-pills flex-column flex-grow-1 pe-3 mb-auto">
                 <li class="nav-item mb-2">
                     <a href='{% url "accounts.index" %}' class="nav-link text-white" aria-current="page" >
@@ -50,13 +48,13 @@
                     </a>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="{% url 'category_index' %}" class="nav-link text-white" aria-current="page" >
+                    <a href="{% url 'category-home' %}" class="nav-link text-white" aria-current="page" >
                         <i class="fa-regular fa-user"></i>
                         Categories
                     </a>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="{% url 'tag_index' %}" class="nav-link text-white" aria-current="page" >
+                    <a href="{% url 'tag-home' %}" class="nav-link text-white" aria-current="page" >
                         <i class="fa-regular fa-user"></i>
                         Tags
                     </a>
@@ -74,7 +72,7 @@
             <div class="d-flex">
                 <i class="fa-solid fa-book me-2"></i>
                 <span>
-                    <h6 class="mt-1 mb-0">Cafateria</h6>
+                    <h6 class="mt-1 mb-0">Snabel</h6>
                 </span>
             </div>
         </div>
@@ -85,7 +83,7 @@
                 <button class="navbar-toggler text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
                     <i class="fa-solid fa-bars"></i>
                 </button>
-                <a href="#" class="navbar-brand ms-3">Cafateria</a><hr>
+                <a href="#" class="navbar-brand ms-3">Snabel</a><hr>
             </div>
 
 

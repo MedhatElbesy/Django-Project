@@ -37,10 +37,13 @@
       tags: [],
       }),
     async created() {
-        await this.useCategoryStore.fetchCategories() instanceof Error 
-        ? this.$router.push({ name: "error" }) : this.categories =  this.useCategoryStore.categories;
-        await this.useTagStore.fetchTags() instanceof Error 
-        ? this.$router.push({ name: "error" }) : this.tags = this.useTagStore.tags;
+      // Fetch Categories
+      await this.useCategoryStore.fetchCategories();
+      this.categories =  this.useCategoryStore.categories;
+
+      // Fetch Tags
+      await this.useTagStore.fetchTags();
+      this.tags = this.useTagStore.tags;
     }
   }
 </script>
