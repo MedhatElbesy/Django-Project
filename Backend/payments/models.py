@@ -13,9 +13,9 @@ class PaymentStatus(models.TextChoices):
 class Payment(models.Model):
 
     project = models.ForeignKey(
-        "projects.Project", on_delete=models.CASCADE, null=True, related_name="projectrelated")
+        "projects.Project", on_delete=models.CASCADE, related_name="projectrelated")
     user = models.ForeignKey(
-        'accounts.User', on_delete=models.CASCADE, null=True, related_name="accountrelated")
+        'accounts.User', on_delete=models.CASCADE, related_name="accountrelated")
     amount = models.DecimalField(default=0, max_digits=10, decimal_places=2)
     currency = models.CharField(max_length=10)
     status = models.CharField(

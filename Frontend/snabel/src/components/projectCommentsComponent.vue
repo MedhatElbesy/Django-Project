@@ -16,6 +16,12 @@
         />
       </div>
       <div class="col-10">
+        <p
+          class="text-danger btn float-end report-flag"
+          @click="reportComment(comment.user)"
+        >
+          <i class="fa-solid fa-flag report-flag"></i>
+        </p>
         <h3>{{ comment.user_name }}</h3>
         <p>{{ comment.comment }}</p>
       </div>
@@ -169,7 +175,20 @@ export default {
       }
     }
 
-    return { comments, handleSubmit, submitRating, projectID };
+    async function reportComment() {
+      fetch(`http://localhost:8000/reports/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          object_id: this.comment.id,
+          content_object: "comment",
+        }),
+      });
+    }
+
+    return { comments, handleSubmit, submitRating, reportComment, projectID };
   },
   mounted() {
     const stars = document.querySelectorAll(".star");
@@ -207,6 +226,14 @@ export default {
   cursor: pointer;
   color: #ccc;
   transition: color 0.3s;
+}
+.report-flag il {
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-size: large;
+}
+.report-flag:hover {
+  color: #ea5252;
 }
 
 .clicked {
