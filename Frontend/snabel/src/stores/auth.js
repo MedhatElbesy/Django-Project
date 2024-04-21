@@ -1,18 +1,19 @@
-import { defineStore } from "pinia";
+ import { defineStore } from "pinia";
 
 export const useAuthenticationStore = defineStore("authenticationStore", {
   state: () => ({
     user: {},
     errorMessages: '',
     successMessages: '',
+    // isAuth: false,
   }),
 
   actions: {
-    async login(username, password) {
-      console.log(username,password)
+    async login(email, password) {
+      console.log(email,password)
       try {
         const formData = new FormData();
-        formData.append('username', username);
+        formData.append('email', email);
         formData.append('password', password);
 
         let response = await fetch(`http://localhost:8000/api/login/`, {
@@ -26,6 +27,7 @@ export const useAuthenticationStore = defineStore("authenticationStore", {
           localStorage.setItem('token', userData.token);
           this.successMessages = userData.message;
           this.errorMessages = '';
+          // this.isAuth = true;
           console.log("Login successful:", this.user, userData.message);
         } else {
           this.errorMessages = "Login Failed, error in email or password!"
@@ -37,11 +39,10 @@ export const useAuthenticationStore = defineStore("authenticationStore", {
         this.successMessages = '';
       }
     },
-
-
     logout() {
       localStorage.removeItem('token');
       this.user = {};
-    }
+      // this.isAuth = false;
+    },
   },
 });

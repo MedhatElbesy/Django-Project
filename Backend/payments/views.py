@@ -6,9 +6,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from .serializer import PaymentSerializer
 from .models import Payment
-from reports.views import home
-from rest_framework.pagination import PageNumberPagination
-
+# from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from projects.views import paginatedPages
 # Create your views here.
 
 
@@ -69,16 +68,16 @@ class PaymentViewSet(viewsets.ModelViewSet):
 
 def payments_index(request):
     payments = Payment.objects.all()
-    
+    paginated_payment = paginatedPages(request, payments)
     return render(request,template_name="payments/crud/index.html",
-                context={"payments":payments})
+                context={"payments":paginated_payment})
 
 def payment_show(request,id):
     payments = get_object_or_404(Payment,pk=id)
     return render(request,template_name="payments/crud/show.html",
                 context={"payments":payments})
 
-def payments_create(request):
+# def payments_create(request):
     if request.method == "POST":
         amount = request.POST("amount")
         currency = request.POST("currency")

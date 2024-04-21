@@ -3,7 +3,6 @@
 {% block title %}Payments{%endblock%}
 {% block body %}
 
-<a href="{% url 'paymentscreate' %}" class="btn btn-info" style="margin: 20px;">Add New Via Model Form</a>
 <table class="table">
     <tr style="font-weight: bold; text-align: center;">
         <td> ID</td>
@@ -31,6 +30,39 @@
     </tr>
     {% endfor %}
 </table>
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        {% if payments.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1" aria-label="First">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ payments.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&lsaquo;</span>
+                </a>
+            </li>
+        {% endif %}
+
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Page {{ payments.number }} of {{ payments.paginator.num_pages }}</a>
+        </li>
+
+        {% if payments.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ payments.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&rsaquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ payments.paginator.num_pages }}" aria-label="Last">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
     {%endblock%}
 
     

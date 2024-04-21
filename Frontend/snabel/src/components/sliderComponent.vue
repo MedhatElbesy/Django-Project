@@ -1,5 +1,5 @@
 <template>
-    <div id="productImage" class="carousel slide " data-bs-ride="carousel">
+    <div id="productImage" class="carousel slide " data-bs-ride="carousel" v-if="topProjects.length > 0">
         <!-- buttons indicators -->
         <div class="carousel-indicators">
             <button v-for="(project, index) in topProjects" 
@@ -61,7 +61,7 @@ export default {
     },
     methods: {
         getImageUrl(image){
-            if(image.include('http://127.0.0.1:8000')){
+            if(image.includes('http://127.0.0.1:8000')){
                 return image;
             }
             return `http://127.0.0.1:8000${image}`;

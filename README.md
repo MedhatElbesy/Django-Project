@@ -28,6 +28,7 @@
     - pip install python-dotenv
     - pip install djangorestframework-simplejwt
     - pip install django-cors-headers
+    - pip install django-multiupload
 
     ## Frontend
         - npm install -g @vue/cli

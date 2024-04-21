@@ -3,63 +3,46 @@
     <ul v-if="categories.length">
       <h6>Categories</h6>
       <li v-for="(category, i) in categories" :key="category.id">
-        <router-link v-if="i < numTodisplay" :to="'/about/' + category.id">{{ category.name }}</router-link>
+        <router-link v-if="i < numTodisplay" :to="{name: 'About'} + category.id">{{ category.name }}</router-link>
       </li>
-      <li v-if="categories.length > numTodisplay"><router-link to="/about">see all</router-link></li>
+      <li v-if="categories.length > numTodisplay"><router-link :to="{name: 'About'}">see all</router-link></li>
     </ul>
     <ul v-if="tags.length">
       <h6>Tags</h6>
       <li v-for="(tag, i) in tags" :key="tag.id">
-        <router-link v-if="i < numTodisplay" :to="'/about/' + tag.id">{{ tag.name }}</router-link>
+        <router-link v-if="i < numTodisplay" :to="{name: 'About'} + tag.id">{{ tag.name }}</router-link>
       </li>
-      <li v-if="tags.length > numTodisplay"><router-link to="/about">see all</router-link></li>
+      <li v-if="tags.length > numTodisplay"><router-link :to="{name: 'About'}">see all</router-link></li>
     </ul>
     <ul>
       <h6>How it works</h6>
-      <li><router-link to="/about">how Snabel Works?</router-link></li>
-      <li><router-link to="/about">what is crowdFunding</router-link></li>
-      <li><router-link to="/about">snabel team</router-link></li>
-      <li><router-link to="/about">about snabel</router-link></li>
+      <li><router-link :to="{name: 'About'}">how Snabel Works?</router-link></li>
+      <li><router-link :to="{name: 'About'}">what is crowdFunding</router-link></li>
+      <li><router-link :to="{name: 'About'}">snabel team</router-link></li>
+      <li><router-link :to="{name: 'About'}">about snabel</router-link></li>
     </ul>
   </div>
 </template>
 
 <script>
-export default {
-  data: ()=>({
+  import { useCategoryStore } from "@/stores/categoryStore"
+  import { useTagStore } from "@/stores/tagStore"
+
+  export default {
+    data: ()=>({
       numTodisplay: 4,
+      useCategoryStore: useCategoryStore(),
+      useTagStore: useTagStore(),
       categories: [],
       tags: [],
-    }),
-    methods:{
-    },
+      }),
     async created() {
-      try {
-        let data = await fetch('http://localhost:8000/categories/list', {
-          method:"GET",
-          headers: {
-            "Content-Type":"application/json",
-          }
-        });
-        let jsonData = await data.json();
-        this.categories = jsonData;
-      } catch(e) {
-          console.log(e);
-      }
-      try {
-        let data = await fetch('http://localhost:8000/tags/list', {
-          method:"GET",
-          headers: {
-            "Content-Type":"application/json",
-          }
-        });
-        let jsonData = await data.json();
-        this.tags = jsonData;
-      } catch(e) {
-          console.log(e);
-      }
+        await this.useCategoryStore.fetchCategories() instanceof Error 
+        ? this.$router.push({ name: "error" }) : this.categories =  this.useCategoryStore.categories;
+        await this.useTagStore.fetchTags() instanceof Error 
+        ? this.$router.push({ name: "error" }) : this.tags = this.useTagStore.tags;
     }
-}
+  }
 </script>
 
 <style scoped>
@@ -82,6 +65,7 @@ export default {
 
   ul li a {
     display: inline-block;
+    width: 100%;
     text-transform: capitalize;
     padding: 4px 16px;
     color: var(--mainTextColor);

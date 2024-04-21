@@ -34,6 +34,9 @@
           @submit.prevent="onSubmit"
           @reset.prevent="onReset"
           style="width: 500px"
+          enctype="multipart/form-data"
+          action="http://127.0.0.1:8000/projects/"
+          method="POST"
           class="mx-auto"
         >
           <div class="form-floating mb-3">
@@ -76,17 +79,26 @@
           <div class="mb-3">
             <input
               type="file"
-              name="pictures"
+              name="images"
               class="form-control"
-              id="input-pictures"
+              id="input-images"
               multiple
               accept="image/*"
               @change="handleFileChange"
               required
             />
-            <label for="input-pictures" class="form-label mt-1">pictures</label>
+            <label for="input-images" class="form-label mt-1">images</label>
           </div>
 
+          <div v-if="form.images.length > 0">
+            <div
+              class="mb-3"
+              v-for="(image, index) in form.images"
+              :key="index"
+            >
+              <img :src="image.preview" class="img-thumbnail" width="100" />
+            </div>
+          </div>
           <div class="mb-3">
             <input
               type="file"
@@ -99,20 +111,11 @@
             />
             <label for="input-video" class="form-label mt-1">Video</label>
           </div>
-
-          <div v-if="form.pictures.length > 0">
-            <div
-              class="mb-3"
-              v-for="(image, index) in form.pictures"
-              :key="index"
-            >
-              <img :src="image.preview" class="img-thumbnail" width="100" />
-            </div>
-          </div>
-
           <div class="form-floating mb-3">
             <input
               type="date"
+              name="deadline"
+              format="yyyy-MM-dd"
               class="form-control"
               v-model="form.deadline"
               id="deadline"
@@ -178,12 +181,13 @@ export default {
         title: "",
         description: "",
         price: null,
-        pictures: [],
+        images: [],
+        pictures: "",
         deadline: [],
         category: "", // store selected category ID here
         total_target: "",
         tags: [],
-        user: "",
+        user: 1,
       },
       show: true,
     };
@@ -197,7 +201,7 @@ export default {
       const response = await fetch("http://127.0.0.1:8000/tags/list");
       const data = await response.json();
       this.tags = data;
-      console.log(this.tags);
+      // console.log(this.tags);
     },
     async getCategories() {
       const response = await fetch("http://127.0.0.1:8000/categories/list");
@@ -205,9 +209,10 @@ export default {
       this.categories = data;
       this.category = data;
     },
-    onSubmit(event) {
-      event.preventDefault();
+    onSubmit() {
+      // event.preventDefault();
       alert(JSON.stringify(this.form));
+      this.submitForm();
     },
     onReset(event) {
       event.preventDefault();
@@ -215,12 +220,13 @@ export default {
       this.form.title = "";
       this.form.description = "";
       this.form.price = null;
-      this.form.pictures = [];
+      this.form.images = [];
+      // this.form.pictures = this.form.images[0];
       this.form.deadline = [];
       this.form.category = "";
       this.form.tags = [];
       this.form.total_target = "";
-      this.form.user = "";
+      this.form.user = 1;
       // Trick to reset/clear native browser form validation state
       // Trick to reset/clear native browser form validation state
       this.show = false;
@@ -230,32 +236,56 @@ export default {
     },
     handleFileChange(event) {
       const files = event.target.files;
-      this.form.pictures = Array.from(files);
+      this.form.images = Array.from(files);
       console.log(this.form);
     },
-    submitForm() {
+    async submitForm() {
       const formData = new FormData();
 
       // Append other form fields
-      // formData.append("title", this.project.title);
-      // formData.append("description", this.project.description);
-      // formData.append("status", this.project.status);
-      // Append other form fields
+      // append data
       formData.append("title", this.form.title);
       formData.append("description", this.form.description);
-      formData.append("price", this.form.price);
+      // formData.append("price", this.form.price);
       formData.append("deadline", this.form.deadline);
       formData.append("category", this.form.category);
-      formData.append("tags", this.form.tags);
+      // formData.append("tags", this.form.tags);
       formData.append("total_target", this.form.total_target);
       formData.append("user", this.form.user);
+      formData.append("pictures", this.form.pictures);
 
-      // Append pictures
-      this.project.pictures.forEach((file, index) => {
-        formData.append(`pictures_${index}`, file);
+      // formData.append("title", "this.form.title");
+      // formData.append("description", "lzkrnkd vzknvfz zkdjfnkjzsd");
+      // formData.append("deadline", "2024-09-11");
+      // formData.append("category", 1);
+      formData.append("tags", 1);
+      formData.append("tags", 2);
+      formData.append("tags", 3);
+
+      // formData.append("total_target", 12000);
+      // formData.append("user", 1);
+      // formData.append("pictures", this.form.pictures);
+
+      // Append images
+      for (let index = 0; index < this.form.images.length; index++) {
+        formData.append("images", this.form.images[index]);
+      }
+      // Append tags
+      for (let index = 0; index < this.form.tags.length; index++) {
+        formData.append("tags", this.form.tags[index]);
+      }
+
+      this.form.pictures = this.form.images[0];
+      const response = await fetch("http://127.0.0.1:8000/projects/", {
+        method: "POST",
+        body: formData,
       });
-
-      // Submit formData using fetch
+      if (response.ok) {
+        alert("Project created successfully!");
+      } else {
+        console.log("************", this.form);
+        alert("Failed to create project.");
+      }
     },
   },
 };

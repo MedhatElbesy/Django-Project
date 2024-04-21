@@ -1,0 +1,97 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+<style>
+    .checked {
+        color: orange;
+    }
+</style>
+
+    <div class="container">
+        <div class="row p-2 m-2">
+            <div class="card m-auto" >
+                <div class="row g-0 p-3">
+                    <div class="col-md-4">
+                        <img src="{{project.image_url}}" class="img-fluid h-100">
+                    </div>
+    
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title text-center mb-2">{{project.title }}</h4>
+                            
+                            <p class="card-text">{{project.description}}</p>
+
+                            <p class="card-text">target -> 
+                                <small class="text-muted">{{project.total_target}}</small>
+                            </p>
+
+                            <p class="card-text">remaining_days -> 
+                                <small class="text-muted">{{project.get_remaining_days}}</small>
+                            </p>
+
+                            <p class="card-text">remaining_hours -> 
+                                <small class="text-muted">{{project.get_remaining_hours}}</small>
+                            </p>
+                            
+                            <p class="card-text">category Name -> 
+                                <small class="text-muted">{{project.category.name}}</small>
+                            </p>
+
+                            
+                            <p class="card-text">deadline -> 
+                                <small class="text-muted">{{project.deadline}}</small>
+                            </p>
+                            
+                            {% with rating=project.get_project_rating|floatformat:"0" %}
+                                {% if rating %}
+                                    <p class="card-text">Rating -> 
+                                        {% for i in "x"|ljust:rating %}
+                                            <span class="fa fa-star checked"></span>
+                                        {% endfor %}
+                                    </p>
+                                {% endif %}
+                            {% endwith %}
+
+                            <p class="card-text">
+                                Payment
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: {{money}}%"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{money}}%</div>
+                                </div>
+                            </p>
+
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+{%endblock%}
+
+<!-- {
+        "id": 17,
+        "images": [],
+        "category_name": "Clothing",
+        "tags_info": [
+            {
+                "id": 3,
+                "name": "Tag 3"
+            }
+        ],
+        "user_name": "user4",
+        "remaining_days": 34,
+        "remaining_hours": 816,
+        "progress": 0.0,
+        "donations": 0,
+        "total_collected": 0,
+        "get_project_rating": 4.0,
+        "title": "ptoject title 18",
+        "description": "description of project 18",
+        "status": "IP",
+        "pictures": "/media/projects/pictures/website_acVhRli.jpg",
+        "video": null,
+        "total_target": "200000.00",
+        "deadline": "2024-05-23",
+        "created_at": "2024-04-16T22:26:30.266868Z",
+        "updated_at": "2024-04-16T22:26:30.266868Z",
+        "user": 4
+    } -->

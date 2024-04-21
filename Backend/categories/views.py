@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, reverse, redirect
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from .serializer import CategorySerializer
 from .models import Category
-from django.http import HttpResponse
+from categories.form import CategoryModelForm
 
 # Create your views here.
 
@@ -64,8 +64,40 @@ class CategoryViewSet(viewsets.ModelViewSet):
       return Response(status=status.HTTP_204_NO_CONTENT)
     except Category.DoesNotExist:
       return Response({'error': 'Category Not Found'}, status=status.HTTP_404_NOT_FOUND)
-    
 
+# Crud Operations
+def index(request):
+  categories = Category.objects.all()
+  return render(request, template_name="categories/crud/index.html",
+  context={"categories": categories})
 
+def category_create(request):
+  form = CategoryModelForm()
+  if request.method == "POST":
+    form = CategoryModelForm(request.POST ,request.FILES)
+    if form.is_valid():
+      category = form.save()
+      return redirect(category.show_url)
+  return render(request , template_name="categories/crud/create.html"
+    ,context={"form": form})
 
+def category_update(request, id):
+  category = get_object_or_404(Category, pk=id)
+  if request.method == "POST":
+      category.name = request.POST["name"]
+      category.description = request.POST["description"]
+      category.save()
+      url = reverse("category_index")
+      return redirect(url)
+  return render(request, template_name="categories/crud/update.html", context= {"category": category})
 
+def category_show(request, id):
+  category = get_object_or_404(Category, pk=id)
+  return render(request, template_name="categories/crud/show.html",
+  context={"category": category})
+
+def category_delete(request,id):
+  category = get_object_or_404(Categories, pk=id)
+  category.delete()
+  url = reverse("category_index")
+  return redirect(url)

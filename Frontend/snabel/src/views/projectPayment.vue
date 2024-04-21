@@ -13,7 +13,7 @@
             <div class="">
               <projectCarouselComponent />
             </div>
-          </template> -->
+          </template>  -->
           <!-- <template #fallback>
             <div>Loading...</div>
           </template> -->
@@ -24,18 +24,18 @@
       </div>
       <div class="col-4">
         <Suspense>
-          <template #default>
+          <!-- <template #default> -->
             <!-- <div style="height: 70vh; position: sticky; top: 50px"> -->
-            <projectDonate />
+            <!-- <projectDonate /> -->
             <!-- </div> -->
-          </template>
-          <template #fallback>
+          <!-- </template> -->
+          <!-- <template #fallback>
             <div>Loading...</div>
-          </template>
+          </template> -->
         </Suspense>
       </div>
     </section>
-    <!-- <card /> -->
+    <card />
     <pay />
 
     <!-- <footer class="row g-0 bg-light">
@@ -45,9 +45,11 @@
 </template>
 
 <script>
+import { provide } from "vue";
+
 // import navbar from "../components/navComponent.vue";
 // import projectDonate from "../components/projectDonationCards.vue";
-// import card from "../components/cardComponent.vue";
+import card from "../components/cardComponent.vue";
 import pay from "../components/paymentFormComponent.vue";
 // import footerComponent from "../components/footerComponent.vue";
 // import projectCommentsComponent from "@/components/projectCommentsComponent.vue";
@@ -64,7 +66,7 @@ export default {
   components: {
     // navbar,
     // projectDonate,
-    // card,
+    card,
     pay,
     // footerComponent,
     // projectCommentsComponent,
@@ -76,12 +78,15 @@ export default {
   methods: {
     async fetchProjectData() {
       try {
-        const projectData = await useProjectStore().fetchProjectData();
+        const projectStore = useProjectStore();
+        provide("projectStore", projectStore);
+        console.log(projectStore.projectID);
+        const projectData = await projectStore.fetchProjectData();
         this.project = projectData;
       } catch (error) {
         console.error("Error fetching project data:", error);
       } finally {
-        this.loading = false; // Set loading state to false when data fetching is complete
+        this.loading = false;
       }
     },
   },
