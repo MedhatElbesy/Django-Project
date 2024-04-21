@@ -19,7 +19,7 @@ export const useTagStore = defineStore("tag", {
         }
         this.tags = await response.json();
       } catch(error) {
-        return error;
+        console.log(error);
       }
     },
   },

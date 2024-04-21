@@ -64,6 +64,11 @@ const routes = [
     path: "/:cathcAll(.*)",
     component: () => import("../views/AboutView.vue"),
   },
+  {
+    path:"/contactus",
+    name:"contactus",
+    component:()=> import("../components/contactUsComponents.vue")
+  }
 ];
 
 const router = createRouter({

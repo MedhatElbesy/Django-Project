@@ -157,8 +157,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 ##############  Dashboard  ###############
 
-def paginatedPages(request, projects):
-    paginator = Paginator(projects, 5)  # Show 5 projects per page
+def paginatedPages(request, projects,page=5):
+    paginator = Paginator(projects, page)  # Show 5 projects per page
     page_number = request.GET.get('page')
     try:
         paginated_projects = paginator.page(page_number)

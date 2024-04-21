@@ -1,0 +1,32 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}Create Payment{%endblock%}
+{% block body %}
+<form method="post" >
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label">Amount</label>
+        <input type="text" name="amount" class="form-control" >
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Currency</label>
+        <input type="text" name="currency" class="form-control" >
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Status</label>
+        <input type="text" name="status" class="form-control" >
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Related Project</label>
+        <input type="text" name="project_id" class="form-control" >
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Related User</label>
+        <input type="text" name="user_id" class="form-control" >
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="{% url 'paymentsindex' %}" class="btn btn-dark">Go Back</a>
+</form>
+
+{% endblock %}

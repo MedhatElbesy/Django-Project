@@ -8,9 +8,9 @@ urlpatterns = [
     path('update/<int:pk>', TagsViewSet.as_view({'put': 'update'}), name='update_tags'),
     path('delete/<int:pk>', TagsViewSet.as_view({'delete': 'delete'}), name='delete_tags'),
 
-    path('index/', index,  name='tag_index'),
-    path('createtag/', tag_create,  name='tag_create'),
-    path('updatetag/<int:id>', tag_update,  name='tag_update'),
-    path('showtag/<int:id>', tag_show,  name='tag_show'),
-    path('deletetag/<int:id>', tag_delete,  name='tag_delete'),
+    path('home/', index,  name='tag-home'),
+    path('createtag/', tag_create,  name='tag-create'),
+    path('updatetag/<int:id>', tag_update,  name='tag-update'),
+    path('showtag/<int:id>', tag_show,  name='tag-show'),
+    path('deletetag/<int:id>', tag_delete,  name='tag-delete'),
 ]
