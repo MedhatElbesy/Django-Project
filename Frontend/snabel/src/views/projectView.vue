@@ -127,18 +127,21 @@ export default {
     },
     async makeReport() {
       const reason = document.querySelector("#reason").value;
-      fetch("http://localhost:8000/reports/create/", {
+      const requestObject = {
+        object_id: this.project.id,
+        content_type: this.objectType,
+        reason: reason,
+        user: "1", //TODO Change to be dynamic
+      };
+      console.log(requestObject);
+      const respons = fetch("http://localhost:8000/api/reports/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          object_id: this.object_id,
-          content_object: this.objectType,
-          reason: reason,
-          user: 1, //TODO Change to be dynamic
-        }),
+        body: JSON.stringify(requestObject),
       });
+      console.log(respons);
     },
   },
   mounted() {
