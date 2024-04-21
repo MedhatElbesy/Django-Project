@@ -1,10 +1,10 @@
 from django.http import HttpResponse
-from django.shortcuts import render,get_object_or_404,redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from .forms import ReportForm
 
-from rest_framework import  viewsets,status
+from rest_framework import viewsets, status
 from rest_framework.pagination import PageNumberPagination
-
+from django.contrib.contenttypes.models import ContentType
 from .models import Report
 from .serializer import ReportSerializer
 from rest_framework.response import Response
@@ -15,18 +15,31 @@ class ReportList(viewsets.ModelViewSet):
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
     pagination_class = PageNumberPagination
-    
+
     def list(self, request):
         queryset = self.get_queryset()
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
-        
+
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
+        content_type_name = request.data.get('content_type')
+
+        if content_type_name:
+            try:
+                content_type = ContentType.objects.get(model=content_type_name)
+            except ContentType.DoesNotExist:
+                return Response({'error': f'Content type "{content_type_name}" does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+            content_type_id = content_type.id
+            request.data['content_type'] = content_type_id
+        else:
+            return Response({'error': 'Content type not provided in request'}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -74,7 +87,7 @@ def home(request):
     paginator = Paginator(reports, per_page=10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request,'reports/index.html',context={'reports':page_obj})
+    return render(request, 'reports/index.html', context={'reports': page_obj})
 
 
 def create(request):
@@ -82,7 +95,8 @@ def create(request):
         form = ReportForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('report-home')  # Redirect to a page displaying all reports
+            # Redirect to a page displaying all reports
+            return redirect('report-home')
     else:
         form = ReportForm()
     return render(request, 'reports/create.html', {'form': form})
@@ -100,6 +114,7 @@ def create(request):
 #     else:
 #         form = ReportForm(instance=report)
 #     return render(request, 'reports/create.html', {'form': form ,'instance': instance})
+
 
 def delete(request, pk):
     report = Report.objects.get(pk=pk)
