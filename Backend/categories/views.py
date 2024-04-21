@@ -87,7 +87,7 @@ def category_update(request, id):
       category.name = request.POST["name"]
       category.description = request.POST["description"]
       category.save()
-      url = reverse("category_index")
+      url = reverse("category-home")
       return redirect(url)
   return render(request, template_name="categories/crud/update.html", context= {"category": category})
 
@@ -97,7 +97,12 @@ def category_show(request, id):
   context={"category": category})
 
 def category_delete(request,id):
-  category = get_object_or_404(Categories, pk=id)
+  category = get_object_or_404(Category, pk=id)
   category.delete()
+<<<<<<< HEAD
   url = reverse("category_index")
   return redirect(url)
+=======
+  url = reverse("category-home")
+  return redirect(url)
+>>>>>>> 335fb76a11a88baf44485eb8c44f7ee68b8f9b3e
