@@ -19,7 +19,7 @@ from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshVie
 from accounts.models import User
 from accounts.forms import RegisterForm, UpdateUserForm
 from accounts.tokens import token_generator
-from accounts.serializers import LoginSerializer, RegisterSerializer
+from accounts.serializers import LoginSerializer, RegisterSerializer, UserSerializer
 
 import os       # for use .env -> python-dotenv
 
@@ -84,13 +84,16 @@ def login(request):     #login(TokenObtainPairView):
                 token_request = request._request
                 token_response = token_obtain_view(token_request)
                 token_data = token_response.data
+                user_serializer = UserSerializer(user)  # Serialize the user object
+
                 return Response({
                     'message': 'Login successfully',
-                    'user': user.email,
+                    'user': user_serializer.data,
                     'email': user.email,
                     'token': token_data['access'],
                     'refresh_token': token_data['refresh']
                 })
+                #response.set_cookie('token', token_data['access'], max_age=3600, secure=True,httponly=True)
             else:
                 return Response({'error': 'Invalid email or password'}, status=status.HTTP_401_UNAUTHORIZED)
         else:
@@ -142,14 +145,16 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         frontend_host = os.getenv('FRONTEND_HOST', 'http://localhost:8080')
-        messages.success(request, "Your email address has been verified. Now you can login to your account.")
+        message = "Your email address has been verified. Now you can login to your account."
+        status = 200
         print("Your email address has been verified. Now you can login to your account.")
-        return HttpResponseRedirect(f"{frontend_host}/login")
+        return HttpResponseRedirect(f"{frontend_host}/login?message={message}&status={status}")
     else:
         frontend_host = os.getenv('FRONTEND_HOST', 'http://localhost:8080')
-        messages.success(request, "Activation link is invalid!")
+        message = "Activation link is invalid!"
+        status = 400
         print("Error, Activation link is invalid!")
-        return HttpResponseRedirect(f"{frontend_host}/login")
+        return HttpResponseRedirect(f"{frontend_host}/login?message={message}&status={status}")
 
 
 @api_view(['GET'])
