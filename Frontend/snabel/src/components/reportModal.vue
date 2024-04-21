@@ -44,7 +44,9 @@
           >
             Close
           </button>
-          <button type="button" class="btn btn-danger">Report</button>
+          <button id="reportButton" type="button" class="btn btn-danger">
+            Report
+          </button>
         </div>
       </div>
     </div>

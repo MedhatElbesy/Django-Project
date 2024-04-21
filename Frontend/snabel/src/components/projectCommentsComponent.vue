@@ -16,12 +16,15 @@
         />
       </div>
       <div class="col-10">
-        <p
-          class="text-danger btn float-end report-flag"
-          @click="reportComment(comment.user)"
+        <button
+          data-bs-toggle="modal"
+          data-bs-target="#reportModal"
+          data-bs-objectType="comment"
+          :data-bs-id="comment.user"
+          class="text-danger btn report-flag float-end"
         >
           <i class="fa-solid fa-flag report-flag"></i>
-        </p>
+        </button>
         <h3>{{ comment.user_name }}</h3>
         <p>{{ comment.comment }}</p>
       </div>
