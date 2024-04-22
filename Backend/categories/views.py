@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 from .serializer import CategorySerializer
 from .models import Category
 from categories.form import CategoryModelForm
-
+from projects.views import paginatedPages
 # Create your views here.
 
 
@@ -71,8 +71,8 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 def index(request):
     categories = Category.objects.all()
-    return render(request, template_name="categories/crud/index.html",
-                  context={"categories": categories})
+    category_paginated = paginatedPages(request, categories)
+    return render(request, template_name="categories/crud/index.html",context={"categories": category_paginated})
 
 
 def category_create(request):

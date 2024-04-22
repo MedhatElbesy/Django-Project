@@ -280,7 +280,7 @@ def search_projects(request):
         elif search_by == 'tags':
             projects = Project.objects.filter(tags__name__icontains=query)
         else:
-            projects = Project.objects.none()  # No matching search criteria
+            projects = Project.objects.none()
     else:
         projects = Project.objects.all()
 
