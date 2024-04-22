@@ -84,8 +84,12 @@ def login(request):     #login(TokenObtainPairView):
                 token_request = request._request
                 token_response = token_obtain_view(token_request)
                 token_data = token_response.data
-                user_serializer = UserSerializer(user)  # Serialize the user object
 
+                user_serializer = UserSerializer(user)  # Serialize the user object
+                print(user_serializer.data)
+                request.session['user'] = user_serializer.data
+                request.session.set_expiry(3600) # Set session expiry to 1 hour
+                print(request.session['user'])
                 return Response({
                     'message': 'Login successfully',
                     'user': user_serializer.data,
@@ -163,6 +167,23 @@ def profile(request):
     user = RegisterSerializer(request.user)
     return Response(user.data)
 
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def update_profile(request):
+    if request.method == 'POST':
+        serializer = UserSerializer(instance=request.user, data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            user_serializer = UserSerializer(user)  # Serialize the user object
+            request.session['user'] = user_serializer.data,
+            request.session.set_expiry(3600)  # Set session expiry to 1 hour
+            print(request.session['user'])
+            return Response({'message': 'Profile updated successfully'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 @api_view(['POST'])
 def forget_password(request):

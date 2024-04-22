@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from accounts.views import (index, show, create, edit, delete, admin_profile, profile, login, register, activate, forget_password, reset_password)
+from accounts.views import (index, show, create, edit, delete, admin_profile, profile,update_profile, login, register, activate, forget_password, reset_password)
 from django.contrib.auth.decorators import login_required
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView,) # type: ignore
 
@@ -22,6 +22,7 @@ urlpatterns = [
     path('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/', activate, name='activate'),
     # re_path(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', activate, name='activate'),
     path('api/profile/', profile, name='api.profile'),
+    path('api/update_profile/', update_profile, name='api.update_profile'),
     path('api/forget_password/', forget_password, name='api.forget_password'),
     path('api/reset_password/<str:uidb64>/<str:token>/', reset_password, name='api.reset_password'),
 ]
