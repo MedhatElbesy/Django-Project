@@ -1,5 +1,5 @@
 <template>
-  <div class="links d-flex">
+  <div class="links d-lg-flex d-md-block">
     <ul v-if="categories.length">
       <h6>Categories</h6>
       <li v-for="(category, i) in categories" :key="category.id">

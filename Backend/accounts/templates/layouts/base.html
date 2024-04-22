@@ -18,9 +18,17 @@
         }
 
         #sidebar{
-            width: 20vw;
-            color: white;
-            height: 100vh;
+            width: fit-content;
+            color: #DDD;
+            padding: 16px;
+            padding-right: 50px;
+            li {
+                width: max-content;
+            }
+        }
+        
+        #body_content {
+            overflow: auto;
         }
         
 
@@ -32,7 +40,7 @@
 
 <body>
     <div class="container-fluid p-0 d-flex h-100 mysidebar">
-        <div id="sidebar" class="d-flex flex-column flex-shrink-0 p-3 text-bg-info text-white offcanvas-md offcanvas-start">
+        <div id="sidebar" class="d-flex flex-column flex-shrink-0 text-bg-info text-white offcanvas-md offcanvas-start">
             <a href="#" class="navbar-brand">Snabel Dashboard</a><hr>
             <ul class="mynav nav nav-pills flex-column flex-grow-1 pe-3 mb-auto">
                 <li class="nav-item mb-2">
