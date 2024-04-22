@@ -32,23 +32,21 @@ def index(request):
 def create(request):
     form = RegisterForm()
     if request.method == "POST":
-        form = RegisterForm(request.POST)
+        form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             messages.success(request, "User Add Successfully.")
             return redirect("accounts.index")
-
     return render(request, "accounts/crud/create.html", {"form": form})
 
 def edit(request, id):
     user = get_object_or_404(User, pk=id)
-    form = UpdateUserForm(instance=user)
+    form = UpdateUserForm(instance=user, data=request.POST, files=request.FILES)
 
     if request.method == "POST":
         form = UpdateUserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             user = form.save()
-
             messages.success(request, "User updated successfully.")
             return redirect("accounts.index")
 
@@ -62,7 +60,7 @@ def show(request, id):
 def delete(request, id):
     user = get_object_or_404(User, pk=id)
     user.delete()
-    url = reverse("users.index")
+    url = reverse("accounts.index")
     messages.success(request, "User Deleted Successfully.")
 
     return redirect(url)
