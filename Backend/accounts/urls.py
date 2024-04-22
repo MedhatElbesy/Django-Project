@@ -6,14 +6,19 @@ from django.contrib.auth.decorators import user_passes_test
 
 urlpatterns = [
     # Dashboard
-    path('accounts/index', user_passes_test(lambda user: user.is_superuser)(login_required(index)), name='accounts.index'),
-    path('accounts/create', user_passes_test(lambda user: user.is_superuser)(login_required(create)), name='accounts.create'),
-    path('accounts/<int:id>/show', user_passes_test(lambda user: user.is_superuser)(login_required(show)), name='accounts.show'),
-    path('accounts/<int:id>/edit', user_passes_test(lambda user: user.is_superuser)(login_required(edit)), name='accounts.edit'),
-    path('accounts/<int:id>/delete', user_passes_test(lambda user: user.is_superuser)(login_required(delete)), name='accounts.delete'),
+    path('accounts/index/', user_passes_test(lambda user: user.is_superuser)(login_required(index)),
+         name='accounts.index'),
+    path('accounts/create/', user_passes_test(lambda user: user.is_superuser)(login_required(create)),
+         name='accounts.create'),
+    path('accounts/<int:id>/show/', user_passes_test(lambda user: user.is_superuser)(login_required(show)),
+         name='accounts.show'),
+    path('accounts/<int:id>/edit/', user_passes_test(lambda user: user.is_superuser)(login_required(edit)),
+         name='accounts.edit'),
+    path('accounts/<int:id>/delete/', user_passes_test(lambda user: user.is_superuser)(login_required(delete)),
+         name='accounts.delete'),
 
     # Required after login redirect on profile by default
-    path('accounts/profile/', user_passes_test(lambda user: user.is_superuser)(admin_profile), name='accounts.profile'),
+    path('accounts/profile/', admin_profile, name='accounts.profile'),
 
     # Apis
     path('api/login/', login, name='api.login'),
