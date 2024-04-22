@@ -1,0 +1,122 @@
+.form-container {
+  border-top-left-radius: 52px;
+  background-color: #FFF;
+}
+.bullet-list {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+.bullet-list li {
+  margin-left: 10px;
+}
+.sign {
+  text-align: right;
+}
+.submit {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: #FFF;
+  padding: 25px;
+  border-top: 1px solid #e2e2e2;
+}
+form input {
+  color: var(--mainColor);
+}
+form input:focus {
+  caret-color: var(--mainColor);
+  color: var(--mainTextColor);
+}
+form label {
+  color: var(--mainColor);
+}
+.icon {
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: var(--mainColor)
+}
+.social {
+  padding-bottom: 150px;
+}
+.social p::before{
+  content: "";
+  position: absolute;
+  height: 1px;
+  width: 40%;
+  top: 50%;
+  left: 3%;
+  transform: translateY(50%);
+  border: 1px solid #8f8f8f48;
+}
+.social p::after{
+  content: "";
+  position: absolute;
+  height: 1px;
+  width: 40%;
+  top: 50%;
+  right: 3%;
+  transform: translateY(50%);
+  border: 1px solid #8f8f8f48;
+}
+
+.social-platforms a {
+  color: #FFF;
+  border-radius: 8px;
+  display: inline-block;
+}
+.social-platforms i {
+  padding: 12px;
+  width: 40px;
+}
+.social-platforms span {
+  padding: 12px;
+  width: 200px;
+  display: inline-block;
+  border-radius: 8px;
+}
+.social-platforms li:first-child a {
+  background-color: #C53329;
+}
+.social-platforms li:first-child span {
+  background-color: #F44235;
+  border-left: 1px solid #e76464;
+}
+.social-platforms li:last-child a {
+  background-color: #3A5998;
+}
+.social-platforms li:last-child span {
+  background-color: #243B68;
+  border-left: 1px solid #4666a7;
+}
+
+@media screen and (min-width: 992px) {
+  .form-container {
+    max-height: 100%;
+    overflow: auto;
+    padding-top: 250px;
+  }
+}
+@media screen and (max-width: 992px) {
+  .form-container {
+    border-top-right-radius: 52px;
+  }
+}
+@media screen and (max-width: 576px) {
+  form {
+    width: 100% !important;
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+  .submit {
+    position: static;
+    justify-content: center;
+  }
+  .social {
+    padding-bottom: 0;
+  }
+}

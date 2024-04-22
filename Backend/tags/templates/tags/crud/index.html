@@ -1,0 +1,26 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}Tags{%endblock%}
+{% block body %}
+    <a href="{% url 'tag-create' %}" class="btn btn-info" style="margin: 20px;">Add New </a>
+    <table class="table">
+        <tr style="font-weight: bold; text-align: center;">
+            <td>ID</td>
+            <td>Name</td>
+            <td>Created At</td>
+            <td>Updated At</td>
+            <td colspan="3">Actions</td>
+        </tr>
+        {% for tag in tags %}
+        <tr style="text-align: center;">
+            <td>{{tag.id }}</td>
+            <td>{{tag.name }}</td>
+            <td>{{tag.created_at}}</td>
+            <td>{{tag.updated_at}}</td>
+            <td><a class="btn btn-primary" href="{{tag.show_url}}">Show</a></td>
+            <td><a class="btn btn-info" href="{{tag.update_url}}">Update</a></td>
+            <td><a class="btn btn-danger" href="{{tag.delete_url}}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+{%endblock%}

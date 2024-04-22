@@ -1,0 +1,17 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}Category - {{category.name}} {%endblock%}
+{% block body %}
+
+<a href="{% url 'category-home' %}" class="btn btn-dark">Go Back</a>
+<div class="card mt-3" style="width: 18rem;">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">ID: {{category.id}}</li>
+        <li class="list-group-item">Name: {{category.name}}</li>
+        <li class="list-group-item">Description: {{category.description}}</li>
+        <li class="list-group-item">Created At: {{category.created_at}}</li>
+        <li class="list-group-item">Updated At: {{category.updated_at}}</li>
+    </ul>
+</div>
+
+{% endblock %}

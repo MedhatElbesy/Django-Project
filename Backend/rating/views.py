@@ -1,4 +1,4 @@
-# from django.shortcuts import render
+from django.shortcuts import redirect ,render
 from rest_framework.exceptions import ValidationError
 from django.db.models import Avg
 from rest_framework import viewsets, status
@@ -9,6 +9,8 @@ from .models import Rating
 from projects.models import Project
 from projects.serializer import ProjectSerializer
 from .serializers import RatingSerializer
+from .forms import RatingForm
+from django.contrib import messages
 
 
 class RatingViewSet(viewsets.ModelViewSet):
@@ -31,3 +33,21 @@ class RatingViewSet(viewsets.ModelViewSet):
             avg_rating=Avg('ratings__rating')).order_by('-avg_rating')[:5]
         serializer = ProjectSerializer(top_projects, many=True)
         return Response(serializer.data)
+
+
+def create_rating(request):
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            rating = form.save()
+            messages.success(request, 'Rating is Create Succufuly')
+            return redirect('project.rating' ,rating.project_id)  
+    else:
+        form = RatingForm()
+    return render(request, 'create.html', {'form': form})
+
+def delete_rating(request,id):
+    rating = Rating.objects.get(id=id)
+    rating.delete()
+    messages.success(request, 'Rating is Delete Succufuly')
+    return redirect('project.rating' ,rating.project_id)

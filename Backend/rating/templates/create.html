@@ -1,0 +1,25 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .invalid-feedback {
+        color: red;
+        font-size: 0.8rem;
+    }
+    
+    /* Adjust spacing between form elements */
+    .form-label {
+        margin-bottom: 0.5rem;
+    }
+    .errorlist{
+        color: red;
+        list-style: none;
+    }
+</style>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit" class="btn btn-primary mt-2 ">Submit</button>
+</form>
+{% endblock %}

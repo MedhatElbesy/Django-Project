@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404, reverse, redirect
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from .serializer import TagsSerializer
 from .models import Tags
+from tags.form import TagModelForm
 
 # Create your views here.
 
@@ -63,3 +64,39 @@ class TagsViewSet(viewsets.ModelViewSet):
       return Response(status=status.HTTP_204_NO_CONTENT)
     except Tags.DoesNotExist:
       return Response({'error': 'Tags Not Found'}, status=status.HTTP_404_NOT_FOUND)
+
+# Tags Dashboard Crud Operations
+def index(request):
+  tags = Tags.objects.all()
+  return render(request, template_name="tags/crud/index.html",
+  context={"tags": tags})
+
+def tag_create(request):
+  form = TagModelForm()
+  if request.method == "POST":
+    form = TagModelForm(request.POST ,request.FILES)
+    if form.is_valid():
+      tag = form.save()
+      return redirect(tag.show_url)
+  return render(request , template_name="tags/crud/create.html"
+    ,context={"form": form})
+
+def tag_update(request, id):
+  tag = get_object_or_404(Tags, pk=id)
+  if request.method == "POST":
+      tag.name = request.POST["name"]
+      tag.save()
+      url = reverse("tag-show", args=[id])
+      return redirect(url)
+  return render(request, template_name="tags/crud/update.html", context= {"tag": tag})
+
+def tag_show(request, id):
+  tag = get_object_or_404(Tags, pk=id)
+  return render(request, template_name="tags/crud/show.html",
+  context={"tag": tag})
+
+def tag_delete(request,id):
+  tag = get_object_or_404(Tags, pk=id)
+  tag.delete()
+  url = reverse("tag-home")
+  return redirect(url)
