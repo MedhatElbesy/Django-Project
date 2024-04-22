@@ -35,7 +35,7 @@
           <i id="togglePassword1" :class="passwordVisible ? 'fas fa-eye icon' : 'fas fa-eye-slash icon'" class="position-absolute" @click="togglePasswordVisibility"></i>
           <label for="password">Password</label>
         </div>
-          <router-link to="/forget-password" class="text-color text-decoration-underline">Forgot your password?</router-link>
+          <router-link to="/forget_password" class="text-color text-decoration-underline">Forgot your password?</router-link>
         </div>
         <div class="social w-100 m-auto text-center mt-5">
           <p class="text-color fw-bold position-relative">or</p>
@@ -87,6 +87,17 @@ export default {
         passwordInput.type = this.passwordVisible ? 'text' : 'password';
       }
     },
+  },
+
+  mounted() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('status')  === "200") {
+      this.authenticationStore.successMessages = urlParams.get('message') || '';
+    } else if (urlParams.get('status') === "400") {
+        this.authenticationStore.errorMessages = urlParams.get('message') || '';
+    }
+    window.history.replaceState({}, document.title, window.location.pathname);
+
   }
 }
 </script>
