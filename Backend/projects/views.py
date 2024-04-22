@@ -1,5 +1,5 @@
 # from django.shortcuts import render
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404 ,HttpResponse
 from rest_framework.exceptions import ValidationError
 import datetime
 from rest_framework import viewsets, status
@@ -157,8 +157,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 ##############  Dashboard  ###############
 
-def paginatedPages(request, projects):
-    paginator = Paginator(projects, 5)  # Show 5 projects per page
+def paginatedPages(request, projects,page=5):
+    paginator = Paginator(projects, page)  # Show 5 projects per page
     page_number = request.GET.get('page')
     try:
         paginated_projects = paginator.page(page_number)
@@ -185,7 +185,7 @@ def five_featured_projects(request):
 def project_commests(request, id):
     project = Project.objects.get(id=id)
     comments = Comment.objects.filter(project=project)
-    paginated_comments = paginatedPages(request, comments)
+    paginated_comments = paginatedPages(request, comments,4)
     return render(request, 'comments.html', {'comments': paginated_comments, 'project': project})
 
 
@@ -268,3 +268,28 @@ def edit_project(request, id):
     else:
         form = ProjectForm(instance=project)
     return render(request, 'create.html', {'form': form})
+
+
+def search_projects(request):
+    query = request.GET.get('query')
+    search_by = request.GET.get('search_by')
+
+    if query and search_by:
+        if search_by == 'category':
+            projects = Project.objects.filter(category__name__icontains=query)
+        elif search_by == 'tags':
+            projects = Project.objects.filter(tags__name__icontains=query)
+        else:
+            projects = Project.objects.none()
+    else:
+        projects = Project.objects.all()
+
+    return render(request, 'index.html', {'projects': projects})
+
+
+def get_rating_project(request , id):
+    project = Project.objects.get(id=id)
+    ratings = project.ratings.all()
+    return render(request, 'ratings.html', {'ratings': ratings , 'project':project})
+
+

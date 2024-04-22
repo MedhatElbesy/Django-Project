@@ -57,3 +57,9 @@ class RegisterSerializer(serializers.ModelSerializer):
     #     instance.country = validated_data.get('country', instance.country)
     #     instance.save()
     #     return instance
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email', 'profile_image', 'mobile_phone', 'birthdate','facebook_profile', 'country', 'date_joined', 'is_active', 'deleted_at')

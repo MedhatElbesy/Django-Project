@@ -19,7 +19,7 @@ from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshVie
 from accounts.models import User
 from accounts.forms import RegisterForm, UpdateUserForm
 from accounts.tokens import token_generator
-from accounts.serializers import LoginSerializer, RegisterSerializer
+from accounts.serializers import LoginSerializer, RegisterSerializer, UserSerializer
 
 import os       # for use .env -> python-dotenv
 
@@ -32,23 +32,21 @@ def index(request):
 def create(request):
     form = RegisterForm()
     if request.method == "POST":
-        form = RegisterForm(request.POST)
+        form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             messages.success(request, "User Add Successfully.")
             return redirect("accounts.index")
-
     return render(request, "accounts/crud/create.html", {"form": form})
 
 def edit(request, id):
     user = get_object_or_404(User, pk=id)
-    form = UpdateUserForm(instance=user)
+    form = UpdateUserForm(instance=user, data=request.POST, files=request.FILES)
 
     if request.method == "POST":
         form = UpdateUserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             user = form.save()
-
             messages.success(request, "User updated successfully.")
             return redirect("accounts.index")
 
@@ -62,7 +60,7 @@ def show(request, id):
 def delete(request, id):
     user = get_object_or_404(User, pk=id)
     user.delete()
-    url = reverse("users.index")
+    url = reverse("accounts.index")
     messages.success(request, "User Deleted Successfully.")
 
     return redirect(url)
@@ -84,13 +82,20 @@ def login(request):     #login(TokenObtainPairView):
                 token_request = request._request
                 token_response = token_obtain_view(token_request)
                 token_data = token_response.data
+
+                user_serializer = UserSerializer(user)  # Serialize the user object
+                print(user_serializer.data)
+                request.session['user'] = user_serializer.data
+                request.session.set_expiry(3600) # Set session expiry to 1 hour
+                print(request.session['user'])
                 return Response({
                     'message': 'Login successfully',
-                    'user': user.email,
+                    'user': user_serializer.data,
                     'email': user.email,
                     'token': token_data['access'],
                     'refresh_token': token_data['refresh']
                 })
+                #response.set_cookie('token', token_data['access'], max_age=3600, secure=True,httponly=True)
             else:
                 return Response({'error': 'Invalid email or password'}, status=status.HTTP_401_UNAUTHORIZED)
         else:
@@ -142,14 +147,16 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         frontend_host = os.getenv('FRONTEND_HOST', 'http://localhost:8080')
-        messages.success(request, "Your email address has been verified. Now you can login to your account.")
+        message = "Your email address has been verified. Now you can login to your account."
+        status = 200
         print("Your email address has been verified. Now you can login to your account.")
-        return HttpResponseRedirect(f"{frontend_host}/login")
+        return HttpResponseRedirect(f"{frontend_host}/login?message={message}&status={status}")
     else:
         frontend_host = os.getenv('FRONTEND_HOST', 'http://localhost:8080')
-        messages.success(request, "Activation link is invalid!")
+        message = "Activation link is invalid!"
+        status = 400
         print("Error, Activation link is invalid!")
-        return HttpResponseRedirect(f"{frontend_host}/login")
+        return HttpResponseRedirect(f"{frontend_host}/login?message={message}&status={status}")
 
 
 @api_view(['GET'])
@@ -158,6 +165,23 @@ def profile(request):
     user = RegisterSerializer(request.user)
     return Response(user.data)
 
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def update_profile(request):
+    if request.method == 'POST':
+        serializer = UserSerializer(instance=request.user, data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            user_serializer = UserSerializer(user)  # Serialize the user object
+            request.session['user'] = user_serializer.data,
+            request.session.set_expiry(3600)  # Set session expiry to 1 hour
+            print(request.session['user'])
+            return Response({'message': 'Profile updated successfully'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 @api_view(['POST'])
 def forget_password(request):

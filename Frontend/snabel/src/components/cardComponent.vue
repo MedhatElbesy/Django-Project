@@ -1,7 +1,7 @@
 <template >
-    <div class="container my-3 py-2">
-        <h2 class="my-5 line">More ways to make a difference.<br> fundraisers inspired by what you care about.</h2>
-        <select v-model="selectedOption" class="form-select one text-center my-5" aria-label="Default select example" @change="fetchData">
+    <div class="row my-3 py-2 justify-content-center justify-content-md-start ">
+        <h2 class="my-5 line m-0 mx-md-4 mx-lg-5 ">More ways to make a difference.<br class="d-none d-md-block "> fundraisers inspired by what you care about.</h2>
+        <select v-model="selectedOption" class="form-select one text-center my-5  mx-sm-auto mx-md-4 mx-lg-5" aria-label="Default select example" @change="fetchData">
             <option value="close_to_goal">Close to Goal</option>
             <option value="just_launched">Just Launched</option>
             <option value="top_rated">Top Rated</option>
@@ -18,7 +18,7 @@
                         <h5 class="card-title">This Donation For {{project.user_name}} </h5>
                         <!-- <p class="card-text">Name{{project.user}}</p> -->
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" :style="{ width: (project.total_collected / project.total_target) * 100 + '%',}" :aria-valuenow="project.total_collected" aria-valuemin="0" :aria-valuemax="project.total_target">{{ (project.total_collected / project.total_target) * 100 }}%</div>
+                            <div class="progress-bar" role="progressbar" :style="{ width: (project.total_collected / project.total_target) * 100 + '%',}" :aria-valuenow="project.total_collected" aria-valuemin="0" :aria-valuemax="project.total_target">{{ (project.total_collected / project.total_target) * 100 }} %</div>
                         </div>
                         <p class="card-text">{{project.total_collected}} Raised</p>
                     </div>
@@ -60,10 +60,18 @@
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 }
-            },
-        }, async created(){
-            this.fetchData();
-        }
+                // const topRatedData = await myStore.topRated();
+                // this.heighRate = topRatedData.results;
+            // } catch (error) {
+            //     console.error('Error fetching data:', error);
+            }
+        },
+        async created(){
+        this.fetchData();
+        },
+    computed:{
+        
+    },
     }
 </script>
 
@@ -78,14 +86,13 @@
     option{
         font-weight:400;
     }
-    .container{
+    .row{
         background-color: #4e6c8882;
         width: auto; 
-        max-width: 100%; 
         overflow: auto;
         border-radius: 15px;
     }
-    .container::-webkit-scrollbar {
+    .row::-webkit-scrollbar {
         display: none;
     }
     .card{

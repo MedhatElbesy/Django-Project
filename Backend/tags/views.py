@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 from .serializer import TagsSerializer
 from .models import Tags
 from tags.form import TagModelForm
-
+from projects.views import paginatedPages
 # Create your views here.
 
 class TagsViewSet(viewsets.ModelViewSet):
@@ -68,8 +68,8 @@ class TagsViewSet(viewsets.ModelViewSet):
 # Tags Dashboard Crud Operations
 def index(request):
   tags = Tags.objects.all()
-  return render(request, template_name="tags/crud/index.html",
-  context={"tags": tags})
+  tages_pagination = paginatedPages(request, tags,3)
+  return render(request, template_name="tags/crud/index.html",context={"tags": tages_pagination})
 
 def tag_create(request):
   form = TagModelForm()
@@ -92,8 +92,7 @@ def tag_update(request, id):
 
 def tag_show(request, id):
   tag = get_object_or_404(Tags, pk=id)
-  return render(request, template_name="tags/crud/show.html",
-  context={"tag": tag})
+  return render(request, template_name="tags/crud/show.html",context={"tag": tag})
 
 def tag_delete(request,id):
   tag = get_object_or_404(Tags, pk=id)
