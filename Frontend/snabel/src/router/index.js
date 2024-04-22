@@ -4,6 +4,10 @@ import { createRouter, createWebHistory } from "vue-router";
 import RegisterComponent from "../components/Auth/RegisterComponent.vue";
 import LoginComponent from "@/components/Auth/LoginComponent.vue";
 import ForgetPasswordComponent from "@/components/Auth/ForgetPasswordComponent.vue";
+import ProfileComponent from "@/components/Auth/ProfileComponent.vue";
+import ResetPasswordComponent from "@/components/Auth/ResetPasswordComponent.vue";
+import AboutView from "@/views/AboutView.vue";
+// import {useAuthenticationStore} from "@/stores/auth";
 
 const routes = [
   {
@@ -19,7 +23,7 @@ const routes = [
   {
     path: "/about",
     name: "about",
-    component: () => import("../views/AboutView.vue"),
+    component: AboutView,
   },
   {
     path: "/register",
@@ -32,9 +36,20 @@ const routes = [
     component: LoginComponent,
   },
   {
-    path: "/forget-password",
+    path: "/forget_password",
     name: "ForgetPassword",
     component: ForgetPasswordComponent,
+  },
+  {
+    path: "/reset_password",
+    name: "ResetPassword",
+    component: ResetPasswordComponent,
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: ProfileComponent,
+    meta: { requiresAuth: true } // Authentication requires
   },
   {
     path: "/payment",
@@ -54,7 +69,7 @@ const routes = [
   },
   {
     path: "/:cathcAll(.*)",
-    component: () => import("../views/AboutView.vue"),
+    component: () => import("../views/NotFound.vue"),
   },
 ];
 
