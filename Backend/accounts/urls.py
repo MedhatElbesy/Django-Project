@@ -18,7 +18,7 @@ urlpatterns = [
          name='accounts.delete'),
 
     # Required after login redirect on profile by default
-    path('accounts/profile/', admin_profile, name='accounts.profile'),
+    path('accounts/profile/', user_passes_test(lambda user: user.is_superuser)(admin_profile), name='accounts.profile'),
 
     # Apis
     path('api/login/', login, name='api.login'),
