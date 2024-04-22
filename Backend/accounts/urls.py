@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from accounts.views import (index, show, create, edit, delete, admin_profile, profile,update_profile, login, register, activate, forget_password, reset_password)
+from accounts.views import (admin_login, index, show, create, edit, delete, admin_profile, profile,update_profile, login, register, activate, forget_password, reset_password)
 from django.contrib.auth.decorators import login_required
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView,) # type: ignore
 
@@ -7,6 +7,7 @@ urlpatterns = [
     # Dashboard
     path('accounts/index', login_required(index), name='accounts.index'),
     path('accounts/create', login_required(create), name='accounts.create'),
+    path('accounts/login/', admin_login.as_view(), name='login'),
     path('accounts/<int:id>/show', login_required(show), name='accounts.show'),
     path('accounts/<int:id>/edit', login_required(edit), name='accounts.edit'),
     path('accounts/<int:id>/delete', login_required(delete), name='accounts.delete'),

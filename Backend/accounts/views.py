@@ -20,9 +20,25 @@ from accounts.models import User
 from accounts.forms import RegisterForm, UpdateUserForm
 from accounts.tokens import token_generator
 from accounts.serializers import LoginSerializer, RegisterSerializer, UserSerializer
+from django.contrib.auth.views import LoginView
 
 import os       # for use .env -> python-dotenv
+from django.contrib.auth import login
 
+
+class admin_login(LoginView):
+    def form_valid(self, form):
+        # Perform default login validation
+        self.user = form.get_user()
+
+        # Check if the user is staff
+        if self.user.is_staff == 1:
+            # If user is staff, log them in
+            login(self.request, self.user)
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            # If user is not staff, redirect to login page
+            return HttpResponseRedirect(reverse('login'))
 # Create your views here.
 def index(request):
     users = User.objects.all()
