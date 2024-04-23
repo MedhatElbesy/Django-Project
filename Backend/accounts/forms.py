@@ -16,6 +16,17 @@ class RegisterForm(UserCreationForm):
         # fields = '__all__'
         fields = ('first_name', 'last_name', 'email', 'password1', 'password2', 'mobile_phone', 'profile_image')
 
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data['email']
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.username = self.cleaned_data['first_name'] + '_' + self.cleaned_data['last_name']
+        if commit:
+            user.save()
+        return user
+
+
 class UpdateUserForm(forms.ModelForm):
     email = forms.EmailField(required=True, max_length=254, help_text='Required',
                              widget=forms.EmailInput(attrs={"autocomplete": "email"}))

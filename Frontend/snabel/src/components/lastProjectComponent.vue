@@ -40,8 +40,8 @@
                                 </div>
                                 
                             </div>
+                            <router-link :to="{name: 'ProjectTest', params: {id: project.id}}" class="btn btn-primary mylink w-50 mx-auto my-2">Details</router-link>
                         </div>
-                        <router-link :to="{name: 'ProjectTest', params: {id: project.id}}" class="btn btn-primary mylinkrow">Details</router-link>
                     </div>
                 </div><!-- end  Second Row -->
 
@@ -84,28 +84,14 @@ export default {
 .custom-card {
     height: 615px;
 }
-/* .custom-card img{
-    z-index: 1;
-}
-.custom-card .card-img-overlay{
-    z-index: 2;
-} */
 .card:hover img {
     transform: scale(1.1);
 }
 .card img {
     transition: all 0.5s ease;
 }
-.mylink{
-    position: absolute;
-    bottom: 18px;
-    left: 315px;
-}
-.mylinkrow{
-    position: absolute;
-    z-index: 30;
-    top: 220px;
-    left: 252px;
+.mylink {
+    z-index: 1;
 }
 
 

@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
-// import sliderComponent from '../components/sliderComponent.vue'
-// import lastProjectComponent from '../components/lastProjectComponent.vue'
 import RegisterComponent from "../components/Auth/RegisterComponent.vue";
 import LoginComponent from "@/components/Auth/LoginComponent.vue";
 import ForgetPasswordComponent from "@/components/Auth/ForgetPasswordComponent.vue";
+import ResetPasswordComponent from "@/components/Auth/ResetPasswordComponent.vue";
+import ProfileComponent from "@/components/Auth/ProfileComponent.vue";
 
 const routes = [
   {
@@ -14,7 +14,7 @@ const routes = [
   {
     path: "/search",
     name: "search",
-    component: () => import("../components/searchComponent.vue"),
+    component: () => import("../views/searchView.vue"),
   },
   {
     path: "/about",
@@ -23,18 +23,57 @@ const routes = [
   },
   {
     path: "/register",
-    name: "Register",
+    name: "register",
     component: RegisterComponent,
+    beforeEnter: (to, from, next) => {
+      if (!sessionStorage.getItem('user')) {
+        next();
+      } else {
+        next({ name: 'home' });
+      }
+    }
   },
   {
     path: "/login",
-    name: "Login",
+    name: "login",
     component: LoginComponent,
+    beforeEnter: (to, from, next) => {
+      if (!sessionStorage.getItem('user')) {
+        next();
+      } else {
+        next({ name: 'home' });
+      }
+    }
   },
   {
     path: "/forget-password",
-    name: "ForgetPassword",
+    name: "forgetPassword",
     component: ForgetPasswordComponent,
+    beforeEnter: (to, from, next) => {
+      if (!sessionStorage.getItem('user')) {
+        next();
+      } else {
+        next({ name: 'home' });
+      }
+    }
+  },
+  {
+    path: "/reset_password",
+    name: "ResetPassword",
+    component: ResetPasswordComponent,
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfileComponent,
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.getItem('user')) {
+        next();
+      } else {
+        next({ name: 'home' });
+      }
+    },
+    meta: { requiresAuth: true } // Authentication requires
   },
   {
     path: "/payment",
@@ -53,8 +92,20 @@ const routes = [
     component: () => import("../components/addProjectComponent.vue"),
   },
   {
+    path: "/profile",
+    name: "profile",
+    component: () => import("@/components/Auth/ProfileComponent.vue"),
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.getItem('user')) {
+        next();
+      } else {
+        next({ name: 'login' });
+      }
+    }
+  },
+  {
     path: "/:cathcAll(.*)",
-    component: () => import("../views/AboutView.vue"),
+    component: () => import("../views/NotFound.vue"),
   },
 ];
 

@@ -9,7 +9,7 @@
       <h1>Page Not Found</h1>
 
       <div class="link-container mb-4">
-        <router-link class="fw-bold text-color more-link" to="/">Return To Home</router-link>
+        <router-link class="fw-bold text-color more-link" :to="{name:'home'}">Return To Home</router-link>
       </div>
     </div>
   </div>

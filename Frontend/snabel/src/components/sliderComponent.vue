@@ -57,7 +57,6 @@ export default {
         projects.sort((a, b) => b.get_project_rating - a.get_project_rating);
         // this.topProjects = projects.results;
         this.topProjects = projects.slice(0, 5);
-        console.log(this.topProjects[0].pictures);
     },
     methods: {
         getImageUrl(image){

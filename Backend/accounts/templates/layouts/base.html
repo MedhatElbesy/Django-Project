@@ -18,9 +18,17 @@
         }
 
         #sidebar{
-            width: 20vw;
-            color: white;
-            height: 100vh;
+            width: fit-content;
+            color: #DDD;
+            padding: 16px;
+            padding-right: 50px;
+            li {
+                width: max-content;
+            }
+        }
+        
+        #body_content {
+            overflow: auto;
         }
         
 
@@ -42,10 +50,10 @@
                     </a>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="{% url 'report-home' %}" class="nav-link text-white" aria-current="page" >
-                        <i class="fa-regular fa-user"></i>
-                        Reports
-                    </a>
+{#                    <a href="{% url 'report-home' %}" class="nav-link text-white" aria-current="page" >#}
+{#                        <i class="fa-regular fa-user"></i>#}
+{#                        Reports#}
+{#                    </a>#}
                 </li>
                 <li class="nav-item mb-1">
                     <a href="{% url 'category-home' %}" class="nav-link text-white" aria-current="page" >
