@@ -36,6 +36,6 @@ urlpatterns = [
     # for DashBorad Routes
     path('reports/', user_passes_test(lambda user: user.is_superuser)(include('reports.dashboardUrls'))),
     path('dashboard/projects/', user_passes_test(lambda user: user.is_superuser)(include('projects.urls'))),
-    path('dashboard/categories/', include('categories.urls')),
+    path('dashboard/categories/', user_passes_test(lambda user: user.is_superuser)(include('categories.urls'))),
     path('dashboard/tags/', user_passes_test(lambda user: user.is_superuser)(include('tags.urls'))),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

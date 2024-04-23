@@ -21,7 +21,7 @@
       <li><router-link :to="{name: 'AddProject'}" class="fw-bold color">Start SnabelSadaka</router-link></li>
       <li class="user-data position-relative" v-if="loggedUser">
         <div class="user cursor-pointer">
-          <img :src="loggedUser.profile_image" :alt="loggedUser.username">
+          <img :src="getProfileImageUrl(loggedUser.profile_image)" :alt="loggedUser.username">
           <span>{{ loggedUser.username }}</span>
         </div>
         <div class="user-links">
@@ -38,23 +38,29 @@ import individualsLinks from "@/components/links/individualsLinks.vue";
 import userLinks from "@/components/links/userLinks.vue";
 
 export default {
+  components: {
+    individualsLinks,
+    userLinks,
+  },
+  methods: {
+    getProfileImageUrl(profile_image) {
+      return `http://localhost:8000/${profile_image}`
+    },
+  },
   computed: {
     loggedUser() {
       const userData = sessionStorage.getItem('user');
       if (userData) {
         const user = JSON.parse(userData);
+
         return {
           username: user.user.username,
-          profile_image: user.user.profile_image ? `http://localhost:8000${user.user.profile_image}` : 'https://placehold.co/500x500',
+          profile_image: user.user.profile_image,
         };
       } else {
         return null;
       }
     }
-  },
-  components: {
-    individualsLinks,
-    userLinks,
   },
 };
 </script>

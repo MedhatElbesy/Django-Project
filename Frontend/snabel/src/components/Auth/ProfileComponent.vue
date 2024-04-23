@@ -212,9 +212,7 @@ export default {
 
   mounted() {
     var userDataJSON = sessionStorage.getItem('user');
-
     var userDataWithExpiration = JSON.parse(userDataJSON);
-
     if (userDataWithExpiration && userDataWithExpiration.expiration > new Date().getTime()) {
       this.user = userDataWithExpiration.user;
     } else {
@@ -236,6 +234,7 @@ export default {
       userDataWithExpiration.user = user;
 
       var updatedUserDataJSON = JSON.stringify(userDataWithExpiration);
+      console.log(updatedUserDataJSON);
 
       sessionStorage.setItem('user', updatedUserDataJSON);
     },
