@@ -1,8 +1,5 @@
 <template>
   <div class="w-100 p-0">
-    <nav class="row g-0">
-      <navbar />
-    </nav>
     <section class="d-flex row mx-auto" >
     </section>
     <!-- <card /> -->
@@ -17,7 +14,6 @@
 <script>
 import { provide } from "vue";
 
-import navbar from "../components/navComponent.vue";
 // import projectDonate from "../components/projectDonationCards.vue";
 // import card from "../components/cardComponent.vue";
 import pay from "../components/paymentFormComponent.vue";
@@ -33,7 +29,6 @@ export default {
     loading: true, // Add loading state to track data loading status
   }),
   components: {
-    navbar,
     // card,
     pay,
     footerComponent,

@@ -65,7 +65,7 @@ import { provide } from "vue";
 // import navbar from "../components/navComponent.vue";
 // import navbarResp from "../components/navRespComponent.vue";
 import projectDonate from "../components/projectDonationCards.vue";
-import card from "../components/cardComponent.vue";
+// import card from "../components/cardComponent.vue";
 // import pay from "../components/paymentFormComponent.vue";
 // import footerComponent from "../components/footerComponent.vue";
 import projectCommentsComponent from "@/components/projectCommentsComponent.vue";
@@ -79,7 +79,7 @@ export default {
     project: {
       title: "loading",
       user: JSON.parse(sessionStorage.user).user,
-      token: localStorage.getItem("token"),
+      // token: session.getItem("token"),
     },
     object_id: null,
     content_object: null,
@@ -88,7 +88,7 @@ export default {
   components: {
     // navbar,
     projectDonate,
-    card,
+    // card,
     // pay,
     // footerComponent,
     projectCommentsComponent,
