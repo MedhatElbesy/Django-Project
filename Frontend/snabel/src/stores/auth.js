@@ -22,9 +22,17 @@ export const useAuthenticationStore = defineStore("authenticationStore", {
 
                 if (response.ok) {
                     const userData = await response.json();
+                    this.user = userData;
                     localStorage.setItem('token', userData.token);
-                    this.user = JSON.stringify(userData)
-                    sessionStorage.setItem('user', this.user);
+                    // set user data in session
+                    var expirationTime = new Date().getTime() + (60 * 60 * 1000); // 1 hour in milliseconds
+                    var userDataWithExpiration = {
+                        user: userData.user,
+                        expiration: expirationTime
+                    };
+                    var userDataJSON = JSON.stringify(userDataWithExpiration);
+                    sessionStorage.setItem('user', userDataJSON);
+
                     this.successMessages = userData.message;
                     this.errorMessages = '';
                     router.push({name: 'home'});

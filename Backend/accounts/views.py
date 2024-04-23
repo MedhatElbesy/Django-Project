@@ -41,14 +41,15 @@ def create(request):
 
 def edit(request, id):
     user = get_object_or_404(User, pk=id)
-    form = UpdateUserForm(instance=user, data=request.POST, files=request.FILES)
 
     if request.method == "POST":
         form = UpdateUserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
-            user = form.save()
+            form.save()
             messages.success(request, "User updated successfully.")
             return redirect("accounts.index")
+    else:
+        form = UpdateUserForm(instance=user)
 
     return render(request, 'accounts/crud/edit.html', context={"form": form})
 
