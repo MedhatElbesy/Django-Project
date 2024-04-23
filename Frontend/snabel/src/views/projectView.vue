@@ -6,6 +6,7 @@
     <section class="d-flex row mx-auto" style="width: 90%">
       <h1 class="col-12 my-5 d-flex justify-content-between">
         <p>{{ project.title }}</p>
+
         <button
           data-bs-toggle="modal"
           data-bs-target="#reportModal"
