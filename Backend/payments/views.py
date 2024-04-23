@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from .serializer import PaymentSerializer
 from .models import Payment
 # from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -23,7 +25,10 @@ class PaymentViewSet(viewsets.ModelViewSet):
         except Payment.DoesNotExist:
             return Response({'error': 'Payment not found'}, status=status.HTTP_404_NOT_FOUND)
 
+    @permission_classes([IsAuthenticated])
     def create(self, request):
+        if not request.user.is_authenticated:
+            return Response({'error': 'You must be authenticated to make a donation'}, status=status.HTTP_401_UNAUTHORIZED)
         try:
             serializer = PaymentSerializer(data=request.data)
             if serializer.is_valid():
