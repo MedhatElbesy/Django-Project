@@ -1,0 +1,19 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<div class="card" style="width: 18rem;">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Report ID: {{ report.id }}</li>
+        <li class="list-group-item">Report Reason: {{ report.reason }}</li>
+        <li class="list-group-item">Report Reason: {{ report }}</li>
+        <li class="list-group-item">Report Reason: {{ project }}</li>
+        <li class="list-group-item">Report Reason: {{ report.content_type.model.title }}</li>
+        <!-- Check if project exists and display its details -->
+        {% if project %}
+            <li class="list-group-item">Project ID: {{ project.id }}</li>
+            <li class="list-group-item">Project Name: {{ project.title }}</li>
+            <!-- Add other project details as needed -->
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}

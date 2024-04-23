@@ -21,7 +21,6 @@
                         <td>{{report.content_type.model}}</td>
                         <td>{{report.created_at}}</td>
                         <td>
-                            <button data-bs-toggle="modal" data-bs-target="#modalId" class="btn btn-primary" data-report-id="{{ report.id }}">Details</button>
                             <a href="{% url 'reports-delete' report.id %}" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
