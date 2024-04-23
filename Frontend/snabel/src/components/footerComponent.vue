@@ -1,11 +1,11 @@
 <template>
   <div class="links d-flex flex-wrap mb-3">
     <div class="top d-flex flex-wrap align-items-center justify-content-between px-5 mx-3 w-100">
-      <figure class="d-flex align-items-center w-75"><router-link :to="{name: 'home'}">
+      <figure class="d-flex align-items-center col-12 col-sm-9 mb-2"><router-link :to="{name: 'home'}">
         <img src="../assets/logo.png" width="150" alt="Snabel Logo"></router-link>
         <figcaption>A way to <strong>CHANGE</strong> the world</figcaption>
       </figure>
-      <ul class="social w-25 justify-content-between">
+      <ul class="social col-12 col-sm-3 justify-content-between mb-2">
         <li><a href="https://facebook.com" title="Facebook"><i class="fa-brands fa-facebook"></i></a></li>
         <li><a href="https://x.com" title="Twitter"><i class="fa-brands fa-twitter"></i></a></li>
         <li><a href="https://instagram.com" title="Instagram"><i class="fa-brands fa-instagram"></i></a></li>
@@ -13,13 +13,13 @@
         <li><a href="https://linkedin.com" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a></li>
         <li><a href="https://reddit.com" title="Reddit"><i class="fa-brands fa-reddit"></i></a></li>
       </ul>
-      <ul class="w-75">
+      <ul class="col-12 col-sm-9 mb-2">
         <li>1998-2024 &copy; Snabel-ITI</li>
         <li><router-link :to="{name: 'about'}">Terms</router-link></li>
         <li><router-link :to="{name: 'about'}">Privacy Notice</router-link></li>
         <li><router-link :to="{name: 'about'}">Legal</router-link></li>
       </ul>
-      <ul class="w-25 justify-content-between">
+      <ul class="col-12 col-sm-3 justify-content-between mb-2">
         <li><a href="https://www.googleplay.com"><img src="../assets/googleplay.png" width="120" alt="googleplay"></a></li>
         <li><a href="https://www.appstore.com"><img src="../assets/appstore.png" width="120" alt="appstore"></a></li>
       </ul>

@@ -49,7 +49,7 @@ const routes = [
     },
   },
   {
-    path: "/forget-password",
+    path: "/forget_password",
     name: "forgetPassword",
     component: ForgetPasswordComponent,
     beforeEnter: (to, from, next) => {
@@ -69,6 +69,19 @@ const routes = [
     path: "/profile",
     name: "profile",
     component: ProfileComponent,
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.getItem("user")) {
+        next();
+      } else {
+        next({ name: "home" });
+      }
+    },
+    meta: { requiresAuth: true }, // Authentication requires
+  },
+  {
+    path: "/userDonation",
+    name: "userDonation",
+    component: () => import("../components/userProjectComponent.vue"),
     beforeEnter: (to, from, next) => {
       if (sessionStorage.getItem("user")) {
         next();
