@@ -42,11 +42,9 @@ class UpdateUserForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data['email']
         email_found = User.objects.filter(email=email).exists()
-        if email:
-            # Retrieve the current user instance from the form's instance attribute
+        if email_found:
             instance = getattr(self, 'instance', None)
             if instance and instance.pk:
-                # Exclude the current user from the uniqueness check
                 existing_user = User.objects.filter(email=email).exclude(pk=instance.pk).first()
             else:
                 existing_user = User.objects.filter(email=email).first()

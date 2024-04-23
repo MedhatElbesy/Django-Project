@@ -34,7 +34,6 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Image</th>
-                                            <th>Username</th>
                                             <th>Full name</th>
                                             <th>Email</th>
                                             <th>Action</th>
@@ -46,10 +45,9 @@
                                                 <th scope="row">{{ user.id }}</th>
                                                 <td><img class="rounded" src="{{ user.image_url }}" alt="" width="50"
                                                          height="50"></td>
-                                                <td>{{ user.username }}</td>
                                                 <td>{{ user.first_name }} {{ user.lastt_name }}</td>
                                                 <td>{{ user.email }}</td>
-                                                <td>
+                                                <td style="width: 20vw">
                                                     <div class="row justify-content-start align-items-start">
                                                         <div class="col-auto">
                                                             <a href="{{ user.show_url }}" class="btn btn-outline-success p-2">Show</a>
