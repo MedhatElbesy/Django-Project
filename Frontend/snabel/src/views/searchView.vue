@@ -2,6 +2,7 @@
   <div class="search">
     <nav class="row g-0">
       <navbar />
+      <navbarResp />
     </nav>
     <section class="row g-0 justify-content-center align-items-center text-center mb-3">
       <div class="content mt-5">
@@ -11,7 +12,8 @@
     </section>
     <section class="search-field row flex-wrap justify-content-center g-0 p-3">
       <form class="d-flex align-items-center col-11 col-md-8 col-lg-5 mx-1">
-        <select v-model="searchData.searchOption" name="options" id="">
+        <select @change="search" v-model="searchData.searchOption" name="options" id="">
+          <option value="project">Project</option>
           <option value="category">Categoty</option>
           <option value="tag">Tag</option>
         </select>
@@ -58,23 +60,20 @@
 
 <script>
   import navbar from "@/components/navComponent.vue";
+  import navbarResp from "../components/navRespComponent.vue"
   import lastProjectComponent from "@/components/lastProjectComponent.vue";
   import footerComponent from "@/components/footerComponent.vue";
-  import { useCategoryStore } from "@/stores/categoryStore";
   import { useProjectStore } from "@/stores/project";
-  import { useTagStore } from "@/stores/tagStore";
 
   export default {
     data:()=>({
       stores: {
-        useCategoryStore: useCategoryStore(),
-        useTagStore: useTagStore(),
         useProjectStore: useProjectStore(),
       },
       allProjects: [],
       searchData: {
         searchValue: "",
-        searchOption: "category",
+        searchOption: "project",
         searchResult: [],
       },
     }),
@@ -82,17 +81,15 @@
       navbar,
       lastProjectComponent,
       footerComponent,
+      navbarResp,
     },
     async created() {
-      // Fetch Categories
-      await this.stores.useCategoryStore.fetchCategories();
-      // Fetch Tags
-      await this.stores.useTagStore.fetchTags();
-      // Fetch Projects
+      // Fetching Projects
       this.allProjects = await this.stores.useProjectStore.allProject();
     },
     methods: {
       search() {
+        console.log();
         try {
           let searchValue = this.searchData.searchValue.trim().toLowerCase();
           if(!searchValue) {
@@ -101,7 +98,11 @@
           }
 
           // Search In Selected Search Option
-          if(this.searchData.searchOption == "category") {
+          if(this.searchData.searchOption == "project") {
+            this.searchData.searchResult = this.allProjects.filter((project) => {
+              return project.title.toLowerCase().startsWith(searchValue);
+            })
+          } else if(this.searchData.searchOption == "category") {
             this.searchData.searchResult = this.allProjects.filter((project) => {
               return project.category_name.toLowerCase().startsWith(searchValue);
             })

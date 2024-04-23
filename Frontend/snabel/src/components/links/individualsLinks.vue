@@ -3,23 +3,23 @@
     <ul v-if="categories.length">
       <h6>Categories</h6>
       <li v-for="(category, i) in categories" :key="category.id">
-        <router-link v-if="i < numTodisplay" :to="{name: 'About'} + category.id">{{ category.name }}</router-link>
+        <router-link v-if="i < numTodisplay" :to="{name: 'about'} + category.id">{{ category.name }}</router-link>
       </li>
-      <li v-if="categories.length > numTodisplay"><router-link :to="{name: 'About'}">see all</router-link></li>
+      <li v-if="categories.length > numTodisplay"><router-link :to="{name: 'about'}">see all</router-link></li>
     </ul>
     <ul v-if="tags.length">
       <h6>Tags</h6>
       <li v-for="(tag, i) in tags" :key="tag.id">
-        <router-link v-if="i < numTodisplay" :to="{name: 'About'} + tag.id">{{ tag.name }}</router-link>
+        <router-link v-if="i < numTodisplay" :to="{name: 'about'} + tag.id">{{ tag.name }}</router-link>
       </li>
-      <li v-if="tags.length > numTodisplay"><router-link :to="{name: 'About'}">see all</router-link></li>
+      <li v-if="tags.length > numTodisplay"><router-link :to="{name: 'about'}">see all</router-link></li>
     </ul>
     <ul>
       <h6>How it works</h6>
-      <li><router-link :to="{name: 'About'}">how Snabel Works?</router-link></li>
-      <li><router-link :to="{name: 'About'}">what is crowdFunding</router-link></li>
-      <li><router-link :to="{name: 'About'}">snabel team</router-link></li>
-      <li><router-link :to="{name: 'About'}">about snabel</router-link></li>
+      <li><router-link :to="{name: 'about'}">how Snabel Works?</router-link></li>
+      <li><router-link :to="{name: 'about'}">what is crowdFunding</router-link></li>
+      <li><router-link :to="{name: 'about'}">snabel team</router-link></li>
+      <li><router-link :to="{name: 'about'}">about snabel</router-link></li>
     </ul>
   </div>
 </template>

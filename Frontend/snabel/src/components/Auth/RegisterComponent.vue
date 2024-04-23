@@ -17,7 +17,7 @@
 
     <article class="signup d-flex flex-wrap align-content-center shadow transition col-12 col-lg-8">
       <form class="w-75 m-auto mt-5" enctype="multipart/form-data" @submit.prevent="registerUser">
-        <p class="signin color mb-5">Already have an account? <router-link :to="{name: 'Login'}" class="text-color text-decoration-underline">Sign In</router-link></p>
+        <p class="signin color mb-5">Already have an account? <router-link :to="{name: 'login'}" class="text-color text-decoration-underline">Sign In</router-link></p>
         <div class="mb-3 text-center">
           <div id="image_preview"
                 class="bg-light border position-relative border-1 d-inline-block text-center rounded rounded-circle position-relative overflow-hidden"

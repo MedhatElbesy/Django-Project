@@ -2,44 +2,41 @@
   <div class="d-lg-none transition">
     <ul class="main w-100 d-flex justify-content-between align-items-center">
       <li> 
-        <router-link class="btn btn-link" :to="{name: 'Search'}"><i class="fa-solid fa-magnifying-glass"></i></router-link>
+        <router-link class="btn btn-link" :to="{name: 'search'}"><i class="fa-solid fa-magnifying-glass"></i></router-link>
       </li>
       <figure class="logo d-flex justify-content-center align-items-center mb-0">
-        <router-link :to="{name: 'Home'}"><img src="../assets/logo.png" style='width: 45px' alt="Snabel Logo"/></router-link>
+        <router-link :to="{name: 'home'}"><img src="../assets/logo.png" style='width: 45px' alt="Snabel Logo"/></router-link>
       </figure>
       <li class="bar">
-        <button class="btn btn-link" @click="showLinks=true"><i class="fa-solid fa-bars"></i></button>
+        <i @click="showLinks=true" class="d-inline btn btn-link fa-solid fa-bars"></i>
       </li>
     </ul>
     <div v-if="showLinks" class="nav-links col-12 col-sm-9">
       <i @click="showLinks = false" class="btn btn-link fa-sharp fa-solid fa-xmark"></i>
       <ul class="wrap d-flex flex-wrap">
-        <li class="user-data d-flex flex-column align-items-center">
-          <img src="https://placehold.co/500x500" class="rounded-circle" width="70" alt="user">
+        <!-- Show User Links -->
+        <li v-if="loggedUser" class="user-data d-flex flex-column align-items-center">
+          <img :src="loggedUser.profile_image" class="rounded-circle" width="70" :alt="loggedUser.username">
           <h5>
-            <span>user khaled</span>
+            <span>{{ loggedUser.username }}</span>
             <i @click="showUser=true" class="btn btn-link fa-solid fa-angle-right"></i>
           </h5>
         </li>
-        <!-- Show User Links -->
+        <li v-else class="login text-center mt-4"><router-link :to="{name: 'login'}" class="transition text-color fw-bold">Log In</router-link></li>
         <li class="data" v-if="showUser">
-          <ul class="user-links">
-            <h5 class="">
-              <i @click="showUser=false" class="btn btn-link fa-solid fa-angle-left"></i>
-              <span>Account</span>
-            </h5>
-            <li class="mt-5"><router-link :to="{name: 'About'}">Your Impact</router-link></li>
-            <li><router-link :to="{name: 'About'}">Account Settings</router-link></li>
-            <li><router-link :to="{name: 'AddProject'}">Start SnabelSadaka</router-link></li>
-            <li><router-link :to="{name: 'About'}">Help Center</router-link></li>
-            <li class="log-out fw-bold"><router-link :to="{name: 'Home'}">Log Out</router-link></li>
-          </ul>
+          <h5 class="">
+            <i @click="showUser=false" class="btn btn-link fa-solid fa-angle-left"></i>
+            <span>Account</span>
+          </h5>
+          <div class="user-links">
+            <userLinks />
+          </div>
         </li>
+        <!-- Show Individuals Links -->
         <li class="individuals open" @click="showIndividuals = true">
           <p>For Individuals <br><span>Start fundraising, tips, and resources</span></p> 
           <i class="fa-solid fa-angle-right"></i>
         </li>
-        <!-- Show Individuals Links -->
         <li class="data" v-if="showIndividuals">
           <h5>
             <i @click="showIndividuals=false" class="btn btn-link fa-solid fa-angle-left"></i>
@@ -49,14 +46,16 @@
             <individualsLinks />
           </div>
         </li>
+        <!-- Show About Page -->
         <li class="about">
-          <router-link class="open w-100" :to="{name: 'About'}">
+          <router-link class="open w-100" :to="{name: 'about'}">
             <p>About <br><span>How it works, pricing, and more</span></p> 
             <i class="fa-solid fa-angle-right"></i>
           </router-link>
         </li>
+        <!-- Show Charities Page -->
         <li class="charities">
-          <router-link class="open w-100" :to="{name: 'About'}">
+          <router-link class="open w-100" :to="{name: 'about'}">
             <p>For Charities <br>
               <span>raise money for the nonprofits you care</span>
             </p> 
@@ -69,6 +68,7 @@
 </template>
 
 <script scoped>
+import userLinks from "./links/userLinks.vue";
 import individualsLinks from "./links/individualsLinks.vue";
 import { useAuthenticationStore } from "@/stores/auth";
 
@@ -85,12 +85,20 @@ export default {
   }),
   components: {
     individualsLinks,
+    userLinks,
   },
   computed: {
-    test() {
-      // let test = this.authentication.useAuthenticationStore.user;
-      // return true;
-      return false;
+    loggedUser() {
+      const userData = sessionStorage.getItem('user');
+      if (userData) {
+        const user = JSON.parse(userData);
+        return {
+          username: user.user.username,
+          profile_image: user.user.profile_image ? `http://localhost:8000${user.user.profile_image}` : 'https://placehold.co/500x500',
+        };
+      } else {
+        return null;
+      }
     }
   },
 
@@ -104,6 +112,7 @@ body {
 }
 .nav-links,
 .data {
+  z-index: 1;
   background-color: #f5f5f5;
   animation: show 350ms linear both;
   transform: translateX(100%);
@@ -189,6 +198,9 @@ body {
   .donate a:hover {
     color: #fff;
     background-color: var(--mainColor);
+  }
+  .login a:hover {
+    color: var(--mainColor);
   }
   .bar {
     text-align: right;

@@ -2,63 +2,60 @@
   <div class="d-none d-lg-flex justify-content-between align-items-center">
     <ul class="left d-flex">
       <li>
-        <router-link :to="{name: 'Search'}"><i class="fa-solid fa-magnifying-glass"></i> Search</router-link>
+        <router-link :to="{name: 'search'}"><i class="fa-solid fa-magnifying-glass"></i> Search</router-link>
       </li>
       <li class="individuals">
         <a>
           <span>For Individuals <i class="fa-solid fa-angle-down"></i></span>
-          <div class="links">
+          <div class="individuals-links">
             <individualsLinks />
           </div>
         </a>
       </li>
-      <li><router-link :to="{name: 'Home'}">For Charities</router-link></li>
+      <li><router-link :to="{name: 'home'}">For Charities</router-link></li>
     </ul>
     <figure class="logo d-flex justify-content-center align-items-center mb-0">
-      <router-link :to="{name: 'Home'}"><img src="../assets/logo.png" alt="Snabel Logo"/></router-link>
+      <router-link :to="{name: 'home'}"><img src="../assets/logo.png" alt="Snabel Logo"/></router-link>
     </figure>
     <ul class="right d-flex justify-content-end align-items-center">
       <li><router-link :to="{name: 'AddProject'}" class="fw-bold color">Start SnabelSadaka</router-link></li>
-      <li class="user-data position-relative" v-if="test">
+      <li class="user-data position-relative" v-if="loggedUser">
         <div class="user cursor-pointer">
-          <!-- <img :src="`http://localhost:8000/${authentication.userData.profile_image}`" :alt="userData.username">
-          <span>{{ `${userData.first_name} ${userData.last_name}` }}</span> -->
-          <img src="https://placehold.co/500x500" alt="user">
-          <span>user khaled</span> <i class="fa-solid fa-angle-down"></i>
+          <img :src="loggedUser.profile_image" :alt="loggedUser.username">
+          <span>{{ loggedUser.username }}</span>
         </div>
         <div class="user-links">
           <userLinks />
         </div>
       </li>
-      <li v-else><router-link :to="{name: 'Login'}" class="fw-bold text-color">Log In</router-link></li>
+      <li v-else><router-link :to="{name: 'login'}" class="fw-bold text-color">Log In</router-link></li>
     </ul>
   </div>
 </template>
 
 <script scoped>
-import individualsLinks from "./links/individualsLinks.vue";
-import userLinks from "./links/userLinks.vue";
-import { useAuthenticationStore } from "@/stores/auth"
+import individualsLinks from "@/components/links/individualsLinks.vue";
+import userLinks from "@/components/links/userLinks.vue";
+
 export default {
-  data: () => ({
-    authentication: {
-      useAuthenticationStore: useAuthenticationStore(),
-      userData: useAuthenticationStore.user,
-      isAuth: useAuthenticationStore.isAuth,
-    },
-  }),
+  computed: {
+    loggedUser() {
+      const userData = sessionStorage.getItem('user');
+      if (userData) {
+        const user = JSON.parse(userData);
+        return {
+          username: user.user.username,
+          profile_image: user.user.profile_image ? `http://localhost:8000${user.user.profile_image}` : 'https://placehold.co/500x500',
+        };
+      } else {
+        return null;
+      }
+    }
+  },
   components: {
     individualsLinks,
     userLinks,
   },
-  computed: {
-    test() {
-      // let test = this.authentication.useAuthenticationStore.user;
-      // return true;
-      return false;
-    }
-  },
-
 };
 </script>
 
@@ -102,14 +99,16 @@ export default {
     transform: rotate(-180deg);
   }
 
-  .links {
+  .individuals-links,
+  .user-links {
     position: absolute;
     top: 100%;
-    left: 0;
     display: none;
   }
-
-  li:nth-child(2):hover .links,
+  .user-links {
+    right: 0;
+  }
+  li:nth-child(2):hover .individuals-links,
   .user-data:hover .user-links {
     display: block;
     animation: show 350ms linear both;
@@ -136,6 +135,7 @@ export default {
     cursor: pointer;
     padding: 4px 12px;
     border-radius: 12px;
+    border-radius: 12px 12px 0 0;
     
   }
   .user-data:hover {
