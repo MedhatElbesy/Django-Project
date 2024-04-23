@@ -14,12 +14,12 @@
                     <p class="my-4"><span class="fw-bold">Joined At :</span> {{ user.date_joined }}</p>
                     <div class="row justify-content-center my-3">
                         <div class="col-auto">
-                            <a href="{% url "accounts.index" %}" class="btn main-btn my-3 fs-5 text-center">Back</a>
+                            <a href="{% url 'accounts.index' %}" class="btn main-btn my-3 fs-5 text-center">Back</a>
                         </div>
                         {% if user.id  %}
-                        	<div class="col-auto">
-                                <a href="{% url 'password_change' %}" class="btn main-btn my-3 fs-5 text-center">Change Password</a>
-                            </div>
+                                <div class="col-auto">
+                                    <a href="{% url 'password_change' %}" class="btn main-btn my-3 fs-5 text-center">Change Password</a>
+                                </div>
                         {% endif %}
                     </div>
                 </div>
