@@ -1,7 +1,9 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 {% block title %} Add new user {% endblock %}
+{% block style %}
 
+{% endblock %}
 {% block body %}
     <div class="row mt-5 justify-content-center align-items-center">
         <div class="col-12 col-lg-8 mt-5">
@@ -14,23 +16,40 @@
                         {% csrf_token %}
 
                         {% for field in form %}
-                            <div class="mb-3">
-                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                                <span class="text-danger">*</span>
+                            {% if field.name != 'profile_image' %}
+                                <div class="mb-3">
+                                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                    <span class="text-danger">*</span>
 
-                                {% if field.errors %}
-                                    <input type="{{ field.field.widget.input_type }}" class="form-control is-invalid" id="{{ field.id_for_label }}" name="{{ field.name }}">
-                                    <div class="invalid-feedback">
-                                        {% for error in field.errors %}
-                                            {{ error }}
-                                        {% endfor %}
-                                    </div>
-                                {% else %}
-                                    <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" name="{{ field.name }}">
-                                {% endif %}
-                            </div>
+                                    {% if field.errors %}
+                                        <input type="{{ field.field.widget.input_type }}" class="form-control is-invalid" id="{{ field.id_for_label }}" name="{{ field.name }}">
+                                        <div class="invalid-feedback">
+                                            {% for error in field.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" name="{{ field.name }}">
+                                    {% endif %}
+                                </div>
+                            {% endif %}
                         {% endfor %}
 
+                        <div class="mb-3">
+                            <label for="{{ form.profile_image.id_for_label }}" class="form-label">{{ form.profile_image.label }}</label>
+
+                            <div id="image_preview" class="bg-light border border-1 d-inline-block text-center p-2 round" onclick="document.getElementById('image_input').click()">
+                                {% if form.profile_image.value %}
+                                    <img src="{{ form.profile_image.value.url }}" alt="Current Image" height="100">
+                                {% else %}
+                                    <p class="text-center">No profile_image selected</p>
+                                {% endif %}
+                            </div>
+                            {{ form.profile_image }}
+                            {% for error in form.profile_image.errors %}
+                                <p class="text-danger my-1">{{ error }}</p>
+                            {% endfor %}
+                        </div>
                         <div class="row justify-content-center my-3">
                             <div class="col-auto">
                                 <button type="submit" class="btn main-btn btn-primary text-center">
@@ -43,4 +62,22 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('image_preview');
+                output.innerHTML = '<img src="' + reader.result + '" alt="New Image" height="100">';
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function triggerFileInput() {
+            var fileInput = document.getElementById('image_input');
+            fileInput.click();
+        }
+    </script>
 {% endblock %}
