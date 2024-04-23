@@ -1,16 +1,19 @@
-from django.shortcuts import redirect,render
+from django.shortcuts import redirect, render
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from .models import Comment
 from .serializer import CommentSerializer
 from django.contrib import messages
 from .forms import CommentForm
 # Create your views here.
 
+
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
-    
+
     def list(self, request):
         queryset = self.get_queryset()
         serializer = self.serializer_class(queryset, many=True)
@@ -21,6 +24,9 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
+    # @api_view(['POST'])
+    @permission_classes([IsAuthenticated])
+    @api_view(['POST'])
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
@@ -35,8 +41,7 @@ class CommentViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Comment.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        
-        
+
 
 def delete_comment(request, id):
     comment = Comment.objects.get(pk=id)
@@ -55,4 +60,3 @@ def create_comment(request):
     else:
         form = CommentForm()
     return render(request, 'create.html', {'form': form})
-
