@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 // import RegisterComponent from "../components/Auth/RegisterComponent.vue";
 // import LoginComponent from "@/components/Auth/LoginComponent.vue";
-import authComponent from "@/components/Auth/authinticationComponent.vue";
+import authComponent from "../components/Auth/AuthinticationComponent.vue";
 import ForgetPasswordComponent from "@/components/Auth/ForgetPasswordComponent.vue";
 import ResetPasswordComponent from "@/components/Auth/ResetPasswordComponent.vue";
 import ProfileComponent from "@/components/Auth/ProfileComponent.vue";
@@ -28,12 +28,12 @@ const routes = [
     // component: RegisterComponent,
     component: authComponent,
     beforeEnter: (to, from, next) => {
-      if (!sessionStorage.getItem('user')) {
+      if (!sessionStorage.getItem("user")) {
         next();
       } else {
-        next({ name: 'home' });
+        next({ name: "home" });
       }
-    }
+    },
   },
   {
     path: "/login",
@@ -41,24 +41,24 @@ const routes = [
     // component: LoginComponent,
     component: authComponent,
     beforeEnter: (to, from, next) => {
-      if (!sessionStorage.getItem('user')) {
+      if (!sessionStorage.getItem("user")) {
         next();
       } else {
-        next({ name: 'home' });
+        next({ name: "home" });
       }
-    }
+    },
   },
   {
     path: "/forget-password",
     name: "forgetPassword",
     component: ForgetPasswordComponent,
     beforeEnter: (to, from, next) => {
-      if (!sessionStorage.getItem('user')) {
+      if (!sessionStorage.getItem("user")) {
         next();
       } else {
-        next({ name: 'home' });
+        next({ name: "home" });
       }
-    }
+    },
   },
   {
     path: "/reset_password",
@@ -66,17 +66,17 @@ const routes = [
     component: ResetPasswordComponent,
   },
   {
-    path: '/profile',
-    name: 'profile',
+    path: "/profile",
+    name: "profile",
     component: ProfileComponent,
     beforeEnter: (to, from, next) => {
-      if (sessionStorage.getItem('user')) {
+      if (sessionStorage.getItem("user")) {
         next();
       } else {
-        next({ name: 'home' });
+        next({ name: "home" });
       }
     },
-    meta: { requiresAuth: true } // Authentication requires
+    meta: { requiresAuth: true }, // Authentication requires
   },
   {
     path: "/payment",
@@ -106,12 +106,12 @@ const routes = [
     name: "profile",
     component: () => import("@/components/Auth/ProfileComponent.vue"),
     beforeEnter: (to, from, next) => {
-      if (sessionStorage.getItem('user')) {
+      if (sessionStorage.getItem("user")) {
         next();
       } else {
-        next({ name: 'login' });
+        next({ name: "login" });
       }
-    }
+    },
   },
   {
     path: "/:cathcAll(.*)",
