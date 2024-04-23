@@ -3,7 +3,7 @@
         <div class="col-lg-8 col-md-10 col-sm-12 secondcontainer my-5">
             <div class="d-flex flex-column justify-content-center align-items-center mx-5">
                 <div class="box d-flex py-3">
-                    <img :src="getImageUrl(project.picture)">
+                    <img :src="project.pictures">
                     <p class="py-1 px-2">You're supporting <b>{{project.user_name}}</b> which has Project description <b>{{project.description}}</b></p>
                 </div>
                     <form class="row g-3 needs-validation" novalidate >
@@ -65,7 +65,7 @@
 <script>
 // import { useProjectStore } from "../stores/project";
 import { ref, watchEffect, inject } from "vue";
-
+import router from "@/router"
 export default {
     data:() =>({
         selectedMethod: 'paypal' ,
@@ -80,8 +80,7 @@ export default {
     methods: {
         getImageUrl(image) {
           return `http://127.0.0.1:8000${image}`;
-}
-,
+    },
         submitForm() {
           const userData = sessionStorage.getItem('user');
         const token = JSON.parse(sessionStorage.getItem("user")).token;
@@ -103,8 +102,8 @@ export default {
           const formData = {
               amount: amountToSubmit,
               currency: this.selectedCurrency,
-              user:userData.user.id ,
-              project: this.project.id, 
+              user: JSON.parse(sessionStorage.user).user.id ,
+              project: this.project.id,
           };
           fetch('http://127.0.0.1:8000/payment/create/', {
               method: 'POST',
@@ -123,6 +122,7 @@ export default {
           .then(data => {
             alert('Payment done successfully.');
             console.log('Data sent successfully:', data);
+            router.push(`/projects/${this.project.id}`)
           })
           .catch(error => {
             console.error('Error sending data:', error);
@@ -153,7 +153,7 @@ export default {
             projectID.value = projectStore.projectID;
             projectData.value = projectStore.projectData;
         });
-        this.project = projectData;
+        this.project = projectData.value;
         } catch (e) {
         console.log("Error is", e);
         }

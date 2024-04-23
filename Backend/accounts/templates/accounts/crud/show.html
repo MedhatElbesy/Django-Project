@@ -22,7 +22,7 @@
                     <p class="my-4"><span class="fw-bold">Is SuperUser :</span> {% if user.is_superuser %}Yes{% else %}No{% endif %}</p>
                     <p class="my-4"><span class="fw-bold">Is Staff :</span> {% if user.is_staff %}Yes{% else %}No{% endif %}</p>
                     <p class="my-4"><span class="fw-bold">Is Active :</span> {% if user.is_active %}Yes{% else %}No{% endif %}</p>
-                    <a href="{% url "accounts.index" %}" class="btn btn-outline-warning my-3 fs-5 text-center">Back</a>
+                    <a href="{% url 'accounts.index' %}" class="btn btn-outline-warning my-3 fs-5 text-center">Back</a>
                 </div>
             </div>
         </div>
