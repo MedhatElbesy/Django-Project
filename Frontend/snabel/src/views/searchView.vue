@@ -60,7 +60,7 @@
 
 <script>
   import navbar from "@/components/navComponent.vue";
-  import navbarResp from "../components/navRespComponent.vue"
+  import navbarResp from "../components/navRespComponent.vue";
   import lastProjectComponent from "@/components/lastProjectComponent.vue";
   import footerComponent from "@/components/footerComponent.vue";
   import { useProjectStore } from "@/stores/project";
@@ -79,9 +79,9 @@
     }),
     components: {
       navbar,
+      navbarResp,
       lastProjectComponent,
       footerComponent,
-      navbarResp,
     },
     async created() {
       // Fetching Projects

@@ -79,6 +79,19 @@ const routes = [
     meta: { requiresAuth: true }, // Authentication requires
   },
   {
+    path: "/userDonation",
+    name: "userDonation",
+    component: () => import("../components/userProjectComponent.vue"),
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.getItem("user")) {
+        next();
+      } else {
+        next({ name: "home" });
+      }
+    },
+    meta: { requiresAuth: true }, // Authentication requires
+  },
+  {
     path: "/payment",
     name: "payment",
     component: () => import("../views/projectPayment.vue"),
