@@ -93,6 +93,13 @@ const routes = [
     path: "/addProject",
     name: "AddProject",
     component: () => import("../components/addProjectComponent.vue"),
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.getItem('user')) {
+        next();
+      } else {
+        next({ name: 'login' });
+      }
+    }
   },
   {
     path: "/profile",
