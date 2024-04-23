@@ -1,24 +1,19 @@
 <template>
   <div class="w-100">
-    <!-- <nav class="row g-0">
-      <navbar />
-    </nav> -->
     <section class="d-flex row mx-auto" style="width: 90%">
       <h1 class="col-12 my-5 d-flex justify-content-between">
         <p>{{ project.title }}</p>
-
         <button
           data-bs-toggle="modal"
           data-bs-target="#reportModal"
           data-bs-objectType="project"
           :data-bs-id="project.id"
-          class="text-danger btn report-flag"
-        >
+          class="text-danger btn report-flag">
           <i class="fa-solid fa-flag report-flag"></i>
         </button>
       </h1>
       <h5 class="col-12 h5">{{ project.get_project_rating }} / 5 Stars!</h5>
-      <div class="col-8">
+      <div class="m-auto col-10 m-lg-0  col-lg-7">
         <Suspense>
           <template #default>
             <div class="">
@@ -37,7 +32,7 @@
           </template>
         </Suspense>
       </div>
-      <div class="col-4">
+      <div class="m-auto col-10 m-lg-0 col-lg-4">
         <Suspense>
           <template #default>
             <!-- <div style="height: 70vh; position: sticky; top: 50px"> -->
