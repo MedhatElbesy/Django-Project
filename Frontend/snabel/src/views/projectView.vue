@@ -2,10 +2,12 @@
   <div class="w-100">
     <nav class="row g-0">
       <navbar />
+      <navbarResp />
     </nav>
     <section class="d-flex row mx-auto" style="width: 90%">
       <h1 class="col-12 my-5 d-flex justify-content-between">
         <p>{{ project.title }}</p>
+
         <button
           data-bs-toggle="modal"
           data-bs-target="#reportModal"
@@ -71,6 +73,7 @@
 import { provide } from "vue";
 
 import navbar from "../components/navComponent.vue";
+import navbarResp from "../components/navRespComponent.vue"
 import projectDonate from "../components/projectDonationCards.vue";
 import card from "../components/cardComponent.vue";
 import pay from "../components/paymentFormComponent.vue";
@@ -92,6 +95,7 @@ export default {
   }),
   components: {
     navbar,
+    navbarResp,
     projectDonate,
     card,
     pay,

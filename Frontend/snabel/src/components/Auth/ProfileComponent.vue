@@ -1,10 +1,10 @@
 <template>
-  <div class="search">
-    <nav class="row g-0">
-      <navbar/>
-    </nav>
-
-    <section class="row g-0 justify-content-center align-items-center text-center mb-3">
+    <div class="search">
+      <nav class="row g-0">
+        <navbar />
+        <navbarResp />
+      </nav>
+      <section class="row g-0 justify-content-center align-items-center text-center mb-3">
       <div class="content mt-5">
         <h2 class="mb-4 color">Settings</h2>
       </div>
@@ -187,11 +187,12 @@
 import axios from 'axios';
 import {useAuthenticationStore} from "../../stores/auth";
 import navbar from "@/components/navComponent.vue";
+import navbarResp from "@/components/navRespComponent.vue";
 import footerComponent from "@/components/footerComponent.vue";
 
 export default {
   name: "RegisterComponent",
-  components: {footerComponent, navbar},
+  components: {footerComponent, navbar, navbarResp},
   data: () => ({
     authenticationStore: useAuthenticationStore(),
     user: {

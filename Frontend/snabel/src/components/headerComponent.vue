@@ -5,7 +5,7 @@
       <br>أَنۢبَتَتۡ سَبۡعَ سَنَابِلَ فِي كُلِّ سُنۢبُلَةٖ مِّاْئَةُ حَبَّةٖۗ وَٱللَّهُ يُضَٰعِفُ لِمَن يَشَآءُۚ وَٱللَّهُ وَٰسِعٌ عَلِيمٌ      
       <em class="text-color">Surah Al Imran: 92</em>
     </h1>
-    <router-link :to="{name: 'Search'}">Give A Sadaka</router-link>
+    <router-link :to="{name: 'search'}">Give A Sadaka</router-link>
   </div>
 </template>
 
