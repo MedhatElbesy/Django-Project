@@ -49,7 +49,7 @@ const routes = [
     },
   },
   {
-    path: "/forget-password",
+    path: "/forget_password",
     name: "forgetPassword",
     component: ForgetPasswordComponent,
     beforeEnter: (to, from, next) => {
