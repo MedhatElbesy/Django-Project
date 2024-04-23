@@ -85,14 +85,13 @@ def login(request):     #login(TokenObtainPairView):
                 token_data = token_response.data
 
                 user_serializer = UserSerializer(user)  # Serialize the user object
-                print(user_serializer.data)
-                request.session['user'] = user_serializer.data
-                request.session.set_expiry(3600) # Set session expiry to 1 hour
-                print(request.session['user'])
+                # request.session['user'] = user_serializer.data,
+                # request.session.set_expiry(3600)  # Set session expiry to 1 hour
+
                 return Response({
                     'message': 'Login successfully',
                     'user': user_serializer.data,
-                    'email': user.email,
+                    'user_id': user.id,
                     'token': token_data['access'],
                     'refresh_token': token_data['refresh']
                 })
@@ -174,11 +173,13 @@ def update_profile(request):
         serializer = UserSerializer(instance=request.user, data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            user_serializer = UserSerializer(user)  # Serialize the user object
-            request.session['user'] = user_serializer.data,
-            request.session.set_expiry(3600)  # Set session expiry to 1 hour
-            print(request.session['user'])
-            return Response({'message': 'Profile updated successfully'}, status=status.HTTP_201_CREATED)
+            user_serializer = UserSerializer(user)
+            print(user_serializer.data)
+            return Response({
+                'message': 'Profile updated successfully',
+                'user': user_serializer.data,
+            }, status=status.HTTP_201_CREATED)
+
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:

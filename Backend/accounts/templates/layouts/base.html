@@ -12,28 +12,35 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        body {
-            height: 100vh;
+        html, body {
+            height: 100%;
             font-family: 'Ubuntu', sans-serif;
         }
 
         #sidebar{
-            width: fit-content;
-            color: #DDD;
-            padding: 16px;
-            padding-right: 50px;
-            li {
-                width: max-content;
-            }
+            width: 18vw;
+            height: 150vh;
+            color: white;
+            background: #A770EF;
+            background: -webkit-linear-gradient(to right, #FDB99B, #CF8BF3, #A770EF);
+            background: linear-gradient(to right, #FDB99B, #CF8BF3, #A770EF);
         }
-        
-        #body_content {
-            overflow: auto;
-        }
-        
 
-        .dropdown-toggle::after {
-            content: none; /* Remove the default arrow */
+
+        td img{
+            width: 30px;
+            height: 30px;
+        }
+        .bg-info, .btn-primary{
+            background: #6a3093;
+            background: -webkit-linear-gradient(to right, #B06AB3, #4568DC);
+            background: linear-gradient(to right, #B06AB3, #4568DC);
+        }
+
+        .btn-primary:hover{
+            background: #A770EF;
+            background: -webkit-linear-gradient(to right, #FDB99B, #CF8BF3, #A770EF);
+            background: linear-gradient(to right, #FDB99B, #CF8BF3, #A770EF);
         }
     </style>
 </head>

@@ -15,3 +15,5 @@ class ProjectForm(forms.ModelForm):
             'pictures': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'total_target': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Total Target'}),
         }
+
+        

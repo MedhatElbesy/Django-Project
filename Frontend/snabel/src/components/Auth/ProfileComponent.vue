@@ -32,13 +32,13 @@
               </div>
               <!-- End Of Messages -->
               <!-- Form Here -->
-              <form class="mx-1 mx-md-4 m-auto" enctype="multipart/form-data" @submit.prevent="updateProfile">
+              <form class="mx-1 mx-md-4 m-auto" enctype="multipart/form-data" @submit.prevent="authenticationStore.updateProfile">
                 <div class="d-flex justify-content-start mb-5">
                   <div class="me-4">
                     <div id="image_preview"
                          class="bg-light border position-relative border-1 d-inline-block text-center rounded rounded-circle position-relative overflow-hidden"
                          @click="triggerFileInput">
-                      <img :src="getProfileImageUrl(user.profile_image)" alt="Current Image"
+                      <img :src="authenticationStore.getProfileImageUrl(authenticationStore.user.profile_image)" alt="Current Image"
                            class="rounded rounded-circle"
                            height="100">
                       <i class="fas fa-camera position-absolute" style="bottom: 15px; right: 8px;"></i>
@@ -63,7 +63,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-5">
                   <div class="col">
                     <div class="form-floating position-relative">
-                      <input v-model="user.first_name" aria-describedby="first_name"
+                      <input v-model="authenticationStore.user.first_name" aria-describedby="first_name"
                              aria-label="first_name" autofocus
                              class="form-control border-0 border-bottom shadow" name="first_name"
                              placeholder="enter your first name" type="text">
@@ -76,7 +76,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-5">
                   <div class="col">
                     <div class="form-floating position-relative">
-                      <input v-model="user.last_name" aria-describedby="last_name"
+                      <input v-model="authenticationStore.user.last_name" aria-describedby="last_name"
                              aria-label="last_name" autofocus
                              class="form-control border-0 border-bottom shadow" name="last_name"
                              placeholder="enter your last name" type="text">
@@ -89,7 +89,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-5">
                   <div class="col">
                     <div class="form-floating position-relative">
-                      <input :value="user.email" aria-describedby="email"
+                      <input :value="authenticationStore.user.email" aria-describedby="email"
                              aria-label="email" autofocus class="form-control border-0 border-bottom shadow"
                              name="email" placeholder="enter your email"
                              readonly type="text">
@@ -102,7 +102,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-5">
                   <div class="col">
                     <div class="form-floating position-relative">
-                      <input v-model="user.mobile_phone" aria-describedby="mobile_phone" aria-label="mobile_phone"
+                      <input v-model="authenticationStore.user.mobile_phone" aria-describedby="mobile_phone" aria-label="mobile_phone"
                              class="form-control border-0 border-bottom shadow" name="mobile_phone"
                              placeholder="enter your mobile phone"
                              type="text">
@@ -116,7 +116,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-5">
                   <div class="col">
                     <div class="form-floating position-relative">
-                      <input v-model="user.birthdate" aria-describedby="birthdate" aria-label="birthdate"
+                      <input v-model="authenticationStore.user.birthdate" aria-describedby="birthdate" aria-label="birthdate"
                              class="form-control border-0 border-bottom shadow" name="birthdate"
                              placeholder="enter your birthdate"
                              type="date">
@@ -131,7 +131,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-5">
                   <div class="col">
                     <div class="form-floating position-relative">
-                      <input v-model="user.facebook_profile" aria-describedby="facebook_profile"
+                      <input v-model="authenticationStore.user.facebook_profile" aria-describedby="facebook_profile"
                              aria-label="facebook_profile"
                              class="form-control border-0 border-bottom shadow" name="facebook_profile"
                              placeholder="enter your facebook url"
@@ -146,7 +146,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-5">
                   <div class="col">
                     <div class="form-floating position-relative">
-                      <input v-model="user.country" aria-describedby="country"
+                      <input v-model="authenticationStore.user.country" aria-describedby="country"
                              aria-label="country"
                              class="form-control border-0 border-bottom shadow" name="country"
                              placeholder="enter your country name"
@@ -184,7 +184,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import {useAuthenticationStore} from "../../stores/auth";
 import navbar from "@/components/navComponent.vue";
 import navbarResp from "@/components/navRespComponent.vue";
@@ -195,15 +194,6 @@ export default {
   components: {footerComponent, navbar, navbarResp},
   data: () => ({
     authenticationStore: useAuthenticationStore(),
-    user: {
-      profile_image: '',
-      first_name: '',
-      last_name: '',
-      email: '',
-      mobile_phone: '',
-      password1: '',
-      password2: '',
-    },
     password1Visible: false,
     password2Visible: false,
     errorMessages: {},
@@ -216,7 +206,7 @@ export default {
     var userDataWithExpiration = JSON.parse(userDataJSON);
 
     if (userDataWithExpiration && userDataWithExpiration.expiration > new Date().getTime()) {
-      this.user = userDataWithExpiration.user;
+      this.authenticationStore.user = userDataWithExpiration.user;
     } else {
       sessionStorage.removeItem('user');
       return null;
@@ -224,59 +214,6 @@ export default {
   },
 
   methods: {
-    scrollToTop() {
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    },
-
-    updateUserDataInSessionStorage(user) {
-      var userDataJSON = sessionStorage.getItem('user');
-
-      var userDataWithExpiration = JSON.parse(userDataJSON);
-
-      userDataWithExpiration.user = user;
-
-      var updatedUserDataJSON = JSON.stringify(userDataWithExpiration);
-
-      sessionStorage.setItem('user', updatedUserDataJSON);
-    },
-
-    updateProfile() {
-      const token = localStorage.getItem('token');
-      axios.post('http://localhost:8000/api/update_profile/', this.user, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${token}`
-        }
-      })
-          .then(response => {
-            console.log('Profile Updated successful:', response.data);
-            this.updateUserDataInSessionStorage(this.user);
-            this.successMessages = response.data.message;
-            this.errorMessages = {};
-            this.scrollToTop();
-          })
-          .catch(error => {
-            if (error.response && error.response.data) {
-              const responseData = error.response.data;
-              if (responseData && typeof responseData === 'object') {
-                this.errorMessages = responseData;
-                this.scrollToTop();
-              } else {
-                this.errorMessages = {};
-                console.error('Invalid error response:', responseData);
-              }
-            } else if (error.request) {
-              console.error('No response received:', error.request);
-            } else {
-              console.error('Error:', error.message);
-            }
-          });
-    },
-
-    getProfileImageUrl(profile_image) {
-      return `http://localhost:8000/${profile_image}`
-    },
-
     togglePassword1Visibility() {
       this.password1Visible = !this.password1Visible;
       const passwordInput = document.querySelector('input[name="password1"]');
@@ -298,7 +235,7 @@ export default {
     handleFileChange(event) {
       const file = event.target.files[0];
       if (file) {
-        this.user.profile_image = file;
+        this.authenticationStore.user.profile_image = file;
         const reader = new FileReader();
         reader.onload = () => {
           const output = document.getElementById('image_preview');
