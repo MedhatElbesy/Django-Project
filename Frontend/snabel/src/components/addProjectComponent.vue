@@ -2,7 +2,7 @@
   <div class="row g-0 auth-page bg-light">
     <article class="col-lg-4 p-lg-5 p-3">
       <figure class="mb-lg-5 mb-3">
-        <router-link to="/"
+        <router-link :to="{ name: 'home' }"
           ><img src="../assets/logo.png" width="50px" alt="Snabel Logo"
         /></router-link>
       </figure>
@@ -24,11 +24,6 @@
       class="login d-flex flex-wrap align-content-center justify-content-center shadow col-lg-8"
       style="height: 100vh"
     >
-      <!-- <form
-        class="w-75 m-auto mt-5"
-        enctype="multipart/form-data"
-        @submit.prevent="registerUser"
-      ></form> -->
       <div>
         <form
           @submit.prevent="onSubmit"
@@ -154,7 +149,7 @@
               <input
                 type="checkbox"
                 class="form-check-input"
-                :id="'tag_' + tag.id"
+                :id="tag.id"
                 :value="tag.id"
                 v-model="form.tags"
               />
@@ -203,6 +198,18 @@ export default {
       this.tags = data;
       // console.log(this.tags);
     },
+    getCheckedCheckboxIds() {
+      const checkboxes = document.querySelectorAll(
+        'input[type="checkbox"]:checked'
+      );
+      const checkboxIds = [];
+
+      checkboxes.forEach((checkbox) => {
+        checkboxIds.push(checkbox.id);
+      });
+      console.log("Tags: ", checkboxIds);
+      return checkboxIds;
+    },
     async getCategories() {
       const response = await fetch("http://127.0.0.1:8000/categories/list");
       const data = await response.json();
@@ -211,7 +218,7 @@ export default {
     },
     onSubmit() {
       // event.preventDefault();
-      alert(JSON.stringify(this.form));
+      // alert(JSON.stringify(this.form));
       this.submitForm();
     },
     onReset(event) {
@@ -221,14 +228,11 @@ export default {
       this.form.description = "";
       this.form.price = null;
       this.form.images = [];
-      // this.form.pictures = this.form.images[0];
       this.form.deadline = [];
       this.form.category = "";
       this.form.tags = [];
       this.form.total_target = "";
       this.form.user = 1;
-      // Trick to reset/clear native browser form validation state
-      // Trick to reset/clear native browser form validation state
       this.show = false;
       this.$nextTick(() => {
         this.show = true;
@@ -252,30 +256,17 @@ export default {
       // formData.append("tags", this.form.tags);
       formData.append("total_target", this.form.total_target);
       formData.append("user", this.form.user);
-      formData.append("pictures", this.form.pictures);
-
-      // formData.append("title", "this.form.title");
-      // formData.append("description", "lzkrnkd vzknvfz zkdjfnkjzsd");
-      // formData.append("deadline", "2024-09-11");
-      // formData.append("category", 1);
-      formData.append("tags", 1);
-      formData.append("tags", 2);
-      formData.append("tags", 3);
-
-      // formData.append("total_target", 12000);
-      // formData.append("user", 1);
-      // formData.append("pictures", this.form.pictures);
-
-      // Append images
       for (let index = 0; index < this.form.images.length; index++) {
         formData.append("images", this.form.images[index]);
       }
-      // Append tags
-      for (let index = 0; index < this.form.tags.length; index++) {
-        formData.append("tags", this.form.tags[index]);
-      }
 
+      this.form.tags = this.getCheckedCheckboxIds();
+
+      this.form.tags.forEach((tag) => {
+        formData.append("tags", tag);
+      });
       this.form.pictures = this.form.images[0];
+      formData.append("pictures", this.form.pictures);
       const response = await fetch("http://127.0.0.1:8000/projects/", {
         method: "POST",
         body: formData,

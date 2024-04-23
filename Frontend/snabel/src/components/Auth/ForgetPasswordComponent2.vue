@@ -2,7 +2,7 @@
   <div class="row g-0 auth-page bg-light vh-100">
     <article class="col-12 col-lg-4 p-lg-5 p-3 transition">
       <figure class="mb-lg-5 mb-3">
-        <router-link :to="{name: 'Home'}"><img src="../../assets/logo.png" width="50px" alt="Snabel Logo"></router-link>
+        <router-link :to="{name: 'home'}"><img src="../../assets/logo.png" width="50px" alt="Snabel Logo"></router-link>
       </figure>
       <div class="welcome">
         <h3 class="text-color">Let's Find Your <strong class="color">Snabel</strong> Account</h3>
@@ -10,7 +10,7 @@
     </article>
     <article class="reset d-flex flex-wrap align-content-center shadow col-12 col-lg-8 transition">
       <form class="w-75 m-auto mt-5">
-        <p class="signup color mb-5">Don't have an account? <router-link :to="{name: 'Register'}" class="text-color text-decoration-underline">Sign Up</router-link></p>
+        <p class="signup color mb-5">Don't have an account? <router-link :to="{name: 'register'}" class="text-color text-decoration-underline">Sign Up</router-link></p>
         <div class="form-floating mb-3 position-relative">
           <input v-model="user.email" aria-describedby="email" aria-label="email"
                   class="form-control border-0 border-bottom shadow" name="email"
@@ -21,7 +21,7 @@
         </div>
         <p class="request text-color mb-5">Enter your email address and we'll send you instructions to reset your password</p>
         <div class="submit col-lg-8 col-12 transition">
-          <router-link :to="{name: 'Login'}" class="fw-bold text-color"><i class="fa-solid fa-angle-left"></i> Return To Sign In</router-link>
+          <router-link :to="{name: 'login'}" class="fw-bold text-color"><i class="fa-solid fa-angle-left"></i> Return To Sign In</router-link>
           <button class="btn btn-secondary text-light fw-bold px-3 mx-5" type="submit">Request Password Reset</button>
         </div>
       </form>

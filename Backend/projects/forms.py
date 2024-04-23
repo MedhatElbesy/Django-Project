@@ -15,3 +15,7 @@ class ProjectForm(forms.ModelForm):
             'pictures': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'total_target': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Total Target'}),
         }
+
+        # def __init__(self, *args, **kwargs):
+        #     super().__init__(*args, **kwargs)
+        #     self.fields['category'].empty_label = 'select category that book belongs to.'
