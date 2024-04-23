@@ -19,11 +19,11 @@
     },
     computed: {
       selectedForm() {
-        if (this.$route.name === "Login") {
+        if (this.$route.name === "=login") {
           return 'loginForm';
-        } else if (this.$route.name === "Register") {
+        } else if (this.$route.name === "register") {
           return 'registerForm';
-        } else if (this.$route.name === "ForgetPassword") {
+        } else if (this.$route.name === "forgetPassword") {
           return 'forgetPasswordForm';
         } else {
           return 'loginForm';

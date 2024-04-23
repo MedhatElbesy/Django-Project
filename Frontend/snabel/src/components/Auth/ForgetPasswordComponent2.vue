@@ -10,7 +10,7 @@
     </article>
     <article class="reset d-flex flex-wrap align-content-center shadow col-12 col-lg-8 transition">
       <form class="w-75 m-auto mt-5">
-        <p class="signup color mb-5">Don't have an account? <router-link :to="{name: 'Register'}" class="text-color text-decoration-underline">Sign Up</router-link></p>
+        <p class="signup color mb-5">Don't have an account? <router-link :to="{name: 'register'}" class="text-color text-decoration-underline">Sign Up</router-link></p>
         <div class="form-floating mb-3 position-relative">
           <input v-model="user.email" aria-describedby="email" aria-label="email"
                   class="form-control border-0 border-bottom shadow" name="email"

@@ -25,10 +25,8 @@ export const useAuthenticationStore = defineStore("authenticationStore", {
                     localStorage.setItem('token', userData.token);
                     this.user = JSON.stringify(userData)
                     sessionStorage.setItem('user', this.user);
-                    sessionStorage.setItem('logged', "true");
                     this.successMessages = userData.message;
                     this.errorMessages = '';
-                    this.loggedOut = false;
                     router.push({name: 'home'});
                 } else {
                     this.errorMessages = "Login Failed, error in email or password!"
@@ -44,7 +42,6 @@ export const useAuthenticationStore = defineStore("authenticationStore", {
             localStorage.removeItem('token');
             sessionStorage.clear();
             this.user = {};
-            this.loggedOut = true;
             router.push({name: 'about'});
         }
     },

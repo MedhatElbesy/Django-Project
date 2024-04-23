@@ -13,7 +13,7 @@
           <!-- End Of Messages -->
       </div>
       <div>
-        <p class="sign color mb-5">Don't have an account? <router-link :to="{name: 'Register'}" class="text-color text-decoration-underline">Sign Up</router-link></p>
+        <p class="sign color mb-5">Don't have an account? <router-link :to="{name: 'register'}" class="text-color text-decoration-underline">Sign Up</router-link></p>
         <p>Sign in to <strong class="color">Snabel</strong></p>
         <div class="form-floating mb-3 position-relative">
           <input v-model="user.email" aria-describedby="email"
@@ -32,7 +32,7 @@
         <i id="togglePassword1" :class="passwordVisible ? 'fas fa-eye icon' : 'fas fa-eye-slash icon'" class="position-absolute" @click="togglePasswordVisibility"></i>
         <label for="password">Password</label>
       </div>
-        <router-link :to="{name: 'ForgetPassword'}" class="text-color text-decoration-underline">Forgot your password?</router-link>
+        <router-link :to="{name: 'forgetPassword'}" class="text-color text-decoration-underline">Forgot your password?</router-link>
       </div>
       <div class="social w-100 m-auto text-center mt-5">
         <p class="text-color fw-bold position-relative">or</p>
