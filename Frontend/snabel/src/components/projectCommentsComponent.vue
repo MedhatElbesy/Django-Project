@@ -134,11 +134,12 @@ export default {
     async function handleSubmit() {
       const comment = document.querySelector("#comment").value;
       const id = projectID.value;
-      const token = sessionStorage.getItem("token");
+      const token = JSON.parse(sessionStorage.getItem("user")).token;
+      console.log(token);
       const response = await fetch("http://localhost:8000/comments/create/", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -160,10 +161,12 @@ export default {
       ).value;
       alert("rating" + rating);
       const id = projectID.value;
+      const token = JSON.parse(sessionStorage.getItem("user")).token;
 
       const response = await fetch("http://localhost:8000/ratings/", {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -180,9 +183,12 @@ export default {
     }
 
     async function reportComment() {
+            const token = JSON.parse(sessionStorage.getItem("user")).token;
+
       fetch(`http://localhost:8000/reports/`, {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

@@ -16,6 +16,4 @@ class ProjectForm(forms.ModelForm):
             'total_target': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Total Target'}),
         }
 
-        # def __init__(self, *args, **kwargs):
-        #     super().__init__(*args, **kwargs)
-        #     self.fields['category'].empty_label = 'select category that book belongs to.'
+        

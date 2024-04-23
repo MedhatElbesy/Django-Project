@@ -1,59 +1,24 @@
 <template>
   <div class="w-100 p-0">
-    <!-- <nav class="row g-0">
-      <navbar />
-    </nav> -->
     <section class="d-flex row mx-auto" >
-      <!-- <h1 class="col-12 my-5">
-        {{ project.title }}
-      </h1> -->
-      <div class="col-8">
-        <Suspense>
-          <!-- <template #default>
-            <div class="">
-              <projectCarouselComponent />
-            </div>
-          </template>  -->
-          <!-- <template #fallback>
-            <div>Loading...</div>
-          </template> -->
-        </Suspense>
-        <!-- <div class="my-4">
-          <projectCommentsComponent />
-        </div> -->
-      </div>
-      <div class="col-4">
-        <Suspense>
-          <!-- <template #default> -->
-            <!-- <div style="height: 70vh; position: sticky; top: 50px"> -->
-            <!-- <projectDonate /> -->
-            <!-- </div> -->
-          <!-- </template> -->
-          <!-- <template #fallback>
-            <div>Loading...</div>
-          </template> -->
-        </Suspense>
-      </div>
     </section>
-    <card />
+    <!-- <card /> -->
     <pay />
 
-    <!-- <footer class="row g-0 bg-light">
+    <footer class="row g-0 bg-light">
       <footerComponent />
-    </footer> -->
+    </footer>
   </div>
 </template>
 
 <script>
 import { provide } from "vue";
 
-// import navbar from "../components/navComponent.vue";
 // import projectDonate from "../components/projectDonationCards.vue";
-import card from "../components/cardComponent.vue";
+// import card from "../components/cardComponent.vue";
 import pay from "../components/paymentFormComponent.vue";
-// import footerComponent from "../components/footerComponent.vue";
-// import projectCommentsComponent from "@/components/projectCommentsComponent.vue";
-// import projectCarouselComponent from "../components/projectCarouselComponent.vue";
+import footerComponent from "../components/footerComponent.vue";
+
 import { useProjectStore } from "@/stores/project"; // Import the project store
 
 export default {
@@ -64,13 +29,9 @@ export default {
     loading: true, // Add loading state to track data loading status
   }),
   components: {
-    // navbar,
-    // projectDonate,
-    card,
+    // card,
     pay,
-    // footerComponent,
-    // projectCommentsComponent,
-    // projectCarouselComponent,
+    footerComponent,
   },
   created() {
     this.fetchProjectData();
@@ -81,6 +42,7 @@ export default {
         const projectStore = useProjectStore();
         provide("projectStore", projectStore);
         console.log(projectStore.projectID);
+        console.log("hhhhhhh");
         const projectData = await projectStore.fetchProjectData();
         this.project = projectData;
       } catch (error) {

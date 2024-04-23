@@ -267,7 +267,13 @@ export default {
       });
       this.form.pictures = this.form.images[0];
       formData.append("pictures", this.form.pictures);
+      
+      const token = JSON.parse(sessionStorage.getItem("user")).token;
+
       const response = await fetch("http://127.0.0.1:8000/projects/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         method: "POST",
         body: formData,
       });

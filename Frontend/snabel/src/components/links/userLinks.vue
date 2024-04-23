@@ -1,6 +1,6 @@
 <template>
   <ul class="links">
-    <li><router-link :to="{name: 'about'}">Your Impact</router-link></li>
+    <li><router-link :to="{name: 'userDonation'}">Your Impact</router-link></li>
     <li><router-link :to="{name: 'profile'}">Account Settings</router-link></li>
     <li><router-link :to="{name: 'AddProject'}">Start SnabelSadaka</router-link></li>
     <li><router-link :to="{name: 'about'}">Help Center</router-link></li>
