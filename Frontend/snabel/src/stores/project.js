@@ -112,7 +112,7 @@ export const useProjectStore = defineStore("project", {
     async fetchProjectData() {
       try {
         // let id = this.projectID;
-        this.projectID = 1;
+        // this.projectID = 2;
         const response = await fetch(
           `${this.baseURL}/projects/${this.projectID}`
         );
