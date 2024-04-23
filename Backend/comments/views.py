@@ -26,15 +26,21 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     # @api_view(['POST'])
     @permission_classes([IsAuthenticated])
-    @api_view(['POST'])
     def create(self, request):
+        # check if user is not auth
+        if not request.user.is_authenticated:
+            return Response({'error': 'You must be authenticated to create a comment'}, status=status.HTTP_401_UNAUTHORIZED)
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @permission_classes([IsAuthenticated])
     def delete(self, request, pk):
+        if not request.user.is_authenticated:
+            return Response({'error': 'You must be authenticated to delete a comment'}, status=status.HTTP_401_UNAUTHORIZED)
+
         try:
             comment = Comment.objects.get(pk=pk)
             comment.delete()
