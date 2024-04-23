@@ -4,6 +4,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import RegisterComponent from "../components/Auth/RegisterComponent.vue";
 import LoginComponent from "@/components/Auth/LoginComponent.vue";
 import ForgetPasswordComponent from "@/components/Auth/ForgetPasswordComponent.vue";
+import ResetPasswordComponent from "@/components/Auth/ResetPasswordComponent.vue";
+import ProfileComponent from "@/components/Auth/ProfileComponent.vue";
 
 const routes = [
   {
@@ -37,6 +39,17 @@ const routes = [
     component: ForgetPasswordComponent,
   },
   {
+    path: "/reset_password",
+    name: "ResetPassword",
+    component: ResetPasswordComponent,
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: ProfileComponent,
+    meta: { requiresAuth: true } // Authentication requires
+  },
+  {
     path: "/payment",
     name: "payment",
     component: () => import("../views/projectPayment.vue"),
@@ -54,7 +67,7 @@ const routes = [
   },
   {
     path: "/:cathcAll(.*)",
-    component: () => import("../views/AboutView.vue"),
+    component: () => import("../views/NotFound.vue"),
   },
 ];
 
