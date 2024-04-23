@@ -91,7 +91,7 @@ def login(request):     #login(TokenObtainPairView):
                 return Response({
                     'message': 'Login successfully',
                     'user': user_serializer.data,
-                    'email': user.email,
+                    'user_id': user.id,
                     'token': token_data['access'],
                     'refresh_token': token_data['refresh']
                 })
