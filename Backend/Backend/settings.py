@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'corsheaders',
     # Custom apps
     'accounts.apps.AccountsConfig',
@@ -97,7 +97,8 @@ AUTH_USER_MODEL = 'accounts.User'
 
 AUTHENTICATION_BACKENDS = [
     'accounts.authentication.EmailBackend',
-    'django.contrib.auth.backends.ModelBackend', #enable authentication using the built-in user model
+    # enable authentication using the built-in user model
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 # Database
@@ -181,7 +182,7 @@ EMAIL_PORT = 587
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=15),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=15),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": False,

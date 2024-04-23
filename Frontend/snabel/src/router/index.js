@@ -82,6 +82,13 @@ const routes = [
     path: "/payment",
     name: "payment",
     component: () => import("../views/projectPayment.vue"),
+    beforeEnter: (to, from, next) => {
+      if (!sessionStorage.getItem("user")) {
+        next();
+      } else {
+        next({ name: "home" });
+      }
+    },
   },
   {
     path: "/projects/:id",
@@ -94,12 +101,12 @@ const routes = [
     name: "AddProject",
     component: () => import("../components/addProjectComponent.vue"),
     beforeEnter: (to, from, next) => {
-      if (sessionStorage.getItem('user')) {
+      if (sessionStorage.getItem("user")) {
         next();
       } else {
-        next({ name: 'login' });
+        next({ name: "login" });
       }
-    }
+    },
   },
   {
     path: "/profile",

@@ -51,16 +51,7 @@
       </div>
     </section>
     <card />
-    <!-- <pay /> -->
-    <button
-      type="button"
-      class="btn btn-primary"
-      data-bs-toggle="modal"
-      data-bs-target="#reportModal"
-      :data-bs-whatever="objectType"
-    >
-      Open modal for @getbootstrap
-    </button>
+    <pay />
     <reportModal />
     <!-- <footer class="row g-0 bg-light">
       <footerComponent />
@@ -72,6 +63,7 @@
 import { provide } from "vue";
 
 // import navbar from "../components/navComponent.vue";
+// import navbarResp from "../components/navRespComponent.vue";
 import projectDonate from "../components/projectDonationCards.vue";
 import card from "../components/cardComponent.vue";
 // import pay from "../components/paymentFormComponent.vue";
@@ -86,6 +78,8 @@ export default {
   data: () => ({
     project: {
       title: "loading",
+      user: JSON.parse(sessionStorage.user).user,
+      token: localStorage.getItem("token"),
     },
     object_id: null,
     content_object: null,
@@ -103,13 +97,6 @@ export default {
   },
   created() {
     this.fetchProjectData();
-
-    // // Update the modal's content.
-    // const modalTitle = reportModal.querySelector(".modal-title");
-    // const modalBodyInput = reportModal.querySelector(".modal-body input");
-
-    // modalTitle.textContent = `New message to ${recipient}`;
-    // modalBodyInput.value = recipient;
   },
   methods: {
     async fetchProjectData() {
@@ -132,12 +119,12 @@ export default {
         object_id: this.project.id,
         content_type: this.objectType,
         reason: reason,
-        user: "1", //TODO Change to be dynamic
+        user: this.user.id,
       };
-      console.log(requestObject);
       const respons = fetch("http://localhost:8000/api/reports/create", {
         method: "POST",
         headers: {
+          Authorization: "Bearer " + this.token,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(requestObject),
