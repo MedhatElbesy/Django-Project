@@ -1,6 +1,8 @@
 # from django.shortcuts import render
-from django.shortcuts import render, redirect,get_object_or_404 ,HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from rest_framework.exceptions import ValidationError
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 import datetime
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -22,23 +24,10 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     from datetime import datetime, timedelta
 
-    # def create(self, request, *args, **kwargs):
-    #     try:
-    #         serializer = ProjectSerializer(data=request.data)
-    #         if serializer.is_valid():
-    #             # check if date is at least more than a week ahead
-    #             deadline = serializer.validated_data.get('deadline')
-    #             if deadline < datetime.now().date() + timedelta(days=7):
-    #                 return Response({'error': 'End date must be at least a week ahead'}, status=status.HTTP_400_BAD_REQUEST)
-    #             serializer.save()
-    #             return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #         else:
-    #             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    #     except ValidationError as e:
-    #         return Response({'error': e.detail}, status=status.HTTP_400_BAD_REQUEST)
-    #     except Exception as e:
-    #         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    @permission_classes([IsAuthenticated])
     def create(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response({'error': 'You must be authenticated to make a donation'}, status=status.HTTP_401_UNAUTHORIZED)
         try:
             pictures = request.FILES.getlist(
                 'images')  # Get list of uploaded images
@@ -63,7 +52,10 @@ class ProjectViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    @permission_classes([IsAuthenticated])
     def update(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response({'error': 'You must be authenticated to make a donation'}, status=status.HTTP_401_UNAUTHORIZED)
         try:
             instance = self.get_object()
             serializer = ProjectSerializer(instance, data=request.data)
@@ -77,6 +69,10 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     # delete single project
     def destroy(self, request, *args, **kwargs):
+        # not authinticated and same user
+        if not request.user.is_authenticated:
+            return Response({'error': 'You must be authenticated to make a donation'}, status=status.HTTP_401_UNAUTHORIZED)
+
         try:
             instance = self.get_object()
             instance.delete()
@@ -157,7 +153,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 ##############  Dashboard  ###############
 
-def paginatedPages(request, projects,page=5):
+def paginatedPages(request, projects, page=5):
     paginator = Paginator(projects, page)  # Show 5 projects per page
     page_number = request.GET.get('page')
     try:
@@ -185,7 +181,7 @@ def five_featured_projects(request):
 def project_commests(request, id):
     project = Project.objects.get(id=id)
     comments = Comment.objects.filter(project=project)
-    paginated_comments = paginatedPages(request, comments,4)
+    paginated_comments = paginatedPages(request, comments, 4)
     return render(request, 'comments.html', {'comments': paginated_comments, 'project': project})
 
 
@@ -287,9 +283,7 @@ def search_projects(request):
     return render(request, 'index.html', {'projects': projects})
 
 
-def get_rating_project(request , id):
+def get_rating_project(request, id):
     project = Project.objects.get(id=id)
     ratings = project.ratings.all()
-    return render(request, 'ratings.html', {'ratings': ratings , 'project':project})
-
-
+    return render(request, 'ratings.html', {'ratings': ratings, 'project': project})
