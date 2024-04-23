@@ -1,15 +1,19 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
-    <userProjectComponentVue />
+    <nav class="row g-0">
+      <navbar />
+      <navbarResp />
+    </nav>
+    <h1 class="mt-5 color text-center">Helping people help each other</h1>
   </div>
 </template>
 <script>
-  import userProjectComponentVue from "../components/userProjectComponent.vue";
-  
+  import navbar from "@/components/navComponent.vue";
+  import navbarResp from "../components/navRespComponent.vue";
   export default {
     components: {
-      userProjectComponentVue,
-    },
+      navbar,
+      navbarResp
+    }
   };
 </script>
