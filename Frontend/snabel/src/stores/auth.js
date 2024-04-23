@@ -23,10 +23,19 @@ export const useAuthenticationStore = defineStore("authenticationStore", {
 
                 if (response.ok) {
                     const userData = await response.json();
+                    this.user = userData;
                     localStorage.setItem('token', userData.token);
+                    // set user data in session
+                    var expirationTime = new Date().getTime() + (60 * 60 * 1000); // 1 hour in milliseconds
+                    var userDataWithExpiration = {
+                        user: userData.user,
+                        expiration: expirationTime
+                    };
+                    var userDataJSON = JSON.stringify(userDataWithExpiration);
+                    sessionStorage.setItem('user', userDataJSON);
+
                     this.successMessages = userData.message;
                     this.errorMessages = '';
-                    console.log(this.user);
                     router.push('/profile');
                 } else {
                     this.errorMessages = "Login Failed, error in email or password!"
