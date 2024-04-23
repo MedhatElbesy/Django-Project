@@ -9,12 +9,14 @@ from .models import Report
 from .serializer import ReportSerializer
 from rest_framework.response import Response
 from django.core.paginator import Paginator
-
+from rest_framework.decorators import  permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 class ReportList(viewsets.ModelViewSet):
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
     pagination_class = PageNumberPagination
+    permission_classes = [IsAuthenticated]
 
     def list(self, request):
         queryset = self.get_queryset()
