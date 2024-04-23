@@ -59,7 +59,6 @@ export const useAuthenticationStore = defineStore("authenticationStore", {
             localStorage.removeItem('token');
             sessionStorage.clear();
             this.user = {};
-            this.loggedOut = true;
             router.push({name: 'about'});
         },
 

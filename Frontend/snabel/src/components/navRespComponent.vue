@@ -16,7 +16,7 @@
       <ul class="wrap d-flex flex-wrap">
         <!-- Show User Links -->
         <li v-if="loggedUser" class="user-data d-flex flex-column align-items-center">
-          <img :src="loggedUser.profile_image" class="rounded-circle" width="70" :alt="loggedUser.username">
+          <img :src="getProfileImageUrl(loggedUser.profile_image)" class="rounded-circle" width="70" :alt="loggedUser.username">
           <h5>
             <span>{{ loggedUser.username }}</span>
             <i @click="showUser=true" class="btn btn-link fa-solid fa-angle-right"></i>
@@ -60,7 +60,8 @@
               <span>raise money for the nonprofits you care</span>
             </p> 
             <i class="fa-solid fa-angle-right"></i>
-          </router-link></li>
+          </router-link>
+        </li>
         <li class="donate text-center mt-4"><router-link :to="{name: 'AddProject'}" class="transition fw-bold color">Start SnabelSadaka</router-link></li>
       </ul>
     </div>
@@ -87,6 +88,11 @@ export default {
     individualsLinks,
     userLinks,
   },
+  methods: {
+    getProfileImageUrl(profile_image) {
+      return `http://localhost:8000/${profile_image}`
+    },
+  },
   computed: {
     loggedUser() {
       const userData = sessionStorage.getItem('user');
@@ -94,14 +100,13 @@ export default {
         const user = JSON.parse(userData);
         return {
           username: user.user.username,
-          profile_image: user.user.profile_image ? `http://localhost:8000${user.user.profile_image}` : 'https://placehold.co/500x500',
+          profile_image: user.user.profile_image,
         };
       } else {
         return null;
       }
     }
   },
-
 };
 </script>
 

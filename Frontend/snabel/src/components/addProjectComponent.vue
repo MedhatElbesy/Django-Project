@@ -24,11 +24,6 @@
       class="login d-flex flex-wrap align-content-center justify-content-center shadow col-lg-8"
       style="height: 100vh"
     >
-      <!-- <form
-        class="w-75 m-auto mt-5"
-        enctype="multipart/form-data"
-        @submit.prevent="registerUser"
-      ></form> -->
       <div>
         <form
           @submit.prevent="onSubmit"
