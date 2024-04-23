@@ -41,7 +41,7 @@ export const useAuthenticationStore = defineStore("authenticationStore", {
                     };
                     var userDataJSON = JSON.stringify(userDataWithExpiration);
                     sessionStorage.setItem('user', userDataJSON);
-
+                    sessionStorage.setItem('token', userDataWithExpiration.token);
                     this.successMessages = userData.message;
                     this.errorMessages = '';
                     router.push({name: 'home'});
