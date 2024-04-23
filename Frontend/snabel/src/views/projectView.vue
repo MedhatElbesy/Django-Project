@@ -79,7 +79,6 @@ export default {
     project: {
       title: "loading",
       user: JSON.parse(sessionStorage.user).user,
-      token: localStorage.getItem("token"),
     },
     object_id: null,
     content_object: null,
@@ -119,12 +118,12 @@ export default {
         object_id: this.project.id,
         content_type: this.objectType,
         reason: reason,
-        user: this.user.id,
+        user: JSON.parse(sessionStorage.user).user.id,
       };
       const respons = fetch("http://localhost:8000/api/reports/create", {
         method: "POST",
         headers: {
-          Authorization: "Bearer " + this.token,
+          Authorization: `Bearer ${JSON.parse(sessionStorage.getItem("user")).token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(requestObject),

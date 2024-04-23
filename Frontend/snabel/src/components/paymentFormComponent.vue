@@ -84,7 +84,7 @@ export default {
 ,
         submitForm() {
           const userData = sessionStorage.getItem('user');
-          const token = sessionStorage.getItem('token');
+        const token = JSON.parse(sessionStorage.getItem("user")).token;
           if (!userData || !token) {
               alert('You must log in first');
               return; 
@@ -109,9 +109,10 @@ export default {
           fetch('http://127.0.0.1:8000/payment/create/', {
               method: 'POST',
               headers: {
+                    'Authorization': `Bearer ${token}`,
                   'Content-Type': 'application/json',
               },
-              body: JSON.stringify(formData),
+              body: JSON.stringify(formData),   
           })
           .then(response => {
             if (!response.ok) {
