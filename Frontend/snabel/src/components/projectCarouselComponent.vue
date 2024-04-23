@@ -76,8 +76,8 @@ export default {
     const loading = ref(false);
     const error = ref(null);
     const projectData = ref({});
-    console.log("from child ", projectID);
-    console.log("from child carousel ", projectData);
+    // console.log("from child ", projectID);
+    // console.log("from child carousel ", projectData);
     watchEffect(() => {
       projectID.value = projectStore.projectID;
       projectData.value = projectStore.projectData;

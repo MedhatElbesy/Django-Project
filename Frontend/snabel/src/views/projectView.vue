@@ -1,8 +1,8 @@
 <template>
   <div class="w-100">
-    <nav class="row g-0">
+    <!-- <nav class="row g-0">
       <navbar />
-    </nav>
+    </nav> -->
     <section class="d-flex row mx-auto" style="width: 90%">
       <h1 class="col-12 my-5 d-flex justify-content-between">
         <p>{{ project.title }}</p>
@@ -50,7 +50,7 @@
       </div>
     </section>
     <card />
-    <pay />
+    <!-- <pay /> -->
     <button
       type="button"
       class="btn btn-primary"
@@ -61,20 +61,20 @@
       Open modal for @getbootstrap
     </button>
     <reportModal />
-    <footer class="row g-0 bg-light">
+    <!-- <footer class="row g-0 bg-light">
       <footerComponent />
-    </footer>
+    </footer> -->
   </div>
 </template>
 
 <script>
 import { provide } from "vue";
 
-import navbar from "../components/navComponent.vue";
+// import navbar from "../components/navComponent.vue";
 import projectDonate from "../components/projectDonationCards.vue";
 import card from "../components/cardComponent.vue";
-import pay from "../components/paymentFormComponent.vue";
-import footerComponent from "../components/footerComponent.vue";
+// import pay from "../components/paymentFormComponent.vue";
+// import footerComponent from "../components/footerComponent.vue";
 import projectCommentsComponent from "@/components/projectCommentsComponent.vue";
 import projectCarouselComponent from "../components/projectCarouselComponent.vue";
 import { useProjectStore } from "@/stores/project"; // Import the project store
@@ -91,11 +91,11 @@ export default {
     loading: true, // Add loading state to track data loading status
   }),
   components: {
-    navbar,
+    // navbar,
     projectDonate,
     card,
-    pay,
-    footerComponent,
+    // pay,
+    // footerComponent,
     projectCommentsComponent,
     projectCarouselComponent,
     reportModal,

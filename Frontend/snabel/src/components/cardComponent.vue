@@ -5,11 +5,10 @@
             <option value="close_to_goal">Close to Goal</option>
             <option value="just_launched">Just Launched</option>
             <option value="top_rated">Top Rated</option>
-            <option value="happening_worldwide">Happening Worldwide</option>
         </select>
         <div class=" d-flex  justify-content-between align-items-center">
             <div class=" second d-flex my-5 ">
-                <div class="card mx-2 border-0 " v-for="project in projetInfo" :key="project.id" style="width: 18rem;">
+                <div class="card mx-2 border-0 " v-for="project in projetInfo" :key="project.id" style="width: 18rem;" >
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZYdiS6o83xt08rKMnams6WzHDiETtxkYcTg&s" class="card-img-top" alt="">
                     <div class="card-img-overlay">
                         <p class="badge rounded-pill bg-black">{{ project.donations }} donors</p>
@@ -30,6 +29,8 @@
 
 <script>
     import { useProjectStore } from "../stores/project";
+// import { useRoute } from "vue-router";
+// import { inject, watchEffect, ref } from "vue";
 
     export default {
         data:()=>({
@@ -39,6 +40,12 @@
             
         }),
         methods:{
+            // toDonate(){
+            //     const router = useRoute();
+            //         router.push({ name: 'payment', params: { id: this.projetInfo.id } });
+            // },
+
+
             async fetchData() {
                 try {
                     const myStore = useProjectStore();
@@ -49,8 +56,6 @@
                         let topRated = await myStore.allProject();
                         topRated.sort((a, b) => b.get_project_rating - a.get_project_rating);
                         this.projetInfo = topRated.slice(0, 5);
-                    }else if(this.selectedOption == "happening_worldwide"){
-                        this.projetInfo = '';
                     }else{
                         const paymentData = await myStore.allProject();
                         this.projetInfo = paymentData;
@@ -67,11 +72,8 @@
             }
         },
         async created(){
-        this.fetchData();
+            this.fetchData();
         },
-    computed:{
-        
-    },
     }
 </script>
 
@@ -87,7 +89,7 @@
         font-weight:400;
     }
     .row{
-        background-color: #4e6c8882;
+        background-color:#198754;
         width: auto; 
         overflow: auto;
         border-radius: 15px;
@@ -97,10 +99,10 @@
     }
     .card{
         border-radius: 15px;
-        background-color: #4e6c88;
+        background-color:#198754;
     }
     .card:hover{
-        background-color: #4e6c884f;
+        background-color: rgba(78, 108, 136, 0.158);
         -webkit-box-shadow: -1px 9px 18px 0px rgba(0,0,0,0.75);
         -moz-box-shadow: -1px 9px 18px 0px rgba(0,0,0,0.75);
         box-shadow: -1px 9px 18px 0px rgba(0,0,0,0.75);
