@@ -2,6 +2,7 @@
   <div class="home">
     <nav class="row g-0">
       <navbar />
+      <navbarResp />
     </nav>
     <header class="row g-0 justify-content-center align-items-center">
       <headerSection />
@@ -22,6 +23,7 @@
 
 <script>
   import navbar from "../components/navComponent.vue"
+  import navbarResp from "../components/navRespComponent.vue"
   import headerSection from "../components/headerComponent.vue"
   import lastProjectComponent from "../components/lastProjectComponent.vue"
   import sliderComponent from "../components/sliderComponent.vue"
@@ -37,6 +39,7 @@
       lastProjectComponent,
       sliderComponent,
       footerComponent,
+      navbarResp,
 
     },
     mounted() {
@@ -81,11 +84,18 @@
     width: 100%;
     top: 0px;
     border-radius: 0px;
-    padding: 12px;
     box-shadow: 0px 3px 7px 0px #d4d4d4b7;
   }
   header{
     height: 80vh;
+  }
+  @media screen and (max-width: 991px) {
+    nav {
+      width: 100%;
+      top: 0px;
+      border-radius: 0px;
+      box-shadow: 0px 3px 7px 0px #d4d4d4b7;
+    }
   }
 </style>
 

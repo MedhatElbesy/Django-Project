@@ -1,7 +1,7 @@
 <template>
   <aside class="col-lg-4 p-lg-5 p-3 transition">
     <figure class="mb-lg-5 mb-3">
-      <router-link to="/"><img src="../../assets/logo.png" width="50px" alt="Snabel Logo"></router-link>
+      <router-link :to="{name:'home'}"><img src="../../assets/logo.png" width="50px" alt="Snabel Logo"></router-link>
     </figure>
     <div class="welcome">
       <span class="text-color">Welcome Back</span>

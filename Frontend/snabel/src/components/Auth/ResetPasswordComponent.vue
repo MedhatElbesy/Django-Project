@@ -15,7 +15,7 @@
 
     <article class="reset d-flex flex-wrap align-content-center shadow col-lg-8 vh-100">
       <form class="w-75 m-auto mt-5"  @submit.prevent="">
-        <p class="signup color mb-5">Don't have an account? <router-link to="/register" class="text-color text-decoration-underline">Sign Up</router-link></p>
+        <p class="signup color mb-5">Don't have an account? <router-link :to="{name:'register'}" class="text-color text-decoration-underline">Sign Up</router-link></p>
         <div class="form-floating position-relative mb-3 ">
           <input v-model="new_password" aria-describedby="password" aria-label="new_password"
                   class="form-control border-0 border-bottom shadow" name="new_password"
@@ -38,7 +38,7 @@
         </div>
         <p class="request text-color mb-5">Enter your email address and we'll send you instructions to reset your password</p>
         <div class="submit col-lg-8 col-12">
-          <router-link to="/login" class="fw-bold text-color"><i class="fa-solid fa-angle-left"></i> Return To Sign In</router-link>
+          <router-link :to="{name:'login'}" class="fw-bold text-color"><i class="fa-solid fa-angle-left"></i> Return To Sign In</router-link>
           <button class="btn btn-secondary text-light fw-bold px-3 mx-5" type="submit">Request Password Reset</button>
         </div>
       </form>
