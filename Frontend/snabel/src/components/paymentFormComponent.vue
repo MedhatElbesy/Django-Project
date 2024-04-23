@@ -3,7 +3,7 @@
         <div class="col-lg-8 col-md-10 col-sm-12 secondcontainer my-5">
             <div class="d-flex flex-column justify-content-center align-items-center mx-5">
                 <div class="box d-flex py-3">
-                    <img src="https://th.bing.com/th/id/OIG4.LgUj9FIjzUbdTSMn0mRg">
+                    <img :src="getImageUrl(project.picture)">
                     <p class="py-1 px-2">You're supporting <b>{{project.user_name}}</b> which has Project description <b>{{project.description}}</b></p>
                 </div>
                     <form class="row g-3 needs-validation" novalidate >
@@ -78,12 +78,10 @@ export default {
     },
     }),
     methods: {
-        getImageUrl(image){
-            if(image.include('http://127.0.0.1:8000')){
-                return image;
-            }
-            return `http://127.0.0.1:8000${image}`;
-        },
+        getImageUrl(image) {
+          return `http://127.0.0.1:8000${image}`;
+}
+,
         submitForm() {
           const userData = sessionStorage.getItem('user');
           const token = sessionStorage.getItem('token');
@@ -105,8 +103,8 @@ export default {
           const formData = {
               amount: amountToSubmit,
               currency: this.selectedCurrency,
-              user: this.project.user, 
-              project: 1, 
+              user:userData.user.id ,
+              project: this.project.id, 
           };
           fetch('http://127.0.0.1:8000/payment/create/', {
               method: 'POST',
@@ -130,52 +128,6 @@ export default {
             alert('Payment failed. Please try again later.');
           });
         }
-
-        // submitForm() {
-        //   const userData = sessionStorage.getItem('user');
-        //     if (userData) {
-        //     console.log("Deadline is ",this.project.deadline);
-        //     const deadlineDate = new Date(this.project.deadline);
-        //     if(deadlineDate > new Date()){
-        //         const amountToSubmit = this.selectedCurrency === "EUR" ? this.donationAmount * this.conversionRates.EUR : this.donationAmount;
-        //         if(amountToSubmit > 0){
-        //             const formData = {
-        //                 amount: amountToSubmit,
-        //                 currency: this.selectedCurrency,
-        //                 user:this.project.user, /////
-        //                 project: 2,
-        //             };
-        //             fetch('http://127.0.0.1:8000/payment/create/', {
-        //                 method: 'POST',
-        //                 headers: {
-        //                     'Content-Type': 'application/json',
-        //                 },
-        //                 body: JSON.stringify(formData),
-        //             })
-        //             .then(response => {
-        //                 if (!response.ok) {
-        //                     throw new Error('Payment Fail');
-        //                 }
-        //                 alert('Payment Done Successfully ');
-        //                 return response.json();
-        //             })
-        //             .then(data => {
-        //                 console.log('Data sent successfully:', data);
-        //                 console.log(data);
-        //                 console.log("medhat");
-        //             })
-        //             .catch(error => {
-        //                 console.error('Error sending data:', error);
-        //             });
-        //         }else{
-        //             alert('You must Enter Positive Value.');
-        //         }
-        //     }else
-        //         alert('Timeout: The project deadline has passed.');
-        // }else{
-        //   alert('You Must log in first');
-        // }
-        // },
     }
     ,
     computed:{

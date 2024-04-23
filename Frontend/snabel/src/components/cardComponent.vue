@@ -1,5 +1,5 @@
 <template >
-    <div class="row my-3 py-2 justify-content-center justify-content-md-start ">
+    <div class="row g-0  my-3 py-2 justify-content-center justify-content-md-start ">
         <h2 class="my-5 line m-0 mx-md-4 mx-lg-5 ">More ways to make a difference.<br class="d-none d-md-block "> fundraisers inspired by what you care about.</h2>
         <select v-model="selectedOption" class="form-select one text-center my-5  mx-sm-auto mx-md-4 mx-lg-5" aria-label="Default select example" @change="fetchData">
             <option value="close_to_goal">Close to Goal</option>
@@ -9,7 +9,7 @@
         <div class=" d-flex  justify-content-between align-items-center">
             <div class=" second d-flex my-5 ">
                 <div class="card mx-2 border-0 " v-for="project in projetInfo" :key="project.id" style="width: 18rem;" >
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZYdiS6o83xt08rKMnams6WzHDiETtxkYcTg&s" class="card-img-top" alt="">
+                    <img :src="getImageUrl(project.picture)" class="card-img-top" alt="">
                     <div class="card-img-overlay">
                         <p class="badge rounded-pill bg-black">{{ project.donations }} donors</p>
                     </div>
@@ -29,9 +29,6 @@
 
 <script>
     import { useProjectStore } from "../stores/project";
-// import { useRoute } from "vue-router";
-// import { inject, watchEffect, ref } from "vue";
-
     export default {
         data:()=>({
             selectedOption: "close_to_goal",
@@ -40,36 +37,30 @@
             
         }),
         methods:{
-            // toDonate(){
-            //     const router = useRoute();
-            //         router.push({ name: 'payment', params: { id: this.projetInfo.id } });
-            // },
-
-
-            async fetchData() {
-                try {
-                    const myStore = useProjectStore();
-                    if (this.selectedOption == "just_launched"){
-                        const lunched = await myStore.latest();
-                        this.projetInfo = lunched;
-                    }else if(this.selectedOption == "top_rated"){
-                        let topRated = await myStore.allProject();
-                        topRated.sort((a, b) => b.get_project_rating - a.get_project_rating);
-                        this.projetInfo = topRated.slice(0, 5);
-                    }else{
-                        const paymentData = await myStore.allProject();
-                        this.projetInfo = paymentData;
-                    }
-                    // const topRatedData = await myStore.topRated();
-                    // this.heighRate = topRatedData.results;
-                } catch (error) {
-                    console.error('Error fetching data:', error);
-                }
-                // const topRatedData = await myStore.topRated();
-                // this.heighRate = topRatedData.results;
-            // } catch (error) {
-            //     console.error('Error fetching data:', error);
+            getImageUrl(image){
+            if(image.include('http://127.0.0.1:8000')){
+                return image;
             }
+            return `http://127.0.0.1:8000${image}`;
+        },
+        async fetchData() {
+            try {
+                const myStore = useProjectStore();
+                if (this.selectedOption == "just_launched"){
+                    const lunched = await myStore.latest();
+                    this.projetInfo = lunched;
+                }else if(this.selectedOption == "top_rated"){
+                    let topRated = await myStore.allProject();
+                    topRated.sort((a, b) => b.get_project_rating - a.get_project_rating);
+                    this.projetInfo = topRated.slice(0, 5);
+                }else{
+                    const paymentData = await myStore.allProject();
+                    this.projetInfo = paymentData;
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
         },
         async created(){
             this.fetchData();
