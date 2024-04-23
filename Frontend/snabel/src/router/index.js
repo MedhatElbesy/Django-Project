@@ -64,8 +64,15 @@ const routes = [
   },
   {
     path: '/profile',
-    name: 'Profile',
+    name: 'profile',
     component: ProfileComponent,
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.getItem('user')) {
+        next();
+      } else {
+        next({ name: 'home' });
+      }
+    },
     meta: { requiresAuth: true } // Authentication requires
   },
   {

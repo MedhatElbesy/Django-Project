@@ -41,14 +41,15 @@ def create(request):
 
 def edit(request, id):
     user = get_object_or_404(User, pk=id)
-    form = UpdateUserForm(instance=user, data=request.POST, files=request.FILES)
 
     if request.method == "POST":
         form = UpdateUserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
-            user = form.save()
+            form.save()
             messages.success(request, "User updated successfully.")
             return redirect("accounts.index")
+    else:
+        form = UpdateUserForm(instance=user)
 
     return render(request, 'accounts/crud/edit.html', context={"form": form})
 
@@ -84,10 +85,9 @@ def login(request):     #login(TokenObtainPairView):
                 token_data = token_response.data
 
                 user_serializer = UserSerializer(user)  # Serialize the user object
-                print(user_serializer.data)
-                request.session['user'] = user_serializer.data
-                request.session.set_expiry(3600) # Set session expiry to 1 hour
-                print(request.session['user'])
+                # request.session['user'] = user_serializer.data,
+                # request.session.set_expiry(3600)  # Set session expiry to 1 hour
+
                 return Response({
                     'message': 'Login successfully',
                     'user': user_serializer.data,
@@ -173,11 +173,13 @@ def update_profile(request):
         serializer = UserSerializer(instance=request.user, data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            user_serializer = UserSerializer(user)  # Serialize the user object
-            request.session['user'] = user_serializer.data,
-            request.session.set_expiry(3600)  # Set session expiry to 1 hour
-            print(request.session['user'])
-            return Response({'message': 'Profile updated successfully'}, status=status.HTTP_201_CREATED)
+            user_serializer = UserSerializer(user)
+            print(user_serializer.data)
+            return Response({
+                'message': 'Profile updated successfully',
+                'user': user_serializer.data,
+            }, status=status.HTTP_201_CREATED)
+
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
