@@ -79,7 +79,7 @@ export const useAuthenticationStore = defineStore("authenticationStore", {
         },
 
         updateProfile() {
-          const token = localStorage.getItem('token');
+          const token = sessionStorage.getItem('token');
           axios.post('http://localhost:8000/api/update_profile/', this.user, {
             headers: {
               'Content-Type': 'multipart/form-data',
