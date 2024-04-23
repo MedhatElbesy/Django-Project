@@ -20,14 +20,15 @@ from accounts.models import User
 from accounts.forms import RegisterForm, UpdateUserForm
 from accounts.tokens import token_generator
 from accounts.serializers import LoginSerializer, RegisterSerializer, UserSerializer
+import os
+from projects.views import paginatedPages
 
-import os       # for use .env -> python-dotenv
 
 # Create your views here.
 def index(request):
     users = User.objects.all()
-    return render(request, "accounts/crud/index.html",
-                    context={"users": users}, status=200)
+    usersPaginate = paginatedPages(request, users, 3)
+    return render(request, "accounts/crud/index.html",context={"users": usersPaginate}, status=200)
 
 def create(request):
     form = RegisterForm()

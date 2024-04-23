@@ -1,9 +1,8 @@
 <template>
   <div class="w-100">
-    <nav class="row g-0">
+    <!-- <nav class="row g-0">
       <navbar />
-      <navbarResp />
-    </nav>
+    </nav> -->
     <section class="d-flex row mx-auto" style="width: 90%">
       <h1 class="col-12 my-5 d-flex justify-content-between">
         <p>{{ project.title }}</p>
@@ -53,31 +52,22 @@
     </section>
     <card />
     <pay />
-    <button
-      type="button"
-      class="btn btn-primary"
-      data-bs-toggle="modal"
-      data-bs-target="#reportModal"
-      :data-bs-whatever="objectType"
-    >
-      Open modal for @getbootstrap
-    </button>
     <reportModal />
-    <footer class="row g-0 bg-light">
+    <!-- <footer class="row g-0 bg-light">
       <footerComponent />
-    </footer>
+    </footer> -->
   </div>
 </template>
 
 <script>
 import { provide } from "vue";
 
-import navbar from "../components/navComponent.vue";
-import navbarResp from "../components/navRespComponent.vue"
+// import navbar from "../components/navComponent.vue";
+// import navbarResp from "../components/navRespComponent.vue";
 import projectDonate from "../components/projectDonationCards.vue";
 import card from "../components/cardComponent.vue";
-import pay from "../components/paymentFormComponent.vue";
-import footerComponent from "../components/footerComponent.vue";
+// import pay from "../components/paymentFormComponent.vue";
+// import footerComponent from "../components/footerComponent.vue";
 import projectCommentsComponent from "@/components/projectCommentsComponent.vue";
 import projectCarouselComponent from "../components/projectCarouselComponent.vue";
 import { useProjectStore } from "@/stores/project"; // Import the project store
@@ -88,31 +78,25 @@ export default {
   data: () => ({
     project: {
       title: "loading",
+      user: JSON.parse(sessionStorage.user).user,
+      token: localStorage.getItem("token"),
     },
     object_id: null,
     content_object: null,
     loading: true, // Add loading state to track data loading status
   }),
   components: {
-    navbar,
-    navbarResp,
+    // navbar,
     projectDonate,
     card,
-    pay,
-    footerComponent,
+    // pay,
+    // footerComponent,
     projectCommentsComponent,
     projectCarouselComponent,
     reportModal,
   },
   created() {
     this.fetchProjectData();
-
-    // // Update the modal's content.
-    // const modalTitle = reportModal.querySelector(".modal-title");
-    // const modalBodyInput = reportModal.querySelector(".modal-body input");
-
-    // modalTitle.textContent = `New message to ${recipient}`;
-    // modalBodyInput.value = recipient;
   },
   methods: {
     async fetchProjectData() {
@@ -135,12 +119,12 @@ export default {
         object_id: this.project.id,
         content_type: this.objectType,
         reason: reason,
-        user: "1", //TODO Change to be dynamic
+        user: this.user.id,
       };
-      console.log(requestObject);
       const respons = fetch("http://localhost:8000/api/reports/create", {
         method: "POST",
         headers: {
+          Authorization: "Bearer " + this.token,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(requestObject),

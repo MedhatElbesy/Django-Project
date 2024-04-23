@@ -32,16 +32,16 @@ export const useAuthenticationStore = defineStore("authenticationStore", {
                 if (response.ok) {
                     const userData = await response.json();
                     this.user = userData;
-                    localStorage.setItem('token', userData.token);
                     // set user data in session
                     var expirationTime = new Date().getTime() + (60 * 60 * 1000); // 1 hour in milliseconds
                     var userDataWithExpiration = {
                         user: userData.user,
+                        token: userData.token,
                         expiration: expirationTime
                     };
                     var userDataJSON = JSON.stringify(userDataWithExpiration);
                     sessionStorage.setItem('user', userDataJSON);
-
+                    sessionStorage.setItem('token', userDataWithExpiration.token);
                     this.successMessages = userData.message;
                     this.errorMessages = '';
                     router.push({name: 'home'});
@@ -56,7 +56,7 @@ export const useAuthenticationStore = defineStore("authenticationStore", {
             }
         },
         logout() {
-            localStorage.removeItem('token');
+            sessionStorage.removeItem("user")
             sessionStorage.clear();
             this.user = {};
             router.push({name: 'about'});
@@ -79,7 +79,7 @@ export const useAuthenticationStore = defineStore("authenticationStore", {
         },
 
         updateProfile() {
-          const token = localStorage.getItem('token');
+          const token = sessionStorage.getItem('token');
           axios.post('http://localhost:8000/api/update_profile/', this.user, {
             headers: {
               'Content-Type': 'multipart/form-data',

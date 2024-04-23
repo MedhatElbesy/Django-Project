@@ -23,7 +23,7 @@ urlpatterns = [
 
     path('<int:id>/delete',login_required(soft_delete),name="project.delete"),
 
-    path('deleted',user_passes_test(lambda user: user.is_superuser)(login_required(soft_delete)),name="project.deleted"),
+    path('deleted',user_passes_test(lambda user: user.is_superuser)(login_required(project_deleted)),name="project.deleted"),
 
     path('<int:id>/featured',user_passes_test(lambda user: user.is_superuser)(login_required(add_to_feature)),name="project.featured"),
     

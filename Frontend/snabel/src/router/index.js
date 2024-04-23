@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 // import RegisterComponent from "../components/Auth/RegisterComponent.vue";
 // import LoginComponent from "@/components/Auth/LoginComponent.vue";
-import authComponent from "../components/Auth/AuthinticationComponent.vue";
+import authComponent from "@/components/Auth/AuthinticationComponent.vue";
 import ForgetPasswordComponent from "@/components/Auth/ForgetPasswordComponent.vue";
 import ResetPasswordComponent from "@/components/Auth/ResetPasswordComponent.vue";
 import ProfileComponent from "@/components/Auth/ProfileComponent.vue";
@@ -82,6 +82,13 @@ const routes = [
     path: "/payment",
     name: "payment",
     component: () => import("../views/projectPayment.vue"),
+    beforeEnter: (to, from, next) => {
+      if (!sessionStorage.getItem("user")) {
+        next();
+      } else {
+        next({ name: "home" });
+      }
+    },
   },
   {
     path: "/projects/:id",
@@ -93,6 +100,13 @@ const routes = [
     path: "/addProject",
     name: "AddProject",
     component: () => import("../components/addProjectComponent.vue"),
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.getItem('user')) {
+        next();
+      } else {
+        next({ name: 'login' });
+      }
+    }
   },
   {
     path: "/profile",

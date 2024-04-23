@@ -25,7 +25,7 @@
       <p>{{ project.donations }} kind-hearted donors</p>
       <!-- Call to action -->
       <p>
-        <button class="text-light btn btn-warning d-block w-100 mx-2">
+        <button class="text-light btn btn-warning d-block w-100 mx-2" @click="redirectToDonationPage">
           Donate Now
         </button>
       </p>
@@ -95,10 +95,11 @@ i {
 
 <script>
 // import { useProjectStore } from "../stores/project";
-import { useRoute } from "vue-router";
+import { useRoute  } from "vue-router";
+import router from "@/router"
 import { inject, watchEffect, ref } from "vue";
-
 export default {
+
   async setup() {
     // getting project id
     // const route = useRoute();
@@ -108,13 +109,16 @@ export default {
     const error = ref(null);
     const projectData = ref({});
     console.log("from child ", projectID);
-    console.log("from child ", projectData);
+    console.log("from child  ", projectData);
     watchEffect(() => {
       projectID.value = projectStore.projectID;
       projectData.value = projectStore.projectData;
       loading.value = projectStore.loading;
       error.value = projectStore.error;
     });
+    const redirectToDonationPage = () =>{
+      router.push('/payment');
+    };
     // getting id from url
     const route = useRoute();
     const currentProjectID = route.params.id || 1;
@@ -128,10 +132,10 @@ export default {
       const project = projectData;
 
       // console.log(project);
-      return { project, projectID: currentProjectID, projectPayment };
+      return { project, projectID: currentProjectID, projectPayment ,redirectToDonationPage};
     } catch (error) {
       console.error("Failed to fetch project data:", error);
-      return { project: null, projectID: currentProjectID };
+      return { project: null, projectID: currentProjectID ,redirectToDonationPage};
     }
   },
 };

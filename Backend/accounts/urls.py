@@ -5,7 +5,7 @@ from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshVie
 from django.contrib.auth.decorators import user_passes_test
 
 urlpatterns = [
-    # Dashboard
+     # Dashboard
     path('accounts/index/', user_passes_test(lambda user: user.is_superuser)(login_required(index)),
          name='accounts.index'),
     path('accounts/create/', user_passes_test(lambda user: user.is_superuser)(login_required(create)),

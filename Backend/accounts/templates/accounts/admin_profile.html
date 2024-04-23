@@ -7,19 +7,29 @@
         <div class="col-12 col-lg-8 mt-5">
             <div class="card shadow bg-body-tertiary rounded">
                 <div class="card-body p-4">
-                    <h2 class=" my-4"><span class="fw-bold">User Name :</span> {{ user.username }}</h2>
-                    <p class="my-4"><span class="fw-bold">First Name :</span> {{ user.first_name|default:'-' }}</p>
-                    <p class="my-4"><span class="fw-bold">Last Name :</span> {{ user.last_name|default:'-' }}</p>
+                    <div class="my-4 d-flex">
+                        <img class="rounded border me-4" src="{{ user.image_url }}" alt="" width="100" height="100">
+                        <h2 class=" my-4"><span class="fw-bold">{{ user.first_name }} {{ user.last_name }}</span> </h2>
+                    </div>
+                    <p class="my-4"><span class="fw-bold">User Name :</span> {{ user.username|default:'-' }}</p>
                     <p class="my-4"><span class="fw-bold">Email :</span> {{ user.email }}</p>
+                    <p class="my-4"><span class="fw-bold">Mobile Phone :</span> {{ user.mobile_phone|default:'-' }}</p>
+                    <p class="my-4"><span class="fw-bold">Birthdate :</span> {{ user.mobile_phone|default:'-' }}</p>
+                    <p class="my-4"><span class="fw-bold">Facebook Profile :</span> {{ user.facebook_profile|default:'-' }}</p>
+                    <p class="my-4"><span class="fw-bold">Country :</span> {{ user.country|default:'-' }}</p>
                     <p class="my-4"><span class="fw-bold">Joined At :</span> {{ user.date_joined }}</p>
+                    <p class="my-4"><span class="fw-bold">Is SuperUser :</span> {% if user.is_superuser %}Yes{% else %}No{% endif %}</p>
+                    <p class="my-4"><span class="fw-bold">Is Staff :</span> {% if user.is_staff %}Yes{% else %}No{% endif %}</p>
+                    <p class="my-4"><span class="fw-bold">Is Active :</span> {% if user.is_active %}Yes{% else %}No{% endif %}</p>
+
                     <div class="row justify-content-center my-3">
                         <div class="col-auto">
-                            <a href="{% url 'accounts.index' %}" class="btn main-btn my-3 fs-5 text-center">Back</a>
+                            <a href="{% url 'accounts.index' %}" class="btn btn-outline-warning my-3 fs-5 text-center">Back</a>
                         </div>
                         {% if user.id  %}
-                                <div class="col-auto">
-                                    <a href="{% url 'password_change' %}" class="btn main-btn my-3 fs-5 text-center">Change Password</a>
-                                </div>
+                        	<div class="col-auto">
+                                <a href="{% url 'password_change' %}" class="btn btn-outline-danger my-3 fs-5 text-center">Change Password</a>
+                            </div>
                         {% endif %}
                     </div>
                 </div>

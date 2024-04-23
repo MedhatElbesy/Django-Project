@@ -2,7 +2,7 @@ import datetime
 from django.db import models
 from django.db.models import Avg, F, Value
 from django.db.models.functions import Coalesce
-from multiupload.fields import MultiImageField  # type: ignore
+# from multiupload.fields import MultiImageField  # type: ignore
 
 # TODO uncomment the following lines when the models are ready
 from accounts.models import User
