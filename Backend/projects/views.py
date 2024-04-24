@@ -218,8 +218,7 @@ def add_to_feature(request, id):
 
 
 def view_details(requset, pk):
-    project = Project.objects.get(id=pk)
-    serializer = ProjectSerializer(project)
+    project = get_object_or_404(Project, id=pk)
     if project.total_target != 0:
         total_money = int(
             (project.total_collected / project.total_target) * 100)
@@ -229,7 +228,7 @@ def view_details(requset, pk):
 
 
 def soft_delete(request, id):
-    project = Project.objects.get(id=id)
+    project = get_object_or_404(Project, id=id)
     if project.is_deleted:
         project.is_deleted = False
         messages.success(request, 'Project has been Restore!')
@@ -254,7 +253,7 @@ def create_project(request):
 
 
 def edit_project(request, id):
-    project = Project.objects.get(id=id)
+    project = get_object_or_404(Project, id=id)
     if request.method == 'POST':
         form = ProjectForm(request.POST, request.FILES, instance=project)
         if form.is_valid():
@@ -284,6 +283,6 @@ def search_projects(request):
 
 
 def get_rating_project(request, id):
-    project = Project.objects.get(id=id)
+    project = get_object_or_404(Project, id=id)
     ratings = project.ratings.all()
     return render(request, 'ratings.html', {'ratings': ratings, 'project': project})

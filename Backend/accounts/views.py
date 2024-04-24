@@ -15,6 +15,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView,) # type: ignore
+from django.utils import timezone
+from datetime import timedelta
+from urllib.parse import urlencode
 
 from accounts.models import User
 from accounts.forms import RegisterForm, UpdateUserForm
@@ -191,16 +194,21 @@ def forget_password(request):
     email = request.data.get('email')
     user = User.objects.filter(email=email).first()
     if user:
-        uid = urlsafe_base64_encode(force_bytes(user.pk))
-        token = token_generator.make_token(user),
+        token = default_token_generator.make_token(user)
 
-        current_site = get_current_site(request)
+        expiration_date = timezone.now() + timedelta(days=1)
+
+        user.password_reset_token = token
+        user.token_expiration_date = expiration_date
+        user.save()
+
+        uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+        frontend_url = f'http://localhost:8080/reset_password?{urlencode({"uidb64": uidb64, "token": token})}'
+
         mail_subject = 'Password reset requested'
-        message = render_to_string('registration/password_reset_email.html', {
+        message = render_to_string('registration/reset_password_email.html', {
             'user': user,
-            'domain': current_site.domain,
-            'uid': uid,
-            'token': token,
+            'frontend_url': frontend_url,
         })
         to_email = email
         email = EmailMessage(mail_subject, message, to=[to_email])
@@ -213,36 +221,22 @@ def forget_password(request):
 
 
 @api_view(['POST'])
-def reset_password(request, token):
-    new_password = request.data.get('new_password')
-    user = User.objects.filter(password_reset_token=token).first()
-    if user:
-        user.set_password(new_password)
-        user.password_reset_token = None  # Clear the reset token
-        user.save()
-        return Response({'message': 'Password reset successful'})
-    else:
-        return Response({'error': 'Invalid or expired token'}, status=400)
+def reset_password(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
 
-#
-# def reset_password(request, uidb64, token):
-#     try:
-#         uid = force_text(urlsafe_base64_decode(uidb64))
-#         user = User.objects.get(pk=uid)
-#     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-#         user = None
-#
-#     if user and PasswordResetTokenGenerator().check_token(user, token):
-#         if request.method == 'POST':
-#             # Handle form submission
-#             new_password = request.POST.get('new_password')
-#             user.set_password(new_password)
-#             user.save()
-#             # Redirect to password reset success page
-#             return redirect('password_reset_success')
-#         else:
-#             # Render password reset form
-#             return render(request, 'reset_password.html')
-#     else:
-#         # Invalid token or user not found
-#         return render(request, 'invalid_reset_link.html')
+    if user is not None and default_token_generator.check_token(user, token):
+        if user.token_expiration_date is not None and user.token_expiration_date > timezone.now():
+            new_password = request.data.get('new_password')
+            user.set_password(new_password)
+            user.password_reset_token = None
+            user.token_expiration_date = None
+            user.save()
+            return Response({'message': 'Password reset successful'})
+        else:
+            return Response({'error': 'Token has expired'}, status=400)
+    else:
+        return Response({'error': 'Invalid token'}, status=400)

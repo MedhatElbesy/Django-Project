@@ -1,5 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+
+from projects.models import Project
+from comments.models import Comment
 from .forms import ReportForm
 
 from rest_framework import viewsets, status
@@ -103,22 +106,27 @@ def create(request):
         form = ReportForm()
     return render(request, 'reports/create.html', {'form': form})
 
-# def edit(request, pk=None):
-#     instance = None
-#     if pk:
-#         instance = Report.objects.get(pk=pk)
-#     report = Report.objects.get(pk=pk)
-#     if request.method == 'POST':
-#         form = ReportForm(request.POST, instance=report)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('report-home')  # Redirect to a page displaying all reports
-#     else:
-#         form = ReportForm(instance=report)
-#     return render(request, 'reports/create.html', {'form': form ,'instance': instance})
+def show(request, id):
+    report = get_object_or_404(Report, id=id)
+    comment=None
+    project=None
+    if report.content_type.model == 'project':
+        project = {
+            'id': report.content_object.id,
+            'title': report.content_object.title,
+            'user_id': report.content_object.user_id,
+        }
+    else:
+        comment={
+            'id': report.content_object.id,
+            'comment': report.content_object.comment,
+            'project_id': report.content_object.project_id,
+            'user_id': report.content_object.user_id,
+        }
+    return render(request, 'reports/show.html', {'report': report , 'project':project , 'comment':comment})
 
 
 def delete(request, pk):
-    report = Report.objects.get(pk=pk)
+    report = get_object_or_404(Report, pk=pk)
     report.delete()
     return redirect('report-home')
