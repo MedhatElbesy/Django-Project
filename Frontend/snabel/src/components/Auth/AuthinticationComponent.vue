@@ -10,12 +10,15 @@
   import sidebarComponent from "@/components/Auth/SidebarComponent.vue";
   import loginForm from "@/components/form/loginForm.vue";
   import registerForm from "@/components/form/registerForm.vue";
+  import addProjectForm from "@/components/form/addProjectForm.vue";
   export default {
     name: "LoginComponent",
     components: {
       sidebarComponent,
       loginForm,
       registerForm,
+      addProjectForm,
+
     },
     computed: {
       selectedForm() {
@@ -25,6 +28,8 @@
           return 'registerForm';
         } else if (this.$route.name === "forgetPassword") {
           return 'forgetPasswordForm';
+        } else if (this.$route.name === "AddProject") {
+          return 'addProjectForm';
         } else {
           return 'loginForm';
         }

@@ -6,7 +6,7 @@
       </nav>
       <section class="row g-0 justify-content-center align-items-center text-center mb-3">
       <div class="content mt-5">
-        <h2 class="mb-4 color">Settings</h2>
+        <h2 class="mb-4 color">Account Settings</h2>
       </div>
     </section>
 
@@ -33,7 +33,7 @@
               <!-- End Of Messages -->
               <!-- Form Here -->
               <form class="mx-1 mx-md-4 m-auto" enctype="multipart/form-data" @submit.prevent="authenticationStore.updateProfile">
-                <div class="d-flex justify-content-start mb-5">
+                <div class="d-flex justify-content-center mb-5">
                   <div class="me-4">
                     <div id="image_preview"
                          class="bg-light border position-relative border-1 d-inline-block text-center rounded rounded-circle position-relative overflow-hidden"
@@ -45,17 +45,6 @@
                     </div>
                     <input id="image_input" accept="image/*" name="profile_image" style="display: none;" type="file"
                            @change="handleFileChange">
-                  </div>
-
-                  <div class="d-flex flex-column mb-3">
-                    <div class="p-2">
-                      <button class="btn btn-outline-secondary p-1 shadow" type="submit">Change
-                      </button>
-                    </div>
-                    <div class="p-2">
-                      <button class="btn btn-outline-danger p-1 shadow" type="submit">Remove
-                      </button>
-                    </div>
                   </div>
                 </div>
                 <hr>
@@ -164,14 +153,14 @@
                 </div>
               </form>
 
-              <hr>
+              <!-- <hr>
               <div class="row m-2">
                 <p class="text-danger">Deleting your account will remove all of your activity and campaigns, and you will no longer be
                   able to sign in with this account.</p>
                 <button class="btn btn-lg rounded auth-button btn-outline-danger" type="submit">
                   Delete Account
                 </button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

@@ -112,7 +112,8 @@ const routes = [
   {
     path: "/addProject",
     name: "AddProject",
-    component: () => import("../components/addProjectComponent.vue"),
+    // component: () => import("../components/addProjectComponent.vue"),
+    component: authComponent,
     beforeEnter: (to, from, next) => {
       if (sessionStorage.getItem('user')) {
         next();
