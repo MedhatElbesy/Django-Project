@@ -33,10 +33,10 @@ class User(AbstractUser):
     birthdate = models.DateField(null=True, blank=True)
     facebook_profile = models.URLField(null=True, blank=True)
     country = models.CharField(max_length=100, null=True, blank=True)
+    password_reset_token = models.CharField(max_length=100, blank=True, null=True)
+    token_expiration_date = models.DateTimeField(blank=True, null=True)
     is_verified_email = models.BooleanField(default=False)
     email_verified_at = models.DateTimeField(null=True, blank=True)
-    # google_id = models.CharField(max_length=255, null=True, blank=True)
-    # facebook_id = models.CharField(max_length=255, null=True, blank=True)
     deleted_at = models.DateTimeField(null=True, blank=True)
 
     objects = CustomUserManager()

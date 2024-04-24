@@ -14,7 +14,7 @@
     <SidebarComponent/>
 
     <article class="reset d-flex flex-wrap align-content-center shadow col-lg-8 vh-100">
-      <form class="w-75 m-auto mt-5"  @submit.prevent="">
+      <form class="w-75 m-auto mt-5"  @submit.prevent="resetPassword">
         <p class="signup color mb-5">Don't have an account? <router-link :to="{name:'register'}" class="text-color text-decoration-underline">Sign Up</router-link></p>
         <div class="form-floating position-relative mb-3 ">
           <input v-model="new_password" aria-describedby="password" aria-label="new_password"
@@ -49,6 +49,7 @@
 <script>
 // import axios from "axios";
 import SidebarComponent from "@/components/Auth/SidebarComponent.vue";
+import axios from "axios";
 
 export default {
   name: "ResetPasswordComponent",
@@ -85,6 +86,43 @@ export default {
       passwordInput.type = this.confirmPasswordVisible ? 'text' : 'password';
     }
   },
+
+    resetPassword() {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const uidb64 = urlParams.get('uidb64');
+      const token = urlParams.get('token');
+
+      axios.post(`http://localhost:8000/api/reset_password/${uidb64}/${token}/`, { new_password: this.new_password }, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+            .then(response => {
+              console.log('Password reset successfully:', response.data);
+              this.successMessages = response.data.message;
+              this.errorMessages = '';
+              this.scrollToTop();
+            })
+            .catch(error => {
+              if (error.response && error.response.data) {
+                const responseData = error.response.data;
+                if (responseData && typeof responseData === 'object') {
+                  this.errorMessages = responseData;
+                  this.scrollToTop();
+                } else {
+                  this.errorMessages = responseData;
+                  this.successMessages = '';
+                  console.error('Invalid error response:', responseData);
+                }
+              } else if (error.request) {
+                console.error('No response received:', error.request);
+              } else {
+                console.error('Error:', error.message);
+              }
+            });
+      },
+
 
   }
 }
