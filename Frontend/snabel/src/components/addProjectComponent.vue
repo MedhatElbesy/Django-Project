@@ -182,7 +182,7 @@ export default {
         category: "", // store selected category ID here
         total_target: "",
         tags: [],
-        user: 1,
+        user:  JSON.parse(sessionStorage.user).user.id,
       },
       show: true,
     };
@@ -232,7 +232,7 @@ export default {
       this.form.category = "";
       this.form.tags = [];
       this.form.total_target = "";
-      this.form.user = 1;
+      this.form.user = JSON.parse(sessionStorage.user).user;
       this.show = false;
       this.$nextTick(() => {
         this.show = true;
