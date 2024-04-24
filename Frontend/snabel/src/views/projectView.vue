@@ -5,7 +5,16 @@
     </nav> -->
     <section class="d-flex row mx-auto" style="width: 90%">
       <h1 class="col-12 my-5 d-flex justify-content-between">
-        <p>{{ project.title }}</p>
+        <p>{{ project.title }} <br>
+        <!-- delete button if user id = project id -->
+        <button
+          v-if="user.id == project.user"
+          class="btn btn-danger"
+          @click="deleteProject"
+        >
+          delete
+        </button>
+        </p>
 
         <button
           data-bs-toggle="modal"
@@ -65,9 +74,6 @@ import { provide } from "vue";
 // import navbar from "../components/navComponent.vue";
 // import navbarResp from "../components/navRespComponent.vue";
 import projectDonate from "../components/projectDonationCards.vue";
-// import card from "../components/cardComponent.vue";
-// import pay from "../components/paymentFormComponent.vue";
-// import footerComponent from "../components/footerComponent.vue";
 import projectCommentsComponent from "@/components/projectCommentsComponent.vue";
 import projectCarouselComponent from "../components/projectCarouselComponent.vue";
 import { useProjectStore } from "@/stores/project"; // Import the project store
@@ -78,8 +84,9 @@ export default {
   data: () => ({
     project: {
       title: "loading",
-      user: JSON.parse(sessionStorage.user).user,
+     
     },
+     user: JSON.parse(sessionStorage.user).user,
     object_id: null,
     content_object: null,
     loading: true, // Add loading state to track data loading status
@@ -94,10 +101,19 @@ export default {
     projectCarouselComponent,
     reportModal,
   },
-  created() {
-    this.fetchProjectData();
+  async created() {
+    await this.fetchProjectData();
+
   },
   methods: {
+    async deleteProject(){
+      fetch(`http://localhost:8000/projects/${this.project.id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${JSON.parse(sessionStorage.getItem("user")).token}`,
+        },
+      })
+    },
     async fetchProjectData() {
       try {
         const projectStore = useProjectStore();
