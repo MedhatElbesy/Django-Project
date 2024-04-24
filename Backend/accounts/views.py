@@ -17,6 +17,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView,) # type: ignore
 from django.utils import timezone
 from datetime import timedelta
+from urllib.parse import urlencode
 
 from accounts.models import User
 from accounts.forms import RegisterForm, UpdateUserForm
@@ -202,7 +203,8 @@ def forget_password(request):
         user.save()
 
         uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
-        frontend_url = f'http://localhost:8080/reset_password?uidb64={uidb64}&token={token}'
+        frontend_url = f'http://localhost:8080/reset_password?{urlencode({"uidb64": uidb64, "token": token})}'
+
         mail_subject = 'Password reset requested'
         message = render_to_string('registration/reset_password_email.html', {
             'user': user,
@@ -218,10 +220,10 @@ def forget_password(request):
         return Response({'error': 'User not found with this email'}, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['POST'])
 def reset_password(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        print(uid)
         user = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
@@ -231,6 +233,7 @@ def reset_password(request, uidb64, token):
             new_password = request.data.get('new_password')
             user.set_password(new_password)
             user.password_reset_token = None
+            user.token_expiration_date = None
             user.save()
             return Response({'message': 'Password reset successful'})
         else:

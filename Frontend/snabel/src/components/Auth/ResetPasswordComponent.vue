@@ -88,40 +88,40 @@ export default {
   },
 
     resetPassword() {
-  const currentUrl = window.location.href;
-const urlParams = new URLSearchParams(currentUrl);
-const uidb64 = 'MjQ';
-console.log(currentUrl); // Output: MjQ
-  const token = urlParams.get('token');
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const uidb64 = urlParams.get('uidb64');
+      const token = urlParams.get('token');
 
-  axios.post(`http://localhost:8000/api/reset_password/${uidb64}/${token}/`, { new_password: this.new_password }, {
-      headers: {
-        'Content-Type': 'application/json' // Specify the content type as JSON
-      }
-    })
-        .then(response => {
-          console.log('Password reset successfully:', response.data);
-          this.successMessages = response.data.message;
-          this.errorMessages = {};
-          this.scrollToTop();
-        })
-        .catch(error => {
-          if (error.response && error.response.data) {
-            const responseData = error.response.data;
-            if (responseData && typeof responseData === 'object') {
-              this.errorMessages = responseData;
-              this.scrollToTop();
-            } else {
-              this.errorMessages = {};
-              console.error('Invalid error response:', responseData);
-            }
-          } else if (error.request) {
-            console.error('No response received:', error.request);
-          } else {
-            console.error('Error:', error.message);
+      axios.post(`http://localhost:8000/api/reset_password/${uidb64}/${token}/`, { new_password: this.new_password }, {
+          headers: {
+            'Content-Type': 'application/json'
           }
-        });
-  },
+        })
+            .then(response => {
+              console.log('Password reset successfully:', response.data);
+              this.successMessages = response.data.message;
+              this.errorMessages = '';
+              this.scrollToTop();
+            })
+            .catch(error => {
+              if (error.response && error.response.data) {
+                const responseData = error.response.data;
+                if (responseData && typeof responseData === 'object') {
+                  this.errorMessages = responseData;
+                  this.scrollToTop();
+                } else {
+                  this.errorMessages = responseData;
+                  this.successMessages = '';
+                  console.error('Invalid error response:', responseData);
+                }
+              } else if (error.request) {
+                console.error('No response received:', error.request);
+              } else {
+                console.error('Error:', error.message);
+              }
+            });
+      },
 
 
   }
