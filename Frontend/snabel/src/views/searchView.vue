@@ -38,10 +38,9 @@
                 <p class="user text-color">by {{project.user_name}}</p>
               </div>
               <div class="donations-progress position-relative">
-                <label for="donations"
-                  :style="{ left: `${parseInt((project.total_collected / project.total_target) * 100)}%` }">
+                <label for="donations" :style="{ left: `${Math.min(parseInt((project.total_collected / project.total_target) * 100), 100)}%` }">
                 </label>
-                <progress class="w-100" id="donations" :value="parseInt((project.total_collected / project.total_target) * 100 +0)" max="100"></progress>
+                <progress class="w-100" id="donations" :value="parseInt((project.total_collected / project.total_target) * 100)" max="100"></progress>
               </div>
               <p class="m-0 text-color">{{ project.total_collected }} raised</p>
             </div>
