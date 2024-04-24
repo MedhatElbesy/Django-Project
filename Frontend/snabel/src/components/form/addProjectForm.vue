@@ -1,13 +1,14 @@
 <template>
-      <form
+        <form
           @submit.prevent="onSubmit"
           @reset.prevent="onReset"
           style="width: 500px"
           enctype="multipart/form-data"
           action="http://127.0.0.1:8000/projects/"
           method="POST"
-          class="mx-auto"
+          class="w-75 m-auto my-5"
         >
+        <h3 class="text-center my-5 color">Add New Project</h3>
           <div class="form-floating mb-3">
             <input
               type="text"
@@ -132,8 +133,10 @@
               }}</label>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary me-2">Submit</button>
-          <button type="reset" class="btn btn-danger">Reset</button>
+          <div class="actions text-center my-5">
+            <button type="submit" class="btn btn-primary me-2">Add Project</button>
+            <button type="reset" class="btn btn-danger">Reset</button>
+          </div>
         </form>
 </template>
 
@@ -153,7 +156,7 @@ export default {
         category: "", // store selected category ID here
         total_target: "",
         tags: [],
-        user:  JSON.parse(sessionStorage.user).user.id,
+        user: 1,
       },
       show: true,
     };
@@ -203,7 +206,7 @@ export default {
       this.form.category = "";
       this.form.tags = [];
       this.form.total_target = "";
-      this.form.user = JSON.parse(sessionStorage.user).user;
+      this.form.user = 1;
       this.show = false;
       this.$nextTick(() => {
         this.show = true;

@@ -63,7 +63,7 @@
 
 <style scoped>
   .home {
-    background: url("../assets/header.jpeg") center center/cover fixed;
+    background: url("../assets/header.png") center center/cover fixed;
   }
   section {
     padding: 20px;

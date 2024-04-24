@@ -1,10 +1,11 @@
 <template>
   <div class="text-center">
-    <h1 class="w-75 mb-5 m-auto" lang="ar" title="The likeness of those who spend their wealth in the Way of Allah, is as the likeness of a grain (of corn); it grows seven ears, and each ear has a hundred grains. Allah gives manifold increase to whom He pleases. And Allah is All-Sufficient for His creatures' needs, All-Knower.">
+    <!-- <h1 class="w-75 mb-5 m-auto" lang="ar" title="The likeness of those who spend their wealth in the Way of Allah, is as the likeness of a grain (of corn); it grows seven ears, and each ear has a hundred grains. Allah gives manifold increase to whom He pleases. And Allah is All-Sufficient for His creatures' needs, All-Knower.">
       مَّثَلُ ٱلَّذِينَ يُنفِقُونَ أَمۡوَٰلَهُمۡ فِي سَبِيلِ ٱللَّهِ كَمَثَلِ حَبَّةٍ 
       <br>أَنۢبَتَتۡ سَبۡعَ سَنَابِلَ فِي كُلِّ سُنۢبُلَةٖ مِّاْئَةُ حَبَّةٖۗ وَٱللَّهُ يُضَٰعِفُ لِمَن يَشَآءُۚ وَٱللَّهُ وَٰسِعٌ عَلِيمٌ      
       <em class="text-color">Surah Al Imran: 92</em>
-    </h1>
+    </h1> -->
+    <h1 class="w-75 mb-5 m-auto">Your Home<br> For Help</h1>
     <router-link :to="{name: 'search'}">Give A Sadaka</router-link>
   </div>
 </template>
