@@ -13,8 +13,7 @@
         <strong class="color">Snabel</strong> launched in 2024 as a fundraising platform dedicated to helping people help each other. 
         which enables nonprofit organizations to maximize their impact through a suite of online fundraising tools.
       </p>
-      <p class="text-color ">Together, <strong class="color">Snabel</strong> and you are building a future where everyone has the ability to make a meaningful difference for the people,
-         causes, and communities they care about most.
+      <p class="text-color ">Together, <strong class="color">Snabel</strong> and you are building a future where everyone has the ability to make a meaningful difference for the people,causes, and communities they care about most.
     </p>
     </div>
     <footer>
