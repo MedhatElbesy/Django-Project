@@ -108,25 +108,22 @@ def create(request):
 
 def show(request, id):
     report = get_object_or_404(Report, id=id)
-    ReportObject = None
-    if report.content_type.model == 'Project':
-        report = Project.objects.get(id=report.object_id)
-        ReportObject = 'Project'
-    return render(request, 'reports/show.html', {'report': report , 'project': ReportObject})
-
-# def edit(request, pk=None):
-#     instance = None
-#     if pk:
-#         instance = Report.objects.get(pk=pk)
-#     report = Report.objects.get(pk=pk)
-#     if request.method == 'POST':
-#         form = ReportForm(request.POST, instance=report)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('report-home')  # Redirect to a page displaying all reports
-#     else:
-#         form = ReportForm(instance=report)
-#     return render(request, 'reports/create.html', {'form': form ,'instance': instance})
+    comment=None
+    project=None
+    if report.content_type.model == 'project':
+        project = {
+            'id': report.content_object.id,
+            'title': report.content_object.title,
+            'user_id': report.content_object.user_id,
+        }
+    else:
+        comment={
+            'id': report.content_object.id,
+            'comment': report.content_object.comment,
+            'project_id': report.content_object.project_id,
+            'user_id': report.content_object.user_id,
+        }
+    return render(request, 'reports/show.html', {'report': report , 'project':project , 'comment':comment})
 
 
 def delete(request, pk):
