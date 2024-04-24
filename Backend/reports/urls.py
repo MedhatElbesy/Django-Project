@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ReportList ,home,create,delete
+from .views import ReportList ,home,create,delete,show
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.decorators import login_required
 
@@ -15,4 +15,6 @@ urlpatterns = [
     path('create/', user_passes_test(lambda user: user.is_superuser)(login_required(create)), name='reports-create'),
     
     path('<int:pk>/delete', user_passes_test(lambda user: user.is_superuser)(login_required(delete)), name='reports-delete'),
+    
+    path('<int:id>/show',show,name="reports-show")
 ]

@@ -1,5 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+
+from projects.models import Project
+from comments.models import Comment
 from .forms import ReportForm
 
 from rest_framework import viewsets, status
@@ -103,6 +106,14 @@ def create(request):
         form = ReportForm()
     return render(request, 'reports/create.html', {'form': form})
 
+def show(request, id):
+    report = get_object_or_404(Report, id=id)
+    ReportObject = None
+    if report.content_type.model == 'Project':
+        report = Project.objects.get(id=report.object_id)
+        ReportObject = 'Project'
+    return render(request, 'reports/show.html', {'report': report , 'project': ReportObject})
+
 # def edit(request, pk=None):
 #     instance = None
 #     if pk:
@@ -119,6 +130,6 @@ def create(request):
 
 
 def delete(request, pk):
-    report = Report.objects.get(pk=pk)
+    report = get_object_or_404(Report, pk=pk)
     report.delete()
     return redirect('report-home')
