@@ -1,5 +1,5 @@
 # Crowd-Funding Web app 
-- Crowdfunding is the practice of funding a project or venture by raising small amounts of money from a large number of people, typically via the Internet. Crowdfunding is a form of crowdsourcing and alternative finance. In 2015, over US$34 billion was raised worldwide by crowdfunding. (From Wikipedia) 
+- This web application aims to provide a platform for users in Egypt to create and donate to fundraising projects. Users can create projects, set fundraising goals, upload project details and images, and receive donations from other users. The application includes authentication, user profiles, project management, commenting, reporting, rating, and search functionality. 
 
 ## Installation
     - pip install django
